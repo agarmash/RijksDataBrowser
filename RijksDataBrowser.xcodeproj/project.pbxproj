@@ -14,19 +14,10 @@
 		BCC1189E2AE6C83F00ACC30F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC1189D2AE6C83F00ACC30F /* Assets.xcassets */; };
 		BCC118A12AE6C83F00ACC30F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCC1189F2AE6C83F00ACC30F /* LaunchScreen.storyboard */; };
 		BCC118AC2AE6C83F00ACC30F /* RijksDataBrowserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118AB2AE6C83F00ACC30F /* RijksDataBrowserTests.swift */; };
-		BCC118B62AE6C83F00ACC30F /* RijksDataBrowserUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118B52AE6C83F00ACC30F /* RijksDataBrowserUITests.swift */; };
-		BCC118B82AE6C83F00ACC30F /* RijksDataBrowserUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118B72AE6C83F00ACC30F /* RijksDataBrowserUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		BCC118A82AE6C83F00ACC30F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BCC118892AE6C83D00ACC30F /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BCC118902AE6C83D00ACC30F;
-			remoteInfo = RijksDataBrowser;
-		};
-		BCC118B22AE6C83F00ACC30F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BCC118892AE6C83D00ACC30F /* Project object */;
 			proxyType = 1;
@@ -46,9 +37,6 @@
 		BCC118A22AE6C83F00ACC30F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCC118A72AE6C83F00ACC30F /* RijksDataBrowserTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RijksDataBrowserTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCC118AB2AE6C83F00ACC30F /* RijksDataBrowserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksDataBrowserTests.swift; sourceTree = "<group>"; };
-		BCC118B12AE6C83F00ACC30F /* RijksDataBrowserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RijksDataBrowserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCC118B52AE6C83F00ACC30F /* RijksDataBrowserUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksDataBrowserUITests.swift; sourceTree = "<group>"; };
-		BCC118B72AE6C83F00ACC30F /* RijksDataBrowserUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksDataBrowserUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,13 +54,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BCC118AE2AE6C83F00ACC30F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -81,7 +62,6 @@
 			children = (
 				BCC118932AE6C83D00ACC30F /* RijksDataBrowser */,
 				BCC118AA2AE6C83F00ACC30F /* RijksDataBrowserTests */,
-				BCC118B42AE6C83F00ACC30F /* RijksDataBrowserUITests */,
 				BCC118922AE6C83D00ACC30F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,7 +71,6 @@
 			children = (
 				BCC118912AE6C83D00ACC30F /* RijksDataBrowser.app */,
 				BCC118A72AE6C83F00ACC30F /* RijksDataBrowserTests.xctest */,
-				BCC118B12AE6C83F00ACC30F /* RijksDataBrowserUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,15 +95,6 @@
 				BCC118AB2AE6C83F00ACC30F /* RijksDataBrowserTests.swift */,
 			);
 			path = RijksDataBrowserTests;
-			sourceTree = "<group>";
-		};
-		BCC118B42AE6C83F00ACC30F /* RijksDataBrowserUITests */ = {
-			isa = PBXGroup;
-			children = (
-				BCC118B52AE6C83F00ACC30F /* RijksDataBrowserUITests.swift */,
-				BCC118B72AE6C83F00ACC30F /* RijksDataBrowserUITestsLaunchTests.swift */,
-			);
-			path = RijksDataBrowserUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,24 +135,6 @@
 			productReference = BCC118A72AE6C83F00ACC30F /* RijksDataBrowserTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BCC118B02AE6C83F00ACC30F /* RijksDataBrowserUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BCC118C12AE6C83F00ACC30F /* Build configuration list for PBXNativeTarget "RijksDataBrowserUITests" */;
-			buildPhases = (
-				BCC118AD2AE6C83F00ACC30F /* Sources */,
-				BCC118AE2AE6C83F00ACC30F /* Frameworks */,
-				BCC118AF2AE6C83F00ACC30F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BCC118B32AE6C83F00ACC30F /* PBXTargetDependency */,
-			);
-			name = RijksDataBrowserUITests;
-			productName = RijksDataBrowserUITests;
-			productReference = BCC118B12AE6C83F00ACC30F /* RijksDataBrowserUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -197,10 +149,6 @@
 						CreatedOnToolsVersion = 14.2;
 					};
 					BCC118A62AE6C83F00ACC30F = {
-						CreatedOnToolsVersion = 14.2;
-						TestTargetID = BCC118902AE6C83D00ACC30F;
-					};
-					BCC118B02AE6C83F00ACC30F = {
 						CreatedOnToolsVersion = 14.2;
 						TestTargetID = BCC118902AE6C83D00ACC30F;
 					};
@@ -221,7 +169,6 @@
 			targets = (
 				BCC118902AE6C83D00ACC30F /* RijksDataBrowser */,
 				BCC118A62AE6C83F00ACC30F /* RijksDataBrowserTests */,
-				BCC118B02AE6C83F00ACC30F /* RijksDataBrowserUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -238,13 +185,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		BCC118A52AE6C83F00ACC30F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BCC118AF2AE6C83F00ACC30F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -272,15 +212,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BCC118AD2AE6C83F00ACC30F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BCC118B62AE6C83F00ACC30F /* RijksDataBrowserUITests.swift in Sources */,
-				BCC118B82AE6C83F00ACC30F /* RijksDataBrowserUITestsLaunchTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -288,11 +219,6 @@
 			isa = PBXTargetDependency;
 			target = BCC118902AE6C83D00ACC30F /* RijksDataBrowser */;
 			targetProxy = BCC118A82AE6C83F00ACC30F /* PBXContainerItemProxy */;
-		};
-		BCC118B32AE6C83F00ACC30F /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BCC118902AE6C83D00ACC30F /* RijksDataBrowser */;
-			targetProxy = BCC118B22AE6C83F00ACC30F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -522,40 +448,6 @@
 			};
 			name = Release;
 		};
-		BCC118C22AE6C83F00ACC30F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.agarmash.RijksDataBrowserUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = RijksDataBrowser;
-			};
-			name = Debug;
-		};
-		BCC118C32AE6C83F00ACC30F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.agarmash.RijksDataBrowserUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = RijksDataBrowser;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -582,15 +474,6 @@
 			buildConfigurations = (
 				BCC118BF2AE6C83F00ACC30F /* Debug */,
 				BCC118C02AE6C83F00ACC30F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BCC118C12AE6C83F00ACC30F /* Build configuration list for PBXNativeTarget "RijksDataBrowserUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BCC118C22AE6C83F00ACC30F /* Debug */,
-				BCC118C32AE6C83F00ACC30F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
