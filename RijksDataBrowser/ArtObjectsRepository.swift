@@ -58,6 +58,12 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
         return loadedArtObjectsCount < min(countThreshold, artObjectsCount)
     }
     
+    private func getNextPageNumber() -> Int {
+        // Turns out that the API expects page numbers to start from 1.
+        // Response for index 0 is equal to the one for index 1.
+        self.pagedArtObjects.count + 1
+    }
+    
     func loadMore(completion: @escaping (ArtObjectsRepository.Result) -> Void) {
         apiCallsQueue.async {
             guard
@@ -78,13 +84,10 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
             
             Task {
                 do {
-                    
-                    let pageNumber = self.pagedArtObjects.count + 1
-                    
                     let newPage = try await self
                         .dataService
                         .getCollection(
-                            page: self.pagedArtObjects.count,
+                            page: self.getNextPageNumber(),
                             pageSize: self.pageSize)
                         .toDomain()
                     
