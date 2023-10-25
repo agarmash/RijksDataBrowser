@@ -23,8 +23,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     
     public enum ArtObjectsRepositoryError: Error {
         case previousErrorHasntBeenCleared
-//        case networkError(Error)
-        case networkError
+        case networkError(URLError)
     }
     
     // API Constants
@@ -95,11 +94,10 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
                     self.loadedArtObjectsCount += newPage.artObjects.count
                     
                     completion(.updatedObjects(self.pagedArtObjects))
-                } catch {
+                } catch let error as URLError {
                     self.didEncounterError = true
                     
-//                    completion(.error(.networkError(error)))
-                    completion(.error(.networkError))
+                    completion(.error(.networkError(error)))
                 }
                 
                 semaphore.signal()
@@ -114,6 +112,19 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
             // Clear the error on the same queue so all the possible
             // subsequent dispatch blocks are cancelled
             self.didEncounterError = false
+        }
+    }
+}
+
+extension ArtObjectsRepository.ArtObjectsRepositoryError: Equatable {
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.previousErrorHasntBeenCleared, .previousErrorHasntBeenCleared):
+            return true
+        case (.networkError(let lError), .networkError(let rError)):
+            return lError == rError
+        default:
+            return false
         }
     }
 }

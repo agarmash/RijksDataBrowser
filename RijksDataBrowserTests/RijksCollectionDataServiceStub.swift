@@ -30,12 +30,8 @@ final class RijksCollectionDataServiceStub: RijksCollectionDataServiceProtocol {
         case .returnItems(let count, let itemsPerPage):
             return CollectionDTO.makeDummy(count: count, itemsPerPage: itemsPerPage)
         case .throwAnError:
-            throw StubError.genericError
+            throw URLError(.cannotConnectToHost)
         }
-    }
-    
-    enum StubError: Error {
-        case genericError
     }
 }
 
