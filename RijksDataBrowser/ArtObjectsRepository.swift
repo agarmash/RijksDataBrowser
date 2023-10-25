@@ -18,10 +18,10 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     public enum Result {
         case updatedObjects([[Collection.ArtObject]])
         case nothingMoreToLoad
-        case error(ArtObjectsRepositoryError)
+        case error(Error)
     }
     
-    public enum ArtObjectsRepositoryError: Error {
+    public enum Error: Swift.Error {
         case previousErrorHasntBeenCleared
         case networkError(URLError)
     }
@@ -65,7 +65,9 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     }
     
     func loadMore(completion: @escaping (ArtObjectsRepository.Result) -> Void) {
-        apiCallsQueue.async {
+        apiCallsQueue.async { [weak self] in
+            guard let self = self else { return }
+            
             guard
                 self.canLoadMore()
             else {
@@ -119,7 +121,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     }
 }
 
-extension ArtObjectsRepository.ArtObjectsRepositoryError: Equatable {
+extension ArtObjectsRepository.Error: Equatable {
     static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
         case (.previousErrorHasntBeenCleared, .previousErrorHasntBeenCleared):
