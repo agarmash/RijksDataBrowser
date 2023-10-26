@@ -9,9 +9,14 @@ import Foundation
 
 struct Collection {
     struct ArtObject {
+        struct Image {
+            let url: URL?
+            let width: Int
+            let height: Int
+        }
         let objectNumber: String
-        let longTitle: String
-        let imageURL: URL?
+        let title: String
+        let image: Image
     }
     
     let count: Int

@@ -26,7 +26,7 @@ final class CollectionEndpoint: EndpointProtocol {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "www.rijksmuseum.nl"
-        components.path = "api/" + culture + "/collection"
+        components.path = "/api/" + culture + "/collection"
         
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey),

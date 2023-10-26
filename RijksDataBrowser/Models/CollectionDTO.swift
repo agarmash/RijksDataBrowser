@@ -11,10 +11,12 @@ struct CollectionDTO: Decodable {
     struct ArtObjectDTO: Decodable {
         struct WebImageDTO: Decodable {
             let url: String
+            let width: Int
+            let height: Int
         }
         
         let objectNumber: String
-        let longTitle: String
+        let title: String
         let webImage: WebImageDTO
     }
     
@@ -22,12 +24,21 @@ struct CollectionDTO: Decodable {
     let artObjects: [ArtObjectDTO]
 }
 
+extension CollectionDTO.ArtObjectDTO.WebImageDTO {
+    func toDomain() -> Collection.ArtObject.Image {
+        Collection.ArtObject.Image(
+            url: URL(string: url),
+            width: width,
+            height: height)
+    }
+}
+
 extension CollectionDTO.ArtObjectDTO {
     func toDomain() -> Collection.ArtObject {
         Collection.ArtObject(
             objectNumber: objectNumber,
-            longTitle: longTitle,
-            imageURL: URL(string: webImage.url))
+            title: title,
+            image: webImage.toDomain())
     }
 }
 

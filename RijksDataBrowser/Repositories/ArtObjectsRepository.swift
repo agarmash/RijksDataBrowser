@@ -5,7 +5,6 @@
 //  Created by Artem Garmash on 23/10/2023.
 //
 
-import AsyncAlgorithms
 import Foundation
 
 protocol ArtObjectsRepositoryProtocol {

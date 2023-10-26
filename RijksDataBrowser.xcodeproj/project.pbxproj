@@ -25,6 +25,20 @@
 		BCC118DD2AE723F900ACC30F /* ArtObjectsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118DC2AE723F900ACC30F /* ArtObjectsRepository.swift */; };
 		BCC118E92AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118E82AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift */; };
 		BCC118EB2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118EA2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift */; };
+		BCC118EF2AE945F300ACC30F /* ArtObjectsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118EE2AE945F200ACC30F /* ArtObjectsOverviewViewController.swift */; };
+		BCC118F12AE9694300ACC30F /* ArtObjectsOverviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118F02AE9694300ACC30F /* ArtObjectsOverviewCell.swift */; };
+		BCC118F32AE96A2D00ACC30F /* ArtObjectsOverviewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118F22AE96A2D00ACC30F /* ArtObjectsOverviewCellViewModel.swift */; };
+		BCC118F52AE96E3700ACC30F /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118F42AE96E3700ACC30F /* ImageLoaderService.swift */; };
+		BCC118FA2AE9C28600ACC30F /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118F92AE9C28600ACC30F /* ReusableCell.swift */; };
+		BCC118FC2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118FB2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift */; };
+		BCC2218D2AEA940A003C0989 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC2218C2AEA940A003C0989 /* MainCoordinator.swift */; };
+		BCC2218F2AEA97F8003C0989 /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC2218E2AEA97F8003C0989 /* EmptyCell.swift */; };
+		BCC221912AEA9BFE003C0989 /* ArtObjectsFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221902AEA9BFE003C0989 /* ArtObjectsFlowLayout.swift */; };
+		BCC221942AEAA95D003C0989 /* ArtObjectImagesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */; };
+		BCC221962AEAB680003C0989 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221952AEAB680003C0989 /* LoadingCell.swift */; };
+		BCC221982AEAB69C003C0989 /* ErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221972AEAB69C003C0989 /* ErrorCell.swift */; };
+		BCC221D62AEABAD0003C0989 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221D52AEABAD0003C0989 /* HeaderView.swift */; };
+		BCC221D82AEABB67003C0989 /* HeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221D72AEABB67003C0989 /* HeaderViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +73,20 @@
 		BCC118DC2AE723F900ACC30F /* ArtObjectsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsRepository.swift; sourceTree = "<group>"; };
 		BCC118E82AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsRepositoryTests.swift; sourceTree = "<group>"; };
 		BCC118EA2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksCollectionDataServiceStub.swift; sourceTree = "<group>"; };
+		BCC118EE2AE945F200ACC30F /* ArtObjectsOverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewViewController.swift; sourceTree = "<group>"; };
+		BCC118F02AE9694300ACC30F /* ArtObjectsOverviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewCell.swift; sourceTree = "<group>"; };
+		BCC118F22AE96A2D00ACC30F /* ArtObjectsOverviewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewCellViewModel.swift; sourceTree = "<group>"; };
+		BCC118F42AE96E3700ACC30F /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
+		BCC118F92AE9C28600ACC30F /* ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
+		BCC118FB2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewViewModel.swift; sourceTree = "<group>"; };
+		BCC2218C2AEA940A003C0989 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		BCC2218E2AEA97F8003C0989 /* EmptyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		BCC221902AEA9BFE003C0989 /* ArtObjectsFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsFlowLayout.swift; sourceTree = "<group>"; };
+		BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectImagesRepository.swift; sourceTree = "<group>"; };
+		BCC221952AEAB680003C0989 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
+		BCC221972AEAB69C003C0989 /* ErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCell.swift; sourceTree = "<group>"; };
+		BCC221D52AEABAD0003C0989 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		BCC221D72AEABB67003C0989 /* HeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,8 +128,11 @@
 		BCC118932AE6C83D00ACC30F /* RijksDataBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				BCC118F72AE9C26E00ACC30F /* Extensions */,
+				BCC118EC2AE945C100ACC30F /* Screens */,
 				BCC118CD2AE707DC00ACC30F /* Models */,
 				BCC118C42AE706DB00ACC30F /* Services */,
+				BCC221922AEAA925003C0989 /* Repositories */,
 				BCC118942AE6C83D00ACC30F /* AppDelegate.swift */,
 				BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */,
 				BCC118982AE6C83D00ACC30F /* ViewController.swift */,
@@ -109,7 +140,7 @@
 				BCC1189D2AE6C83F00ACC30F /* Assets.xcassets */,
 				BCC1189F2AE6C83F00ACC30F /* LaunchScreen.storyboard */,
 				BCC118A22AE6C83F00ACC30F /* Info.plist */,
-				BCC118DC2AE723F900ACC30F /* ArtObjectsRepository.swift */,
+				BCC2218C2AEA940A003C0989 /* MainCoordinator.swift */,
 			);
 			path = RijksDataBrowser;
 			sourceTree = "<group>";
@@ -147,6 +178,7 @@
 				BCC118C52AE706E400ACC30F /* Endpoints */,
 				BCC118D42AE70F4F00ACC30F /* NetworkClient.swift */,
 				BCC118D62AE70F6F00ACC30F /* RijksDataService.swift */,
+				BCC118F42AE96E3700ACC30F /* ImageLoaderService.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -160,6 +192,56 @@
 				BCC118DA2AE7236800ACC30F /* CollectionDetails.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BCC118EC2AE945C100ACC30F /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118ED2AE945CA00ACC30F /* ArtObjectsOverview */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		BCC118ED2AE945CA00ACC30F /* ArtObjectsOverview */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118F62AE9720A00ACC30F /* Cells */,
+				BCC118EE2AE945F200ACC30F /* ArtObjectsOverviewViewController.swift */,
+				BCC118FB2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift */,
+				BCC221902AEA9BFE003C0989 /* ArtObjectsFlowLayout.swift */,
+			);
+			path = ArtObjectsOverview;
+			sourceTree = "<group>";
+		};
+		BCC118F62AE9720A00ACC30F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118F02AE9694300ACC30F /* ArtObjectsOverviewCell.swift */,
+				BCC118F22AE96A2D00ACC30F /* ArtObjectsOverviewCellViewModel.swift */,
+				BCC2218E2AEA97F8003C0989 /* EmptyCell.swift */,
+				BCC221952AEAB680003C0989 /* LoadingCell.swift */,
+				BCC221972AEAB69C003C0989 /* ErrorCell.swift */,
+				BCC221D52AEABAD0003C0989 /* HeaderView.swift */,
+				BCC221D72AEABB67003C0989 /* HeaderViewModel.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		BCC118F72AE9C26E00ACC30F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118F92AE9C28600ACC30F /* ReusableCell.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		BCC221922AEAA925003C0989 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118DC2AE723F900ACC30F /* ArtObjectsRepository.swift */,
+				BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,15 +354,29 @@
 				BCC118D12AE70B4400ACC30F /* CollectionDetailsEndpoint.swift in Sources */,
 				BCC118CF2AE707EF00ACC30F /* CollectionDTO.swift in Sources */,
 				BCC118D72AE70F6F00ACC30F /* RijksDataService.swift in Sources */,
+				BCC221912AEA9BFE003C0989 /* ArtObjectsFlowLayout.swift in Sources */,
+				BCC221D82AEABB67003C0989 /* HeaderViewModel.swift in Sources */,
+				BCC118F32AE96A2D00ACC30F /* ArtObjectsOverviewCellViewModel.swift in Sources */,
 				BCC118992AE6C83D00ACC30F /* ViewController.swift in Sources */,
 				BCC118DD2AE723F900ACC30F /* ArtObjectsRepository.swift in Sources */,
 				BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */,
+				BCC118FA2AE9C28600ACC30F /* ReusableCell.swift in Sources */,
 				BCC118D52AE70F4F00ACC30F /* NetworkClient.swift in Sources */,
 				BCC118D92AE7172600ACC30F /* Collection.swift in Sources */,
+				BCC118F12AE9694300ACC30F /* ArtObjectsOverviewCell.swift in Sources */,
 				BCC118DB2AE7236800ACC30F /* CollectionDetails.swift in Sources */,
+				BCC2218D2AEA940A003C0989 /* MainCoordinator.swift in Sources */,
+				BCC118FC2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift in Sources */,
 				BCC118CA2AE7078200ACC30F /* CollectionEndpoint.swift in Sources */,
 				BCC118D32AE70B6500ACC30F /* CollectionDetailsDTO.swift in Sources */,
+				BCC221982AEAB69C003C0989 /* ErrorCell.swift in Sources */,
+				BCC221962AEAB680003C0989 /* LoadingCell.swift in Sources */,
+				BCC221942AEAA95D003C0989 /* ArtObjectImagesRepository.swift in Sources */,
+				BCC2218F2AEA97F8003C0989 /* EmptyCell.swift in Sources */,
+				BCC118F52AE96E3700ACC30F /* ImageLoaderService.swift in Sources */,
+				BCC118EF2AE945F300ACC30F /* ArtObjectsOverviewViewController.swift in Sources */,
 				BCC118972AE6C83D00ACC30F /* SceneDelegate.swift in Sources */,
+				BCC221D62AEABAD0003C0989 /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +469,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -427,7 +523,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
