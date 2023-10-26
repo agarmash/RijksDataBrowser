@@ -11,17 +11,14 @@ import UIKit
 class ArtObjectsOverviewViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
-        let flowLayout = ArtObjectsFlowLayout()
-//        let flowLayout = UICollectionViewFlowLayout()
+        let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-//        flowLayout.estimatedItemSize = CGSize(width: self.view.frame.size.width, height: 30)
         flowLayout.minimumInteritemSpacing = 10
         flowLayout.minimumLineSpacing = 10
         flowLayout.headerReferenceSize = CGSize(width: self.view.frame.size.width, height: 30)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.registerReusableCell(ofType: ArtObjectsOverviewCell.self)
         collectionView.registerReusableCell(ofType: LoadingCell.self)
@@ -55,8 +52,6 @@ class ArtObjectsOverviewViewController: UIViewController {
 
         setupLayout()
         bindViewModel()
-        
-//        viewModel.
     }
     
     private func bindViewModel() {
@@ -66,6 +61,8 @@ class ArtObjectsOverviewViewController: UIViewController {
             .sink { [collectionView] in
 //                collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
                 collectionView.reloadData()
+//                collectionView.reloa
+                print("@@@@@@ reloading")
             }
         
         retainedBindings.append(updateBinding)
@@ -139,24 +136,22 @@ extension ArtObjectsOverviewViewController: UICollectionViewDataSource {
     }
 }
 
-//extension ArtObjectsOverviewViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        sizeForItemAt indexPath: IndexPath
-//    ) -> CGSize {
-////        let cellWidth = collectionView.frame.width / CGFloat(numberOfColumns)
-////        return FavouriteCollectionViewCell.size(for: cellWidth)
-//        let cell = viewModel.cell(for: indexPath)
-//
-//        switch cell {
-//        case .empty, .loading, .error:
-//            return CGSize(width: collectionView.frame.width, height: 40.0)
-//        case .artObject(let viewModel):
-//            return viewModel.size(for: collectionView.frame.width)
-//        }
-//    }
-//}
+extension ArtObjectsOverviewViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let cellType = viewModel.cellType(for: indexPath)
+
+        switch cellType {
+        case .empty, .loading, .error:
+            return CGSize(width: collectionView.frame.width, height: 40.0)
+        case .artObject:
+            return ArtObjectsOverviewCellViewModel.size(for: collectionView.frame.width)
+        }
+    }
+}
 
 extension ArtObjectsOverviewViewController: UICollectionViewDelegate {
     

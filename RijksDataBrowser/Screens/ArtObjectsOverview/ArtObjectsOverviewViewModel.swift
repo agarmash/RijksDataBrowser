@@ -16,6 +16,13 @@ final class ArtObjectsOverviewViewModel {
         case error
     }
     
+    enum CellType {
+        case empty
+        case loading
+        case artObject
+        case error
+    }
+    
     private let repository: ArtObjectsRepositoryProtocol
     
     let updateSubject = PassthroughSubject<Void, Never>()
@@ -56,6 +63,18 @@ final class ArtObjectsOverviewViewModel {
                 imageRepository: ArtObjectImagesRepository(targetImageWidth: 400, imageLoader: ImageLoaderService())))
         } else if hasMoreDataToLoad {
             loadMore()
+            return .loading
+        } else if didEncounterError {
+            return .error
+        } else {
+            return .empty
+        }
+    }
+    
+    func cellType(for indexPath: IndexPath) -> CellType {
+        if indexPath.section < pagedArtObjects.count {
+            return .artObject
+        } else if hasMoreDataToLoad {
             return .loading
         } else if didEncounterError {
             return .error
