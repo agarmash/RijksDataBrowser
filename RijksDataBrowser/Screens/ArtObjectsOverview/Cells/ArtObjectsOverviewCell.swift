@@ -10,6 +10,11 @@ import UIKit
 
 class ArtObjectsOverviewCell: UICollectionViewCell {
     
+    private enum Constants {
+        static let insetSize: CGFloat = 8.0
+        static let labelHeight: CGFloat = 20.0
+    }
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,15 +84,15 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         contentView.addSubview(photoImageView)
         
         NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -8.0),
-            contentView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -8.0),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8.0),
-            titleLabel.bottomAnchor.constraint(equalTo: photoImageView.topAnchor, constant: -8.0),
-            contentView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor, constant: 0),
-            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0),
+            contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Constants.insetSize),
+            contentView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -Constants.insetSize),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.insetSize),
+            titleLabel.bottomAnchor.constraint(equalTo: photoImageView.topAnchor, constant: -Constants.insetSize),
+            contentView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
+            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize),
             photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor),
-            photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: 1)
+            photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
         ])
     }
     
