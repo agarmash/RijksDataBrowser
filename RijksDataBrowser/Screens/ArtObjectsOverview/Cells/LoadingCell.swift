@@ -26,6 +26,10 @@ class LoadingCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        loadingIndicator.startAnimating()
+    }
+    
     func setupLayout() {
         contentView.addSubview(loadingIndicator)
         
