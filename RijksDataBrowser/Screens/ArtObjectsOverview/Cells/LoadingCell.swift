@@ -35,8 +35,7 @@ class LoadingCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             contentView.centerXAnchor.constraint(equalTo: loadingIndicator.centerXAnchor),
-            contentView.centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor),
-            contentView.heightAnchor.constraint(equalToConstant: 40.0)
+            contentView.centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor)
         ])
     }
 }

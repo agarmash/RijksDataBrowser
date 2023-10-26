@@ -22,6 +22,7 @@ class ArtObjectsOverviewViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.registerReusableCell(ofType: ArtObjectsOverviewCell.self)
         collectionView.registerReusableCell(ofType: LoadingCell.self)
+        collectionView.registerReusableCell(ofType: ErrorCell.self)
         collectionView.registerReusableCell(ofType: EmptyCell.self)
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
         collectionView.delegate = self
@@ -103,10 +104,8 @@ extension ArtObjectsOverviewViewController: UICollectionViewDataSource {
         
         print("#### Cell for section \(indexPath.section) row \(indexPath.row): \(cell)")
         
-        collectionView.setNeedsLayout()
-        
         switch cell {
-        case .empty, .error:
+        case .empty:
             let cell = collectionView.dequeueReusableCell(ofType: EmptyCell.self, for: indexPath)
             return cell
         case .loading:
@@ -115,6 +114,9 @@ extension ArtObjectsOverviewViewController: UICollectionViewDataSource {
         case .artObject(let viewModel):
             let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
             cell.fill(with: viewModel)
+            return cell
+        case .error:
+            let cell = collectionView.dequeueReusableCell(ofType: ErrorCell.self, for: indexPath)
             return cell
         }
     }
@@ -146,7 +148,7 @@ extension ArtObjectsOverviewViewController: UICollectionViewDelegateFlowLayout {
 
         switch cellType {
         case .empty, .loading, .error:
-            return CGSize(width: collectionView.frame.width, height: 40.0)
+            return CGSize(width: collectionView.frame.width, height: 50.0)
         case .artObject:
             return ArtObjectsOverviewCellViewModel.size(for: collectionView.frame.width)
         }

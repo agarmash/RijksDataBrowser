@@ -61,11 +61,11 @@ final class ArtObjectsOverviewViewModel {
             return .artObject(ArtObjectsOverviewCellViewModel(with:
                 pagedArtObjects[indexPath.section][indexPath.row],
                 imageRepository: ArtObjectImagesRepository(targetImageWidth: 400, imageLoader: ImageLoaderService())))
+        } else if didEncounterError {
+            return .error
         } else if hasMoreDataToLoad {
             loadMore()
             return .loading
-        } else if didEncounterError {
-            return .error
         } else {
             return .empty
         }
@@ -74,10 +74,10 @@ final class ArtObjectsOverviewViewModel {
     func cellType(for indexPath: IndexPath) -> CellType {
         if indexPath.section < pagedArtObjects.count {
             return .artObject
-        } else if hasMoreDataToLoad {
-            return .loading
         } else if didEncounterError {
             return .error
+        } else if hasMoreDataToLoad {
+            return .loading
         } else {
             return .empty
         }
