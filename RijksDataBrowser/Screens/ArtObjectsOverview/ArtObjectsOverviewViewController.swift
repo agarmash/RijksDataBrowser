@@ -156,5 +156,9 @@ extension ArtObjectsOverviewViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension ArtObjectsOverviewViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        viewModel.handleTap(on: indexPath)
+    }
 }

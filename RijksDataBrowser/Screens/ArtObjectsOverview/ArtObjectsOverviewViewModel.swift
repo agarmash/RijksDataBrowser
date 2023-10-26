@@ -23,13 +23,20 @@ final class ArtObjectsOverviewViewModel {
         case error
     }
     
+    enum Action {
+        case showDetailsScreen(Collection.ArtObject)
+    }
+    
+    private let action: (Action) -> Void
     private let repository: ArtObjectsRepositoryProtocol
     
     let updateSubject = PassthroughSubject<Void, Never>()
     
     init(
+        action: @escaping (Action) -> Void,
         repository: ArtObjectsRepositoryProtocol
     ) {
+        self.action = action
         self.repository = repository
     }
     
@@ -83,6 +90,19 @@ final class ArtObjectsOverviewViewModel {
         }
     }
     
+    func handleTap(on indexPath: IndexPath) {
+        switch cellType(for: indexPath) {
+        case .artObject:
+            action(.showDetailsScreen(pagedArtObjects[indexPath.section][indexPath.row]))
+        case .error:
+            clearError()
+            loadMore()
+            updateSubject.send()
+        default:
+            return
+        }
+    }
+    
     func headerViewModel(for indexPath: IndexPath) -> HeaderViewModel {
         HeaderViewModel(pageNumber: indexPath.section + 1)
     }
@@ -100,5 +120,10 @@ final class ArtObjectsOverviewViewModel {
             
             self.updateSubject.send()
         }
+    }
+    
+    private func clearError() {
+        repository.clearError()
+        didEncounterError = false
     }
 }

@@ -29,7 +29,9 @@ class MainCoordinator: CoordinatorProtocol {
         let presenter = UINavigationController()
         window.rootViewController = presenter
 
-        let viewModel = ArtObjectsOverviewViewModel(repository: ArtObjectsRepository(dataService: RijksDataService(client: NetworkClient())))
+        let viewModel = ArtObjectsOverviewViewModel(
+            action: { _ in },
+            repository: ArtObjectsRepository(dataService: RijksDataService(client: NetworkClient())))
         let viewController = ArtObjectsOverviewViewController(viewModel: viewModel)
         presenter.pushViewController(viewController, animated: false)
         window.makeKeyAndVisible()
