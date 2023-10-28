@@ -28,10 +28,20 @@ class MainCoordinator: CoordinatorProtocol {
     func start() {
         let presenter = UINavigationController()
         window.rootViewController = presenter
-
+        
+        let artObjectsRepository = ArtObjectsRepository(
+            dataService: RijksDataService(
+                client: NetworkClient()))
+        
+        let artObjectImagesRepository = ArtObjectImagesRepository(
+            targetImageWidth: Int(window.frame.width),
+            imageLoader: ImageLoaderService())
+        
         let viewModel = ArtObjectsOverviewViewModel(
             action: { _ in },
-            repository: ArtObjectsRepository(dataService: RijksDataService(client: NetworkClient())))
+            artObjectsRepository: artObjectsRepository,
+            artObjectImagesRepository: artObjectImagesRepository)
+        
         let viewController = ArtObjectsOverviewViewController(viewModel: viewModel)
         presenter.pushViewController(viewController, animated: false)
         window.makeKeyAndVisible()

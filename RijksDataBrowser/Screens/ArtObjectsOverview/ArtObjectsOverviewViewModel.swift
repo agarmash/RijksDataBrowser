@@ -28,16 +28,19 @@ final class ArtObjectsOverviewViewModel {
     }
     
     private let action: (Action) -> Void
-    private let repository: ArtObjectsRepositoryProtocol
+    private let artObjectsRepository: ArtObjectsRepositoryProtocol
+    private let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
     let updateSubject = PassthroughSubject<Void, Never>()
     
     init(
         action: @escaping (Action) -> Void,
-        repository: ArtObjectsRepositoryProtocol
+        artObjectsRepository: ArtObjectsRepositoryProtocol,
+        artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     ) {
         self.action = action
-        self.repository = repository
+        self.artObjectsRepository = artObjectsRepository
+        self.artObjectImagesRepository = artObjectImagesRepository
     }
     
     private var pagedArtObjects: [[Collection.ArtObject]] = []
@@ -63,17 +66,23 @@ final class ArtObjectsOverviewViewModel {
         }
     }
     
+    private func getArtsObject(for indexPath: IndexPath) -> Collection.ArtObject {
+        pagedArtObjects[indexPath.section][indexPath.row]
+    }
+    
     func cell(for indexPath: IndexPath) -> Cell {
-        if indexPath.section < pagedArtObjects.count {
-            return .artObject(ArtObjectsOverviewCellViewModel(with:
-                pagedArtObjects[indexPath.section][indexPath.row],
-                imageRepository: ArtObjectImagesRepository(targetImageWidth: 400, imageLoader: ImageLoaderService())))
-        } else if didEncounterError {
+        switch cellType(for: indexPath) {
+        case .artObject:
+            let viewModel = ArtObjectsOverviewCellViewModel(with:
+                getArtsObject(for: indexPath),
+                imageRepository: artObjectImagesRepository)
+            return .artObject(viewModel)
+        case .error:
             return .error
-        } else if hasMoreDataToLoad {
+        case .loading:
             loadMore()
             return .loading
-        } else {
+        case .empty:
             return .empty
         }
     }
@@ -93,7 +102,7 @@ final class ArtObjectsOverviewViewModel {
     func handleTap(on indexPath: IndexPath) {
         switch cellType(for: indexPath) {
         case .artObject:
-            action(.showDetailsScreen(pagedArtObjects[indexPath.section][indexPath.row]))
+            action(.showDetailsScreen(getArtsObject(for: indexPath)))
         case .error:
             clearError()
             loadMore()
@@ -108,7 +117,7 @@ final class ArtObjectsOverviewViewModel {
     }
     
     private func loadMore() {
-        repository.loadMore { result in
+        artObjectsRepository.loadMore { result in
             switch result {
             case .updatedObjects(let objects):
                 self.pagedArtObjects = objects
@@ -123,7 +132,7 @@ final class ArtObjectsOverviewViewModel {
     }
     
     private func clearError() {
-        repository.clearError()
+        artObjectsRepository.clearError()
         didEncounterError = false
     }
 }
