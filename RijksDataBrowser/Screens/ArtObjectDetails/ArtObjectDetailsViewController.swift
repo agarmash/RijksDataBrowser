@@ -26,9 +26,17 @@ class ArtObjectDetailsViewController: UIViewController {
         return scrollView
     }()
     
+    private lazy var scrollContentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
     
@@ -50,6 +58,7 @@ class ArtObjectDetailsViewController: UIViewController {
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
     }()
     
@@ -79,9 +88,11 @@ class ArtObjectDetailsViewController: UIViewController {
     private func setupLayout() {
         view.addSubview(containerView)
         
-        scrollView.addSubview(titleLabel)
-        scrollView.addSubview(photoContainerView)
-        scrollView.addSubview(descriptionLabel)
+        scrollView.addSubview(scrollContentView)
+        
+        scrollContentView.addSubview(titleLabel)
+        scrollContentView.addSubview(photoContainerView)
+        scrollContentView.addSubview(descriptionLabel)
         
         NSLayoutConstraint.activate([
             view.topAnchor.constraint(equalTo: containerView.topAnchor),
@@ -89,16 +100,22 @@ class ArtObjectDetailsViewController: UIViewController {
             view.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             view.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 8.0),
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 8.0),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 8.0),
+            scrollView.topAnchor.constraint(equalTo: scrollContentView.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor),
+            scrollView.widthAnchor.constraint(equalTo: scrollContentView.widthAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: scrollContentView.topAnchor, constant: 8.0),
+            titleLabel.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 8.0),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -8.0),
             photoContainerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
-            photoContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 8.0),
-            photoContainerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 8.0),
+            photoContainerView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 8.0),
+            photoContainerView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -8.0),
             descriptionLabel.topAnchor.constraint(equalTo: photoContainerView.bottomAnchor, constant: 8.0),
-            descriptionLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 8.0),
-            descriptionLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: 8.0),
-            descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 8.0)
+            descriptionLabel.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 8.0),
+            descriptionLabel.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -8.0),
+            descriptionLabel.bottomAnchor.constraint(equalTo: scrollContentView.bottomAnchor, constant: -8.0)
         ])
         
         view.backgroundColor = .systemBackground
