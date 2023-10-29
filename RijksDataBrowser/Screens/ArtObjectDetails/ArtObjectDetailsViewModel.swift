@@ -31,18 +31,18 @@ class ArtObjectDetailsViewModel {
     
     let artObject: Collection.ArtObject
     
-    var imageURL: URL?
+    var image: Image?
     
-    let imageLoaderService: ImageLoaderServiceProtocol
+    let imagesRepository: ArtObjectImagesRepositoryProtocol
     let collectionDetailsService: RijksCollectionDetailsDataServiceProtocol
     
     init(
         artObject: Collection.ArtObject,
-        imageLoaderService: ImageLoaderServiceProtocol,
+        imagesRepository: ArtObjectImagesRepositoryProtocol,
         collectionDetailsService: RijksCollectionDetailsDataServiceProtocol
     ) {
         self.artObject = artObject
-        self.imageLoaderService = imageLoaderService
+        self.imagesRepository = imagesRepository
         self.collectionDetailsService = collectionDetailsService
     }
     
@@ -63,26 +63,27 @@ class ArtObjectDetailsViewModel {
     func preparePresentationData(from collectionDetails: CollectionDetails) {
         title = collectionDetails.title
         description = collectionDetails.description
-        imageURL = collectionDetails.image.url
+        image = collectionDetails.image
         
         loadImage()
     }
     
     func loadImage() {
-        guard let url = imageURL else { return }
+        guard let image = image else { return }
         
         imageState = .loading
         Task {
             do {
-                let image = try await imageLoaderService.loadImage(with: url)
+                let image = try await imagesRepository.getImage(for: image)
                 self.imageState = .loaded(image)
-            } catch let error as ImageLoaderService.Error {
-                switch error {
-                case .incorrectDataReceived:
-                    imageState = .error("Invalid image data has been received")
-                case .networkError(let error):
-                    imageState = .error("Network error: \(error.localizedDescription)")
-                }
+            } catch ArtObjectImagesRepository.Error.missingImageURL {
+                imageState = .error("Image URL is missing")
+            } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
+                imageState = .error("Unable to prepare a resized image")
+            } catch ImageLoaderService.Error.incorrectDataReceived {
+                imageState = .error("Incorrect image data received")
+            } catch ImageLoaderService.Error.networkError(let error) {
+                imageState = .error("Network error: \(error.localizedDescription)")
             }
         }
     }

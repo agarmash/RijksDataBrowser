@@ -23,7 +23,7 @@ class ArtObjectDetailsCoordinator: CoordinatorProtocol {
     func start() {
         let viewModel = ArtObjectDetailsViewModel(
             artObject: artObject,
-            imageLoaderService: ImageLoaderService(),
+            imagesRepository: ArtObjectImagesRepository(targetImageWidth: 400, imageLoader: ImageLoaderService()),
             collectionDetailsService: RijksDataService(client: NetworkClient()))
         
         let viewController = ArtObjectDetailsViewController(viewModel: viewModel)
