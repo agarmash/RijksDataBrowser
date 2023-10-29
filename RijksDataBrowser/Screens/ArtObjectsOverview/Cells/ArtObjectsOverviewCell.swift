@@ -18,7 +18,8 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 1
+        label.numberOfLines = 2
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -27,8 +28,11 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .lightGray
         imageView.contentMode = .scaleAspectFit
+//        imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return imageView
     }()
+    
+    private var photoImageViewAspectRatioConstraint: NSLayoutConstraint!
     
     private var viewModel: ArtObjectsOverviewCellViewModel!
     
@@ -71,6 +75,28 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
             }
         
         retainedBindings.append(photoImageViewBinding)
+        
+        setPhotoImageViewAspectRatio(viewModel.photoAspectRatio)
+    }
+    
+    func setPhotoImageViewAspectRatio(_ ratio: CGFloat) {
+        NSLayoutConstraint.deactivate([photoImageViewAspectRatioConstraint])
+
+        let constraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: ratio)
+//        constraint.priority = .init(rawValue: 999)
+
+        NSLayoutConstraint.activate([constraint])
+        photoImageViewAspectRatioConstraint = constraint
+        
+//        let width = photoImageView.frame.width
+//
+//        let height = width / ratio
+//
+//        photoImageViewAspectRatioConstraint.constant = width - height
+//
+//        layoutSubviews()
+//        contentView.setNeedsLayout()
+        contentView.layoutSubviews()
     }
     
     override func prepareForReuse() {
@@ -83,6 +109,14 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(photoImageView)
         
+//        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        photoImageViewAspectRatioConstraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
+//        photoImageViewAspectRatioConstraint.priority = .init(rawValue: 999)
+        
+        let ccc = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
+        ccc.priority = .defaultLow
+        
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Constants.insetSize),
             contentView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -Constants.insetSize),
@@ -91,14 +125,8 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
             contentView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize),
-            photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor),
-            photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
+//            ccc,
+            photoImageViewAspectRatioConstraint
         ])
-    }
-    
-    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-        let targetSize = CGSize(width: layoutAttributes.frame.width, height: 0)
-        layoutAttributes.frame.size = contentView.systemLayoutSizeFitting(targetSize, withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
-        return layoutAttributes
     }
 }

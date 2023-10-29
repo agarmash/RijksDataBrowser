@@ -8,8 +8,8 @@
 import Foundation
 
 struct Collection {
-    struct ArtObject {
-        struct Image {
+    struct ArtObject: Hashable {
+        struct Image: Hashable {
             let url: URL?
             let width: Int
             let height: Int

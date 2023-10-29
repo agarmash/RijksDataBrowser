@@ -36,6 +36,10 @@ final class ArtObjectsOverviewCellViewModel {
         artObject.title
     }
     
+    var photoAspectRatio: CGFloat {
+        CGFloat(artObject.image.width) / CGFloat(artObject.image.height)
+    }
+    
     @Published var photo: ImageState = .empty
     
     func loadPhoto() {
@@ -48,11 +52,5 @@ final class ArtObjectsOverviewCellViewModel {
                 photo = .errored
             }
         }
-    }
-    
-    class func size(for width: CGFloat) -> CGSize {
-        let height: CGFloat = 8 + 20 + 8 + width + 8
-        
-        return CGSize(width: width, height: height)
     }
 }
