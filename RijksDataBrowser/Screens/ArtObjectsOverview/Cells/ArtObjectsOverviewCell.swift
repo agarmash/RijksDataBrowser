@@ -28,7 +28,8 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .lightGray
         imageView.contentMode = .scaleAspectFit
-//        imageView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        imageView.setContentHuggingPriority(.defaultLow, for: .vertical)
+        imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         return imageView
     }()
     
@@ -83,19 +84,10 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         NSLayoutConstraint.deactivate([photoImageViewAspectRatioConstraint])
 
         let constraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: ratio)
-//        constraint.priority = .init(rawValue: 999)
 
         NSLayoutConstraint.activate([constraint])
         photoImageViewAspectRatioConstraint = constraint
         
-//        let width = photoImageView.frame.width
-//
-//        let height = width / ratio
-//
-//        photoImageViewAspectRatioConstraint.constant = width - height
-//
-//        layoutSubviews()
-//        contentView.setNeedsLayout()
         contentView.layoutSubviews()
     }
     
@@ -109,13 +101,7 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(photoImageView)
         
-//        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
         photoImageViewAspectRatioConstraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
-//        photoImageViewAspectRatioConstraint.priority = .init(rawValue: 999)
-        
-        let ccc = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
-        ccc.priority = .defaultLow
         
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Constants.insetSize),
@@ -125,7 +111,6 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
             contentView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize),
-//            ccc,
             photoImageViewAspectRatioConstraint
         ])
     }
