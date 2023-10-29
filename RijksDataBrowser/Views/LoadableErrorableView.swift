@@ -34,6 +34,10 @@ class LoadableErrorableView: UIView {
     private lazy var errorMessageLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
 
@@ -41,6 +45,8 @@ class LoadableErrorableView: UIView {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(retry), for: .touchUpInside)
+        button.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        button.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return button
     }()
     
@@ -115,19 +121,19 @@ class LoadableErrorableView: UIView {
         errorView.addSubview(errorMessageLabel)
         errorView.addSubview(retryButton)
         NSLayoutConstraint.activate([
-            errorView.topAnchor.constraint(equalTo: topAnchor),
+            errorView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            errorView.centerYAnchor.constraint(equalTo: centerYAnchor),
             errorView.leadingAnchor.constraint(equalTo: leadingAnchor),
             errorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            errorView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             errorMessageLabel.topAnchor.constraint(equalTo: errorView.topAnchor, constant: 8.0),
             errorMessageLabel.leadingAnchor.constraint(equalTo: errorView.leadingAnchor, constant: 8.0),
-            errorMessageLabel.trailingAnchor.constraint(equalTo: errorView.trailingAnchor, constant: 8.0),
-            errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: 24.0),
+            errorMessageLabel.trailingAnchor.constraint(equalTo: errorView.trailingAnchor, constant: -8.0),
+            errorMessageLabel.bottomAnchor.constraint(equalTo: retryButton.topAnchor, constant: -8.0),
             
             retryButton.leadingAnchor.constraint(equalTo: errorView.leadingAnchor, constant: 8.0),
-            retryButton.trailingAnchor.constraint(equalTo: errorView.trailingAnchor, constant: 8.0),
-            retryButton.bottomAnchor.constraint(equalTo: errorView.bottomAnchor, constant: 8.0)
+            retryButton.trailingAnchor.constraint(equalTo: errorView.trailingAnchor, constant: -8.0),
+            retryButton.bottomAnchor.constraint(equalTo: errorView.bottomAnchor, constant: -8.0)
         ])
     }
 }

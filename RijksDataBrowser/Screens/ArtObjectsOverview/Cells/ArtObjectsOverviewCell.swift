@@ -81,8 +81,10 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
                 case .error(let errorMessage):
                     self.photoContainerView.setState(.error(errorMessage))
                 default:
-                    return
+                    break
                 }
+                
+                self.contentView.layoutSubviews()
             }
         
         retainedBindings.append(photoImageViewBinding)
