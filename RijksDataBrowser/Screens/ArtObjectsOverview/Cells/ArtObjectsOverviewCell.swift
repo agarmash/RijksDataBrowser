@@ -23,6 +23,15 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var photoContainerView: LoadableErrorableView = {
+        let view = LoadableErrorableView(
+            contentView: photoImageView,
+            retryAction: { _ in self.viewModel.loadPhoto() })
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,14 +73,15 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
             .receive(on: DispatchQueue.main)
             .sink { imageState in
                 switch imageState {
-                case .empty:
-                    self.photoImageView.image = nil
                 case .loading:
-                    print("Loading")
+                    self.photoContainerView.setState(.loading)
                 case .loaded(let image):
                     self.photoImageView.image = image
-                case .errored:
-                    print("error")
+                    self.photoContainerView.setState(.presentingContent)
+                case .error(let errorMessage):
+                    self.photoContainerView.setState(.error(errorMessage))
+                default:
+                    return
                 }
             }
         
@@ -99,7 +109,7 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
     
     private func setupLayout() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(photoImageView)
+        contentView.addSubview(photoContainerView)
         
         photoImageViewAspectRatioConstraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
         
@@ -107,10 +117,10 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
             contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Constants.insetSize),
             contentView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor, constant: -Constants.insetSize),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.insetSize),
-            titleLabel.bottomAnchor.constraint(equalTo: photoImageView.topAnchor, constant: -Constants.insetSize),
-            contentView.leadingAnchor.constraint(equalTo: photoImageView.leadingAnchor),
-            photoImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize),
+            titleLabel.bottomAnchor.constraint(equalTo: photoContainerView.topAnchor, constant: -Constants.insetSize),
+            contentView.leadingAnchor.constraint(equalTo: photoContainerView.leadingAnchor),
+            photoContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            photoContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize),
             photoImageViewAspectRatioConstraint
         ])
     }

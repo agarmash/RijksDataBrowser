@@ -38,13 +38,12 @@ class LoadableErrorableView: UIView {
     }()
 
     private lazy var retryButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(retry), for: .touchUpInside)
         return button
     }()
     
-//    private var state: State = .loading
     private let retryAction: (LoadableErrorableView) -> Void
 
     init(

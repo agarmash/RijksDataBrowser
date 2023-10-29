@@ -14,7 +14,7 @@ final class ArtObjectsOverviewCellViewModel {
         case empty
         case loading
         case loaded(UIImage)
-        case errored
+        case error(String)
     }
     
     private let artObject: Collection.ArtObject
@@ -48,8 +48,14 @@ final class ArtObjectsOverviewCellViewModel {
                 photo = .loading
                 let image = try await imageRepository.getImage(for: artObject.image)
                 photo = .loaded(image)
-            } catch {
-                photo = .errored
+            } catch ArtObjectImagesRepository.Error.missingImageURL {
+                photo = .error("Image URL is missing")
+            } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
+                photo = .error("Unable to prepare a resized image")
+            } catch ImageLoaderService.Error.incorrectDataReceived {
+                photo = .error("Incorrect image data received")
+            } catch ImageLoaderService.Error.networkError(let error) {
+                photo = .error("Network error: \(error.localizedDescription)")
             }
         }
     }
