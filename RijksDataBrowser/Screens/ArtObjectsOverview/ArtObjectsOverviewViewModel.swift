@@ -8,9 +8,24 @@
 import Combine
 import UIKit
 
+typealias DiffableDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewViewModel.SectionType, Collection.ArtObject>
+typealias DiffableSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewViewModel.SectionType, Collection.ArtObject>
+
 final class ArtObjectsOverviewViewModel {
     
-    @Published var snapshot: NSDiffableDataSourceSnapshot<Int, Collection.ArtObject> = .init()
+    @Published var snapshot: DiffableSnapshot = .init()
+    
+    enum SectionType: Hashable {
+        case artObjectsPage(Int)
+        case loading
+        case error
+    }
+    
+    enum Header {
+        case artObjectsPage(ArtObjectsSectionHeaderViewModel)
+        case loading
+        case error
+    }
 
     enum Action {
         case showDetailsScreen(Collection.ArtObject)
@@ -40,33 +55,12 @@ final class ArtObjectsOverviewViewModel {
         hasMoreDataToLoad || didEncounterError
     }
     
-    private func getArtsObject(for indexPath: IndexPath) -> Collection.ArtObject {
-        pagedArtObjects[indexPath.section][indexPath.row]
-    }
-
-//    func cellType(for indexPath: IndexPath) -> CellType {
-//        if indexPath.section < pagedArtObjects.count {
-//            return .artObject
-//        } else if didEncounterError {
-//            return .error
-//        } else if hasMoreDataToLoad {
-//            return .loading
-//        } else {
-//            return .empty
-//        }
+//    private func getArtsObject(for indexPath: IndexPath) -> Collection.ArtObject {
+//        pagedArtObjects[indexPath.section][indexPath.row]
 //    }
     
     func handleTap(on indexPath: IndexPath) {
-//        switch cellType(for: indexPath) {
-//        case .artObject:
-//            action(.showDetailsScreen(getArtsObject(for: indexPath)))
-//        case .error:
-//            clearError()
-//            loadMore()
-//            updateSubject.send()
-//        default:
-//            return
-//        }
+
     }
     
     func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModel {
@@ -74,14 +68,16 @@ final class ArtObjectsOverviewViewModel {
     }
     
     func loadMore() {
+        showLoader()
         artObjectsRepository.loadMore { result in
             switch result {
             case .updatedObjects(let objects):
                 self.pagedArtObjects = objects
-                self.handleLoadedObjects(objects)
+                self.showLoadedObjects(objects)
             case .nothingMoreToLoad:
                 self.hasMoreDataToLoad = false
             case .error:
+                self.showError()
                 self.didEncounterError = true
             }
 
@@ -89,19 +85,61 @@ final class ArtObjectsOverviewViewModel {
         }
     }
     
-    func handleLoadedObjects(_ objects: [[Collection.ArtObject]]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Collection.ArtObject>()
+    func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
+        var snapshot = DiffableSnapshot()
         
-        let sections = [Int](objects.indices)
+        let sections = objects.indices.map { SectionType.artObjectsPage($0) }
+//        let sections = objects.indices.map { _ in SectionType.artObjectsPage }
         
         snapshot.appendSections(sections)
         
-        for section in sections {
-            snapshot.appendItems(objects[section], toSection: section)
+        for (index, section) in sections.enumerated() {
+            snapshot.appendItems(objects[index], toSection: section)
         }
-        snapshot.appendSections([99])
+        
+        snapshot.appendSections([.loading, .error])
         
         self.snapshot = snapshot
+    }
+    
+    func showLoader() {
+        var snapshot = self.snapshot
+        
+        snapshot.deleteSections([.error, .loading])
+        snapshot.appendSections([.loading])
+        
+        self.snapshot = snapshot
+    }
+    
+    func showError() {
+        var snapshot = self.snapshot
+        
+        snapshot.deleteSections([.error, .loading])
+        snapshot.appendSections([.error])
+        
+        self.snapshot = snapshot
+    }
+    
+    func preloadArtObject(for indexPath: IndexPath) {
+        guard indexPath.section < pagedArtObjects.count else { return }
+
+        let page = pagedArtObjects[indexPath.section]
+
+        if page.count - indexPath.row < 2 {
+            loadMore()
+        }
+    }
+    
+    func header(for indexPath: IndexPath) -> Header {
+        switch snapshot.sectionIdentifiers[indexPath.section] {
+        case .artObjectsPage(let pageNumber):
+            let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber)
+            return .artObjectsPage(viewModel)
+        case .loading:
+            return .loading
+        case .error:
+            return .error
+        }
     }
     
     private func clearError() {

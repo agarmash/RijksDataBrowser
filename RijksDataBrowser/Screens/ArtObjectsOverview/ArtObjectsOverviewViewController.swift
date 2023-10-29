@@ -10,8 +10,8 @@ import UIKit
 
 class ArtObjectsOverviewViewController: UIViewController {
     
-    func makeDataSource(for collectionView: UICollectionView) -> UICollectionViewDiffableDataSource<Int, Collection.ArtObject> {
-        let dataSource = UICollectionViewDiffableDataSource<Int, Collection.ArtObject>(
+    func makeDataSource(for collectionView: UICollectionView) -> DiffableDataSource {
+        let dataSource = DiffableDataSource(
             collectionView: collectionView,
             cellProvider: { collectionView, indexPath, artObject in
                 let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
@@ -23,28 +23,46 @@ class ArtObjectsOverviewViewController: UIViewController {
         
         dataSource.supplementaryViewProvider = { [unowned self]
             (collectionView, kind, indexPath) -> UICollectionReusableView? in
-            
-            let viewModel = viewModel.headerViewModel(for: indexPath)
-            let headerView = collectionView.dequeueSupplementaryView(
-                ofType: ArtObjectsSectionHeaderView.self,
-                kind: .header,
-                for: indexPath)
-            
-            headerView.fill(with: viewModel)
-            
-            return headerView
+
+            switch viewModel.header(for: indexPath) {
+            case .artObjectsPage(let viewModel):
+                let headerView = collectionView.dequeueSupplementaryView(
+                    ofType: ArtObjectsSectionHeaderView.self,
+                    kind: .header,
+                    for: indexPath)
+    
+                headerView.fill(with: viewModel)
+    
+                return headerView
+            case .loading:
+                let headerView = collectionView.dequeueSupplementaryView(
+                    ofType: LoadingSectionHeaderView.self,
+                    kind: .header,
+                    for: indexPath)
+    
+                return headerView
+            case .error:
+                let headerView = collectionView.dequeueSupplementaryView(
+                    ofType: ErrorSectionHeaderView.self,
+                    kind: .header,
+                    for: indexPath)
+    
+                return headerView
+            }
         }
         
         return dataSource
     }
     
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Collection.ArtObject>?
+    private var dataSource: DiffableDataSource?
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.registerReusableCell(ofType: ArtObjectsOverviewCell.self)
         collectionView.registerSupplementaryView(ofType: ArtObjectsSectionHeaderView.self, kind: .header)
+        collectionView.registerSupplementaryView(ofType: LoadingSectionHeaderView.self, kind: .header)
+        collectionView.registerSupplementaryView(ofType: ErrorSectionHeaderView.self, kind: .header)
         collectionView.delegate = self
         return collectionView
     }()
@@ -115,12 +133,7 @@ extension ArtObjectsOverviewViewController: UICollectionViewDelegate {
         willDisplay cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-//        collectionView.setNeedsLayout()
-        
-        cell.contentView.setNeedsLayout()
-        if indexPath.row == 19 {
-            viewModel.loadMore()
-        }
+        viewModel.preloadArtObject(for: indexPath)
     }
 }
 
