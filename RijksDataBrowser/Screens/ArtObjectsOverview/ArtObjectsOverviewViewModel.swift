@@ -71,7 +71,9 @@ final class ArtObjectsOverviewViewModel {
     
     func loadMore() {
         showLoader()
-        artObjectsRepository.loadMore { result in
+        artObjectsRepository.loadMore { [weak self] result in
+            guard let self = self else { return }
+            
             switch result {
             case .updatedObjects(let objects):
                 self.pagedArtObjects = objects

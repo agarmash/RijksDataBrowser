@@ -26,7 +26,7 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
     private lazy var photoContainerView: LoadableErrorableView = {
         let view = LoadableErrorableView(
             contentView: photoImageView,
-            retryAction: { _ in self.viewModel.loadPhoto() })
+            retryAction: { [viewModel] _ in viewModel?.loadPhoto() })
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -71,20 +71,18 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         let photoImageViewBinding = viewModel
             .$photo
             .receive(on: DispatchQueue.main)
-            .sink { imageState in
+            .sink { [photoImageView, photoContainerView] imageState in
                 switch imageState {
                 case .loading:
-                    self.photoContainerView.setState(.loading)
+                    photoContainerView.setState(.loading)
                 case .loaded(let image):
-                    self.photoImageView.image = image
-                    self.photoContainerView.setState(.presentingContent)
+                    photoImageView.image = image
+                    photoContainerView.setState(.presentingContent)
                 case .error(let errorMessage):
-                    self.photoContainerView.setState(.error(errorMessage))
+                    photoContainerView.setState(.error(errorMessage))
                 default:
                     break
                 }
-                
-                self.contentView.layoutSubviews()
             }
         
         retainedBindings.append(photoImageViewBinding)

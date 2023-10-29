@@ -35,10 +35,10 @@ class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
             imageLoader: ImageLoaderService())
         
         let viewModel = ArtObjectsOverviewViewModel(
-            action: { action in
+            action: { [weak self] action in
                 switch action {
                 case .showDetailsScreen(let artObject):
-                    self.showDetailsScreen(artObject: artObject)
+                    self?.showDetailsScreen(artObject: artObject)
                 }
             },
             artObjectsRepository: artObjectsRepository,

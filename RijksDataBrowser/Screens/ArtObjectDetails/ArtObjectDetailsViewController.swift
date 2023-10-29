@@ -13,7 +13,7 @@ class ArtObjectDetailsViewController: UIViewController {
     private lazy var containerView: LoadableErrorableView = {
         let view = LoadableErrorableView(
             contentView: scrollView,
-            retryAction: { _ in self.viewModel.loadDetails() })
+            retryAction: { [viewModel] _ in viewModel?.loadDetails() })
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -43,7 +43,7 @@ class ArtObjectDetailsViewController: UIViewController {
     private lazy var photoContainerView: LoadableErrorableView = {
         let view = LoadableErrorableView(
             contentView: photoImageView,
-            retryAction: { _ in self.viewModel.loadImage() })
+            retryAction: { [viewModel] _ in viewModel?.loadImage() })
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view

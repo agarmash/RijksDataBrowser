@@ -112,10 +112,10 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     }
     
     func clearError() {
-        apiCallsQueue.async {
+        apiCallsQueue.async { [weak self] in
             // Clear the error on the same queue so all the possible
             // subsequent dispatch blocks are cancelled
-            self.didEncounterError = false
+            self?.didEncounterError = false
         }
     }
 }

@@ -52,7 +52,8 @@ class ArtObjectDetailsViewModel {
             do {
                 let collectionDetails = try await collectionDetailsService
                     .getCollectionDetails(for: artObject.objectNumber)
-                self.preparePresentationData(from: collectionDetails.toDomain())
+                
+                preparePresentationData(from: collectionDetails.toDomain())
                 state = .presentingContent
             } catch let error as URLError {
                 state = .error("Network error: \(error.localizedDescription)")
@@ -75,7 +76,7 @@ class ArtObjectDetailsViewModel {
         Task {
             do {
                 let image = try await imagesRepository.getImage(for: image)
-                self.imageState = .loaded(image)
+                imageState = .loaded(image)
             } catch ArtObjectImagesRepository.Error.missingImageURL {
                 imageState = .error("Image URL is missing")
             } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
