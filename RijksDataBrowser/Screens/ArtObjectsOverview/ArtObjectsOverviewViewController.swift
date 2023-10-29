@@ -41,12 +41,14 @@ class ArtObjectsOverviewViewController: UIViewController {
                     for: indexPath)
     
                 return headerView
-            case .error:
+            case .error(let viewModel):
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofType: ErrorSectionHeaderView.self,
                     kind: .header,
                     for: indexPath)
     
+                headerView.fill(with: viewModel)
+                
                 return headerView
             }
         }

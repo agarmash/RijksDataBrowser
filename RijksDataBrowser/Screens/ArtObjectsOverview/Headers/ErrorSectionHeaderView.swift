@@ -17,6 +17,17 @@ class ErrorSectionHeaderView: UICollectionReusableView {
         return label
     }()
     
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapEvent))
+        return recognizer
+    }()
+    
+    @objc func handleTapEvent() {
+        viewModel.didTapOnView?()
+    }
+    
+    var viewModel: ErrorSectionHeaderViewModel!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -28,14 +39,16 @@ class ErrorSectionHeaderView: UICollectionReusableView {
         super.init(coder: coder)
     }
     
+    func fill(with viewModel: ErrorSectionHeaderViewModel) {
+        self.viewModel = viewModel
+    }
+    
     func setupLayout() {
+        addGestureRecognizer(tapGestureRecognizer)
+        
         addSubview(errorLabel)
 
         NSLayoutConstraint.activate([
-//            topAnchor.constraint(equalTo: errorLabel.topAnchor),
-//            leadingAnchor.constraint(equalTo: errorLabel.leadingAnchor),
-//            trailingAnchor.constraint(equalTo: errorLabel.trailingAnchor),
-//            bottomAnchor.constraint(equalTo: errorLabel.bottomAnchor)
             centerXAnchor.constraint(equalTo: errorLabel.centerXAnchor),
             centerYAnchor.constraint(equalTo: errorLabel.centerYAnchor),
             topAnchor.constraint(lessThanOrEqualTo: errorLabel.topAnchor),

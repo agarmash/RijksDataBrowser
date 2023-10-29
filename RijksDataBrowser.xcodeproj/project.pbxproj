@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BC03FA472AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA462AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift */; };
 		BC03FA492AEE7B4100DFCADC /* ErrorSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA482AEE7B4100DFCADC /* ErrorSectionHeaderView.swift */; };
+		BC03FA4B2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA4A2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift */; };
 		BC28C48A2AEAEAE70008842E /* ArtObjectDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC28C4892AEAEAE70008842E /* ArtObjectDetailsViewController.swift */; };
 		BC28C48C2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC28C48B2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift */; };
 		BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118942AE6C83D00ACC30F /* AppDelegate.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		BC03FA462AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSectionHeaderView.swift; sourceTree = "<group>"; };
 		BC03FA482AEE7B4100DFCADC /* ErrorSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSectionHeaderView.swift; sourceTree = "<group>"; };
+		BC03FA4A2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSectionHeaderViewModel.swift; sourceTree = "<group>"; };
 		BC28C4892AEAEAE70008842E /* ArtObjectDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewController.swift; sourceTree = "<group>"; };
 		BC28C48B2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewModel.swift; sourceTree = "<group>"; };
 		BCC118912AE6C83D00ACC30F /* RijksDataBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RijksDataBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +116,7 @@
 				BCC221D72AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift */,
 				BC03FA462AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift */,
 				BC03FA482AEE7B4100DFCADC /* ErrorSectionHeaderView.swift */,
+				BC03FA4A2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift */,
 			);
 			path = Headers;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC03FA4B2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift in Sources */,
 				BCC118C82AE7070200ACC30F /* EndpointProtocol.swift in Sources */,
 				BCC118D12AE70B4400ACC30F /* CollectionDetailsEndpoint.swift in Sources */,
 				BCC118CF2AE707EF00ACC30F /* CollectionDTO.swift in Sources */,

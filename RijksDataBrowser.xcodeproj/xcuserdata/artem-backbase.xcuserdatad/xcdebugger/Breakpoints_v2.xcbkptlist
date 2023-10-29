@@ -14,8 +14,8 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -156,8 +156,8 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/Cells/ArtObjectsOverviewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "bindViewModel()"
             landmarkType = "7">
          </BreakpointContent>
@@ -200,13 +200,13 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "loadMore()"
-            landmarkType = "7">
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "ArtObjectsOverviewViewModel"
+            landmarkType = "3">
             <Locations>
                <Location
-                  uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - 55577a5283fcfab2"
+                  uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - 55577a5283fcc28f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -216,12 +216,12 @@
                   urlString = "file:///Users/artem-backbase/dev/RijksDataBrowser/RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
-                  offsetFromSymbolStart = "47">
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
+                  offsetFromSymbolStart = "53">
                </Location>
                <Location
-                  uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - b22b8e69c501bc94"
+                  uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - b22b8e69c50184a9"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -231,8 +231,8 @@
                   urlString = "file:///Users/artem-backbase/dev/RijksDataBrowser/RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "138"
-                  endingLineNumber = "138"
+                  startingLineNumber = "77"
+                  endingLineNumber = "77"
                   offsetFromSymbolStart = "110">
                </Location>
             </Locations>
@@ -248,8 +248,8 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "showLoadedObjects(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -264,9 +264,41 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "header(for:)"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
+            landmarkName = "preloadArtObject(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CB4483BA-B799-4403-A0D7-C7D170A8C6B3"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "handleTap(on:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "37588626-7E33-4729-BCC8-0AE17D34F1D9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
+            landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

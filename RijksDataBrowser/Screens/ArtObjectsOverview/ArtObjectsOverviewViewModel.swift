@@ -24,7 +24,7 @@ final class ArtObjectsOverviewViewModel {
     enum Header {
         case artObjectsPage(ArtObjectsSectionHeaderViewModel)
         case loading
-        case error
+        case error(ErrorSectionHeaderViewModel)
     }
 
     enum Action {
@@ -55,12 +55,14 @@ final class ArtObjectsOverviewViewModel {
         hasMoreDataToLoad || didEncounterError
     }
     
-//    private func getArtsObject(for indexPath: IndexPath) -> Collection.ArtObject {
-//        pagedArtObjects[indexPath.section][indexPath.row]
-//    }
-    
     func handleTap(on indexPath: IndexPath) {
-
+        switch snapshot.sectionIdentifiers[indexPath.section] {
+        case .artObjectsPage:
+            let artObject = pagedArtObjects[indexPath.section][indexPath.row]
+            action(.showDetailsScreen(artObject))
+        default:
+            return
+        }
     }
     
     func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModel {
@@ -89,15 +91,12 @@ final class ArtObjectsOverviewViewModel {
         var snapshot = DiffableSnapshot()
         
         let sections = objects.indices.map { SectionType.artObjectsPage($0) }
-//        let sections = objects.indices.map { _ in SectionType.artObjectsPage }
         
         snapshot.appendSections(sections)
         
         for (index, section) in sections.enumerated() {
             snapshot.appendItems(objects[index], toSection: section)
         }
-        
-        snapshot.appendSections([.loading, .error])
         
         self.snapshot = snapshot
     }
@@ -121,11 +120,17 @@ final class ArtObjectsOverviewViewModel {
     }
     
     func preloadArtObject(for indexPath: IndexPath) {
-        guard indexPath.section < pagedArtObjects.count else { return }
+        guard
+            indexPath.section < pagedArtObjects.count,
+            hasMoreDataToLoad,
+            !didEncounterError
+        else {
+            return
+        }
 
         let page = pagedArtObjects[indexPath.section]
 
-        if page.count - indexPath.row < 2 {
+        if indexPath.row == page.count - 1 {
             loadMore()
         }
     }
@@ -138,7 +143,12 @@ final class ArtObjectsOverviewViewModel {
         case .loading:
             return .loading
         case .error:
-            return .error
+            let viewModel = ErrorSectionHeaderViewModel()
+            viewModel.didTapOnView = { [weak self] in
+                self?.clearError()
+                self?.loadMore()
+            }
+            return .error(viewModel)
         }
     }
     
@@ -146,6 +156,4 @@ final class ArtObjectsOverviewViewModel {
         artObjectsRepository.clearError()
         didEncounterError = false
     }
-    
-    
 }
