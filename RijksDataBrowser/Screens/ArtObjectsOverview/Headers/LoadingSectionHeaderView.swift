@@ -1,13 +1,13 @@
 //
-//  LoadingCell.swift
+//  LoadingSectionHeaderView.swift
 //  RijksDataBrowser
 //
-//  Created by Artem Garmash on 26/10/2023.
+//  Created by Artem Garmash on 29/10/2023.
 //
 
 import UIKit
 
-class LoadingCell: UICollectionViewCell {
+class LoadingSectionHeaderView: UICollectionReusableView {
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -31,11 +31,11 @@ class LoadingCell: UICollectionViewCell {
     }
     
     func setupLayout() {
-        contentView.addSubview(loadingIndicator)
+        addSubview(loadingIndicator)
         
         NSLayoutConstraint.activate([
-            contentView.centerXAnchor.constraint(equalTo: loadingIndicator.centerXAnchor),
-            contentView.centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor)
+            centerXAnchor.constraint(equalTo: loadingIndicator.centerXAnchor),
+            centerYAnchor.constraint(equalTo: loadingIndicator.centerYAnchor)
         ])
     }
 }

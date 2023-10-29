@@ -7,32 +7,68 @@
 
 import UIKit
 
-public protocol ReusableCell {
+public protocol UICollectionViewReusable {
     static var reuseIdentifier: String { get }
 }
 
-extension ReusableCell {
+extension UICollectionViewReusable {
     public static var reuseIdentifier: String {
         return String(describing: self)
     }
 }
 
-//extension UITableViewCell: ReusableCell {}
-extension UICollectionViewCell: ReusableCell {}
-
-// swiftlint:disable force_cast
-//extension UITableView {
-//    public func dequeueReusableCell<C: ReusableCell>(ofType cellClass: C.Type, for indexPath: IndexPath) -> C {
-//        return dequeueReusableCell(withIdentifier: cellClass.reuseIdentifier, for: indexPath) as! C
-//    }
-//}
+extension UICollectionReusableView: UICollectionViewReusable {}
 
 extension UICollectionView {
-    public func dequeueReusableCell<C: ReusableCell>(ofType cellClass: C.Type, for indexPath: IndexPath) -> C {
-        return dequeueReusableCell(withReuseIdentifier: cellClass.reuseIdentifier, for: indexPath) as! C
+    public enum SupplementaryViewKind {
+        case header
+        case footer
+        
+        func stringValue() -> String {
+            switch self {
+            case .header:
+                return UICollectionView.elementKindSectionHeader
+            case .footer:
+                return UICollectionView.elementKindSectionFooter
+            }
+        }
     }
     
-    public func registerReusableCell<C: UICollectionViewCell>(ofType cellClass: C.Type) where C: ReusableCell {
-        self.register(cellClass, forCellWithReuseIdentifier: cellClass.reuseIdentifier)
+    public func registerReusableCell<C: UICollectionViewCell>(
+        ofType cellClass: C.Type
+    ) where C: UICollectionViewReusable {
+        self.register(
+            cellClass,
+            forCellWithReuseIdentifier: cellClass.reuseIdentifier)
+    }
+    
+    public func dequeueReusableCell<C: UICollectionViewReusable>(
+        ofType cellClass: C.Type,
+        for indexPath: IndexPath
+    ) -> C where C: UICollectionViewCell {
+        return dequeueReusableCell(
+            withReuseIdentifier: cellClass.reuseIdentifier,
+            for: indexPath) as! C
+    }
+    
+    public func registerSupplementaryView<V: UICollectionReusableView>(
+        ofType viewClass: V.Type,
+        kind: SupplementaryViewKind
+    ) where V: UICollectionViewReusable {
+        self.register(
+            viewClass,
+            forSupplementaryViewOfKind: kind.stringValue(),
+            withReuseIdentifier: viewClass.reuseIdentifier)
+    }
+    
+    public func dequeueSupplementaryView<V: UICollectionViewReusable>(
+        ofType viewClass: V.Type,
+        kind: SupplementaryViewKind,
+        for indexPath: IndexPath
+    ) -> V where V: UICollectionReusableView {
+        return dequeueReusableSupplementaryView(
+            ofKind: kind.stringValue(),
+            withReuseIdentifier: viewClass.reuseIdentifier,
+            for: indexPath) as! V
     }
 }

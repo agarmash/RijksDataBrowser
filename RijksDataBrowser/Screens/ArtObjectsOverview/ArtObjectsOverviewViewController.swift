@@ -25,10 +25,10 @@ class ArtObjectsOverviewViewController: UIViewController {
             (collectionView, kind, indexPath) -> UICollectionReusableView? in
             
             let viewModel = viewModel.headerViewModel(for: indexPath)
-            let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "HeaderView",
-                for: indexPath) as! HeaderView
+            let headerView = collectionView.dequeueSupplementaryView(
+                ofType: ArtObjectsSectionHeaderView.self,
+                kind: .header,
+                for: indexPath)
             
             headerView.fill(with: viewModel)
             
@@ -44,10 +44,7 @@ class ArtObjectsOverviewViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.registerReusableCell(ofType: ArtObjectsOverviewCell.self)
-        collectionView.registerReusableCell(ofType: LoadingCell.self)
-        collectionView.registerReusableCell(ofType: ErrorCell.self)
-        collectionView.registerReusableCell(ofType: EmptyCell.self)
-        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "HeaderView")
+        collectionView.registerSupplementaryView(ofType: ArtObjectsSectionHeaderView.self, kind: .header)
         collectionView.delegate = self
         return collectionView
     }()

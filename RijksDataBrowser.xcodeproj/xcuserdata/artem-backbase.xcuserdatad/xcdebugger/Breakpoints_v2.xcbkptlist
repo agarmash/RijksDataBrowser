@@ -14,8 +14,8 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -200,8 +200,8 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "loadMore()"
             landmarkType = "7">
             <Locations>
@@ -248,25 +248,9 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "104"
+            endingLineNumber = "104"
             landmarkName = "handleLoadedObjects(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CD5229C1-C3FC-4903-AE84-61D70BB1C241"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "makeDataSource(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

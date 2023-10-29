@@ -1,5 +1,5 @@
 //
-//  HeaderView.swift
+//  ArtObjectsSectionHeaderView.swift
 //  RijksDataBrowser
 //
 //  Created by Artem Garmash on 26/10/2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HeaderView: UICollectionReusableView {
+class ArtObjectsSectionHeaderView: UICollectionReusableView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -27,9 +27,9 @@ class HeaderView: UICollectionReusableView {
         super.init(coder: coder)
     }
     
-    private var viewModel: HeaderViewModel!
+    private var viewModel: ArtObjectsSectionHeaderViewModel!
     
-    func fill(with viewModel: HeaderViewModel) {
+    func fill(with viewModel: ArtObjectsSectionHeaderViewModel) {
         titleLabel.text = viewModel.title
     }
     

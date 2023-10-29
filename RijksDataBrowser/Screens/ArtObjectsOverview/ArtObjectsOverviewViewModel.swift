@@ -11,21 +11,7 @@ import UIKit
 final class ArtObjectsOverviewViewModel {
     
     @Published var snapshot: NSDiffableDataSourceSnapshot<Int, Collection.ArtObject> = .init()
-    
-    enum Cell {
-        case empty
-        case loading
-        case artObject(ArtObjectsOverviewCellViewModel)
-        case error
-    }
-    
-    enum CellType {
-        case empty
-        case loading
-        case artObject
-        case error
-    }
-    
+
     enum Action {
         case showDetailsScreen(Collection.ArtObject)
     }
@@ -58,33 +44,33 @@ final class ArtObjectsOverviewViewModel {
         pagedArtObjects[indexPath.section][indexPath.row]
     }
 
-    func cellType(for indexPath: IndexPath) -> CellType {
-        if indexPath.section < pagedArtObjects.count {
-            return .artObject
-        } else if didEncounterError {
-            return .error
-        } else if hasMoreDataToLoad {
-            return .loading
-        } else {
-            return .empty
-        }
-    }
+//    func cellType(for indexPath: IndexPath) -> CellType {
+//        if indexPath.section < pagedArtObjects.count {
+//            return .artObject
+//        } else if didEncounterError {
+//            return .error
+//        } else if hasMoreDataToLoad {
+//            return .loading
+//        } else {
+//            return .empty
+//        }
+//    }
     
     func handleTap(on indexPath: IndexPath) {
-        switch cellType(for: indexPath) {
-        case .artObject:
-            action(.showDetailsScreen(getArtsObject(for: indexPath)))
-        case .error:
-            clearError()
-            loadMore()
-            updateSubject.send()
-        default:
-            return
-        }
+//        switch cellType(for: indexPath) {
+//        case .artObject:
+//            action(.showDetailsScreen(getArtsObject(for: indexPath)))
+//        case .error:
+//            clearError()
+//            loadMore()
+//            updateSubject.send()
+//        default:
+//            return
+//        }
     }
     
-    func headerViewModel(for indexPath: IndexPath) -> HeaderViewModel {
-        HeaderViewModel(pageNumber: indexPath.section + 1)
+    func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModel {
+        ArtObjectsSectionHeaderViewModel(pageNumber: indexPath.section + 1)
     }
     
     func loadMore() {
