@@ -9,11 +9,6 @@ import Foundation
 
 struct Collection {
     struct ArtObject: Hashable {
-        struct Image: Hashable {
-            let url: URL?
-            let width: Int
-            let height: Int
-        }
         let objectNumber: String
         let title: String
         let image: Image

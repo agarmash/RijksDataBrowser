@@ -112,6 +112,7 @@ class ArtObjectDetailsViewController: UIViewController {
             photoContainerView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
             photoContainerView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 8.0),
             photoContainerView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -8.0),
+            photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: viewModel.artObject.image.aspectRatio),
             descriptionLabel.topAnchor.constraint(equalTo: photoContainerView.bottomAnchor, constant: 8.0),
             descriptionLabel.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor, constant: 8.0),
             descriptionLabel.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor, constant: -8.0),

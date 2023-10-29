@@ -25,8 +25,8 @@ struct CollectionDTO: Decodable {
 }
 
 extension CollectionDTO.ArtObjectDTO.WebImageDTO {
-    func toDomain() -> Collection.ArtObject.Image {
-        Collection.ArtObject.Image(
+    func toDomain() -> Image {
+        Image(
             url: URL(string: url),
             width: width,
             height: height)

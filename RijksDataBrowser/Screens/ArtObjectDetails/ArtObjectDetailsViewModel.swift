@@ -30,7 +30,6 @@ class ArtObjectDetailsViewModel {
     @Published var imageState: ImageState = .empty
     
     let artObject: Collection.ArtObject
-//    var collectionDetails: CollectionDetails?
     
     var imageURL: URL?
     
@@ -64,7 +63,7 @@ class ArtObjectDetailsViewModel {
     func preparePresentationData(from collectionDetails: CollectionDetails) {
         title = collectionDetails.title
         description = collectionDetails.description
-        imageURL = collectionDetails.imageURL
+        imageURL = collectionDetails.image.url
         
         loadImage()
     }

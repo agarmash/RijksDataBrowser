@@ -10,5 +10,5 @@ import Foundation
 struct CollectionDetails {
     let title: String
     let description: String
-    let imageURL: URL?
+    let image: Image
 }

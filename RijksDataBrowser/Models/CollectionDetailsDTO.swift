@@ -11,6 +11,8 @@ struct CollectionDetailsDTO: Decodable {
     struct ArtObjectDTO: Decodable {
         struct WebImageDTO: Decodable {
             let url: String
+            let width: Int
+            let height: Int
         }
         
         let title: String
@@ -21,11 +23,20 @@ struct CollectionDetailsDTO: Decodable {
     let artObject: ArtObjectDTO
 }
 
+extension CollectionDetailsDTO.ArtObjectDTO.WebImageDTO {
+    func toDomain() -> Image {
+        Image(
+            url: URL(string: url),
+            width: width,
+            height: height)
+    }
+}
+
 extension CollectionDetailsDTO {
     func toDomain() -> CollectionDetails {
         CollectionDetails(
             title: artObject.title,
             description: artObject.description,
-            imageURL: URL(string: artObject.webImage.url))
+            image: artObject.webImage.toDomain())
     }
 }

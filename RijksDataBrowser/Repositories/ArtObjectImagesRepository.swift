@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ArtObjectImagesRepositoryProtocol {
-    func getImage(for imageObject: Collection.ArtObject.Image) async throws -> UIImage
+    func getImage(for imageObject: Image) async throws -> UIImage
 }
 
 final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
@@ -30,7 +30,7 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
         self.imageLoader = imageLoader
     }
     
-    func getImage(for imageObject: Collection.ArtObject.Image) async throws -> UIImage {
+    func getImage(for imageObject: Image) async throws -> UIImage {
         guard
             let imageURL = imageObject.url
         else {
@@ -50,7 +50,7 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
         return resizedImage
     }
     
-    private func getSizeForResizing(_ imageObject: Collection.ArtObject.Image) -> CGSize {
+    private func getSizeForResizing(_ imageObject: Image) -> CGSize {
         let imageWidth = Double(min(targetImageWidth, imageObject.width))
         let imageHeight = (imageWidth * Double(imageObject.height)) / Double(imageObject.width)
         
