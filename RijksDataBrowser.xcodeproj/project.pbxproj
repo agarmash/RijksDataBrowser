@@ -10,6 +10,9 @@
 		BC03FA472AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA462AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift */; };
 		BC03FA492AEE7B4100DFCADC /* ErrorSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA482AEE7B4100DFCADC /* ErrorSectionHeaderView.swift */; };
 		BC03FA4B2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA4A2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift */; };
+		BC03FA4E2AEECFAE00DFCADC /* LoadableErrorableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA4D2AEECFAE00DFCADC /* LoadableErrorableView.swift */; };
+		BC03FA512AEEE4F200DFCADC /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA502AEEE4F200DFCADC /* CoordinatorProtocol.swift */; };
+		BC03FA532AEEE56100DFCADC /* ArtObjectDetailsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA522AEEE56100DFCADC /* ArtObjectDetailsCoordinator.swift */; };
 		BC28C48A2AEAEAE70008842E /* ArtObjectDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC28C4892AEAEAE70008842E /* ArtObjectDetailsViewController.swift */; };
 		BC28C48C2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC28C48B2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift */; };
 		BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118942AE6C83D00ACC30F /* AppDelegate.swift */; };
@@ -36,7 +39,7 @@
 		BCC118F52AE96E3700ACC30F /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118F42AE96E3700ACC30F /* ImageLoaderService.swift */; };
 		BCC118FA2AE9C28600ACC30F /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118F92AE9C28600ACC30F /* ReusableCell.swift */; };
 		BCC118FC2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118FB2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift */; };
-		BCC2218D2AEA940A003C0989 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC2218C2AEA940A003C0989 /* MainCoordinator.swift */; };
+		BCC2218D2AEA940A003C0989 /* ArtObjectsOverviewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC2218C2AEA940A003C0989 /* ArtObjectsOverviewCoordinator.swift */; };
 		BCC221942AEAA95D003C0989 /* ArtObjectImagesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */; };
 		BCC221D62AEABAD0003C0989 /* ArtObjectsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221D52AEABAD0003C0989 /* ArtObjectsSectionHeaderView.swift */; };
 		BCC221D82AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221D72AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift */; };
@@ -56,6 +59,9 @@
 		BC03FA462AEE7B2E00DFCADC /* LoadingSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSectionHeaderView.swift; sourceTree = "<group>"; };
 		BC03FA482AEE7B4100DFCADC /* ErrorSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSectionHeaderView.swift; sourceTree = "<group>"; };
 		BC03FA4A2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSectionHeaderViewModel.swift; sourceTree = "<group>"; };
+		BC03FA4D2AEECFAE00DFCADC /* LoadableErrorableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadableErrorableView.swift; sourceTree = "<group>"; };
+		BC03FA502AEEE4F200DFCADC /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
+		BC03FA522AEEE56100DFCADC /* ArtObjectDetailsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsCoordinator.swift; sourceTree = "<group>"; };
 		BC28C4892AEAEAE70008842E /* ArtObjectDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewController.swift; sourceTree = "<group>"; };
 		BC28C48B2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewModel.swift; sourceTree = "<group>"; };
 		BCC118912AE6C83D00ACC30F /* RijksDataBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RijksDataBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,7 +91,7 @@
 		BCC118F42AE96E3700ACC30F /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
 		BCC118F92AE9C28600ACC30F /* ReusableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		BCC118FB2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewViewModel.swift; sourceTree = "<group>"; };
-		BCC2218C2AEA940A003C0989 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		BCC2218C2AEA940A003C0989 /* ArtObjectsOverviewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewCoordinator.swift; sourceTree = "<group>"; };
 		BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectImagesRepository.swift; sourceTree = "<group>"; };
 		BCC221D52AEABAD0003C0989 /* ArtObjectsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsSectionHeaderView.swift; sourceTree = "<group>"; };
 		BCC221D72AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsSectionHeaderViewModel.swift; sourceTree = "<group>"; };
@@ -121,6 +127,24 @@
 			path = Headers;
 			sourceTree = "<group>";
 		};
+		BC03FA4C2AEECF8B00DFCADC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BC03FA4D2AEECFAE00DFCADC /* LoadableErrorableView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BC03FA4F2AEEE10600DFCADC /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				BC03FA502AEEE4F200DFCADC /* CoordinatorProtocol.swift */,
+				BCC2218C2AEA940A003C0989 /* ArtObjectsOverviewCoordinator.swift */,
+				BC03FA522AEEE56100DFCADC /* ArtObjectDetailsCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
 		BC28C4882AEAEAB60008842E /* ArtObjectDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +175,8 @@
 		BCC118932AE6C83D00ACC30F /* RijksDataBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				BC03FA4F2AEEE10600DFCADC /* Coordinators */,
+				BC03FA4C2AEECF8B00DFCADC /* Views */,
 				BCC118F72AE9C26E00ACC30F /* Extensions */,
 				BCC118EC2AE945C100ACC30F /* Screens */,
 				BCC118CD2AE707DC00ACC30F /* Models */,
@@ -163,7 +189,6 @@
 				BCC1189D2AE6C83F00ACC30F /* Assets.xcassets */,
 				BCC1189F2AE6C83F00ACC30F /* LaunchScreen.storyboard */,
 				BCC118A22AE6C83F00ACC30F /* Info.plist */,
-				BCC2218C2AEA940A003C0989 /* MainCoordinator.swift */,
 			);
 			path = RijksDataBrowser;
 			sourceTree = "<group>";
@@ -371,6 +396,7 @@
 			files = (
 				BC03FA4B2AEEA76100DFCADC /* ErrorSectionHeaderViewModel.swift in Sources */,
 				BCC118C82AE7070200ACC30F /* EndpointProtocol.swift in Sources */,
+				BC03FA512AEEE4F200DFCADC /* CoordinatorProtocol.swift in Sources */,
 				BCC118D12AE70B4400ACC30F /* CollectionDetailsEndpoint.swift in Sources */,
 				BCC118CF2AE707EF00ACC30F /* CollectionDTO.swift in Sources */,
 				BCC118D72AE70F6F00ACC30F /* RijksDataService.swift in Sources */,
@@ -378,13 +404,15 @@
 				BCC118F32AE96A2D00ACC30F /* ArtObjectsOverviewCellViewModel.swift in Sources */,
 				BCC118992AE6C83D00ACC30F /* ViewController.swift in Sources */,
 				BCC118DD2AE723F900ACC30F /* ArtObjectsRepository.swift in Sources */,
+				BC03FA4E2AEECFAE00DFCADC /* LoadableErrorableView.swift in Sources */,
 				BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */,
+				BC03FA532AEEE56100DFCADC /* ArtObjectDetailsCoordinator.swift in Sources */,
 				BCC118FA2AE9C28600ACC30F /* ReusableCell.swift in Sources */,
 				BCC118D52AE70F4F00ACC30F /* NetworkClient.swift in Sources */,
 				BCC118D92AE7172600ACC30F /* Collection.swift in Sources */,
 				BCC118F12AE9694300ACC30F /* ArtObjectsOverviewCell.swift in Sources */,
 				BCC118DB2AE7236800ACC30F /* CollectionDetails.swift in Sources */,
-				BCC2218D2AEA940A003C0989 /* MainCoordinator.swift in Sources */,
+				BCC2218D2AEA940A003C0989 /* ArtObjectsOverviewCoordinator.swift in Sources */,
 				BCC118FC2AE9C80400ACC30F /* ArtObjectsOverviewViewModel.swift in Sources */,
 				BCC118CA2AE7078200ACC30F /* CollectionEndpoint.swift in Sources */,
 				BCC118D32AE70B6500ACC30F /* CollectionDetailsDTO.swift in Sources */,

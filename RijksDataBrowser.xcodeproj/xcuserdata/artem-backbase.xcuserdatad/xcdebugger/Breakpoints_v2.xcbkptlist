@@ -30,8 +30,8 @@
             filePath = "RijksDataBrowser/Services/Network/ImageLoaderService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "loadImage(with:)"
             landmarkType = "7">
             <Locations>
@@ -166,7 +166,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
          <BreakpointContent
             uuid = "517B1F54-DB68-402D-9C57-3EE6EFBFC988"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             breakpointStackSelectionBehavior = "1"
@@ -202,12 +202,12 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
             endingLineNumber = "74"
-            landmarkName = "ArtObjectsOverviewViewModel"
-            landmarkType = "3">
+            landmarkName = "loadMore()"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - 55577a5283fcc28f"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "RijksDataBrowser.ArtObjectsOverviewViewModel.loadMore() -&gt; ()"
@@ -222,7 +222,7 @@
                </Location>
                <Location
                   uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - b22b8e69c50184a9"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "closure #1 (RijksDataBrowser.ArtObjectsRepository.Result) -&gt; () in RijksDataBrowser.ArtObjectsOverviewViewModel.loadMore() -&gt; ()"
@@ -266,7 +266,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "139"
             endingLineNumber = "139"
-            landmarkName = "preloadArtObject(for:)"
+            landmarkName = "header(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -274,7 +274,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "CB4483BA-B799-4403-A0D7-C7D170A8C6B3"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"

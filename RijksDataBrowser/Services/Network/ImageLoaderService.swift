@@ -18,7 +18,6 @@ final class ImageLoaderService: ImageLoaderServiceProtocol {
             
             guard
                 let image = await UIImage(data: imageData)?.byPreparingThumbnail(ofSize: CGSize(width: 400, height: 400))
-//                let image = UIImage(data: imageData)
             else {
                 throw Error.incorrectDataReceived
             }
