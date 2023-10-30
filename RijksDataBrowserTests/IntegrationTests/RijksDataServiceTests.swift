@@ -24,7 +24,7 @@ final class RijksDataServiceTests: XCTestCase {
     }
 
     func testSuccessfullyGettingCollection() async {
-        let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection?key=0fiuZFh4&p=3&ps=10")!
+        let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection?key=0fiuZFh4&p=3&ps=10&imgonly=true")!
         let responseData = """
         {
           "count": 100,

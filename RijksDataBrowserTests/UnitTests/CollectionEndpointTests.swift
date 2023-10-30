@@ -24,7 +24,7 @@ final class CollectionEndpointTests: XCTestCase {
         let request = try! endpoint.makeRequest()
         XCTAssertEqual(
             request.url,
-            URL(string: "https://www.rijksmuseum.nl/api/en/collection?key=key&p=3&ps=10"))
+            URL(string: "https://www.rijksmuseum.nl/api/en/collection?key=key&p=3&ps=10&imgonly=true"))
     }
     
     func testParsingResponse() {
