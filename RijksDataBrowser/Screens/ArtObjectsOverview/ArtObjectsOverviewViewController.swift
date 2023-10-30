@@ -107,10 +107,12 @@ private extension ArtObjectsOverviewViewController {
     private func makeDataSource(for collectionView: UICollectionView) -> DiffableDataSource {
         let dataSource = DiffableDataSource(
             collectionView: collectionView,
-            cellProvider: { collectionView, indexPath, artObject in
+            cellProvider: { [viewModel] collectionView, indexPath, artObject in
+                guard let viewModel = viewModel else { return UICollectionViewCell()}
+                
                 let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
-                let viewModel = ArtObjectsOverviewCellViewModel(with: artObject, imageRepository: self.viewModel.artObjectImagesRepository)
-                cell.fill(with: viewModel)
+                let cellViewModel = viewModel.makeOverviewCellViewModel(with: artObject)
+                cell.fill(with: cellViewModel)
                 return cell
             }
         )

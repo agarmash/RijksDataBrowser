@@ -37,13 +37,13 @@ protocol ArtObjectsOverviewViewModelProtocol {
     
     var snapshot: CurrentValueSubject<DiffableSnapshot, Never> { get }
     var updateSubject: PassthroughSubject<Void, Never> { get }
-    var artObjectImagesRepository: ArtObjectImagesRepositoryProtocol { get } //TODO remove
     
     func handleTap(on indexPath: IndexPath)
     func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModelProtocol
     func loadMore()
     func preloadArtObject(for indexPath: IndexPath)
     func header(for indexPath: IndexPath) -> HeaderType
+    func makeOverviewCellViewModel(with artObject: Collection.ArtObject) -> ArtObjectsOverviewCellViewModelProtocol
 }
 
 final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
@@ -59,7 +59,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     private let action: (Action) -> Void
     
     private let artObjectsRepository: ArtObjectsRepositoryProtocol
-    let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
+    private let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
     private var pagedArtObjects: [[Collection.ArtObject]] = []
     private var hasMoreDataToLoad = true
@@ -144,6 +144,14 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
             })
             return .error(viewModel)
         }
+    }
+    
+    func makeOverviewCellViewModel(
+        with artObject: Collection.ArtObject
+    ) -> ArtObjectsOverviewCellViewModelProtocol {
+        ArtObjectsOverviewCellViewModel(
+            with: artObject,
+            imageRepository: artObjectImagesRepository)
     }
     
     // MARK: - Private Methods
