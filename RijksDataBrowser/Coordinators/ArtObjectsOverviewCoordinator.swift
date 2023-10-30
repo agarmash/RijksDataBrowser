@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
+final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
 
     // MARK: - Private Properties
 
@@ -23,7 +23,6 @@ class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
     // MARK: - Public Methods
 
     func start() {
-//        let presenter = UINavigationController()
         window.rootViewController = presenter
         
         let artObjectsRepository = ArtObjectsRepository(
@@ -49,7 +48,9 @@ class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
         window.makeKeyAndVisible()
     }
     
-    func showDetailsScreen(artObject: Collection.ArtObject) {
+    // MARK: - Private Methods
+    
+    private func showDetailsScreen(artObject: Collection.ArtObject) {
         let detailsCoordinator = ArtObjectDetailsCoordinator(
             artObject: artObject,
             presenter: presenter)

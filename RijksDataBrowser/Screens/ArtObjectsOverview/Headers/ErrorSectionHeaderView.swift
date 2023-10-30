@@ -7,7 +7,10 @@
 
 import UIKit
 
-class ErrorSectionHeaderView: UICollectionReusableView {
+final class ErrorSectionHeaderView: UICollectionReusableView {
+    
+    // MARK: - Public Properties
+    
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -22,11 +25,9 @@ class ErrorSectionHeaderView: UICollectionReusableView {
         return recognizer
     }()
     
-    @objc func handleTapEvent() {
-        viewModel.didTapOnView?()
-    }
+    private var viewModel: ErrorSectionHeaderViewModel!
     
-    var viewModel: ErrorSectionHeaderViewModel!
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -39,11 +40,15 @@ class ErrorSectionHeaderView: UICollectionReusableView {
         super.init(coder: coder)
     }
     
+    // MARK: - Public Methods
+    
     func fill(with viewModel: ErrorSectionHeaderViewModel) {
         self.viewModel = viewModel
     }
     
-    func setupLayout() {
+    // MARK: - Private Methods
+    
+    private func setupLayout() {
         addGestureRecognizer(tapGestureRecognizer)
         
         addSubview(errorLabel)
@@ -54,5 +59,9 @@ class ErrorSectionHeaderView: UICollectionReusableView {
             topAnchor.constraint(lessThanOrEqualTo: errorLabel.topAnchor),
             leadingAnchor.constraint(lessThanOrEqualTo: errorLabel.leadingAnchor)
         ])
+    }
+    
+    @objc private func handleTapEvent() {
+        viewModel.didTapOnView()
     }
 }

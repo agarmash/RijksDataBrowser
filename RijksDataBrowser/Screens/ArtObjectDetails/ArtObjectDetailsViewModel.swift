@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ArtObjectDetailsViewModel {
+final class ArtObjectDetailsViewModel {
+    
+    // MARK: - Types
     
     enum State {
         case empty
@@ -23,6 +25,8 @@ class ArtObjectDetailsViewModel {
         case error(String)
     }
     
+    // MARK: - Public Properties
+    
     @Published var state: State = .empty
     
     @Published var title: String = ""
@@ -31,10 +35,14 @@ class ArtObjectDetailsViewModel {
     
     let artObject: Collection.ArtObject
     
-    var image: Image?
+    // MARK: - Private Properties
     
-    let imagesRepository: ArtObjectImagesRepositoryProtocol
-    let collectionDetailsService: RijksCollectionDetailsDataServiceProtocol
+    private var image: Image?
+    
+    private let imagesRepository: ArtObjectImagesRepositoryProtocol
+    private let collectionDetailsService: RijksCollectionDetailsDataServiceProtocol
+    
+    // MARK: - Init
     
     init(
         artObject: Collection.ArtObject,
@@ -45,6 +53,8 @@ class ArtObjectDetailsViewModel {
         self.imagesRepository = imagesRepository
         self.collectionDetailsService = collectionDetailsService
     }
+    
+    // MARK: - Public Methods
     
     func loadDetails() {
         state = .loading
@@ -59,14 +69,6 @@ class ArtObjectDetailsViewModel {
                 state = .error("Network error: \(error.localizedDescription)")
             }
         }
-    }
-    
-    func preparePresentationData(from collectionDetails: CollectionDetails) {
-        title = collectionDetails.title
-        description = collectionDetails.description
-        image = collectionDetails.image
-        
-        loadImage()
     }
     
     func loadImage() {
@@ -87,5 +89,15 @@ class ArtObjectDetailsViewModel {
                 imageState = .error("Network error: \(error.localizedDescription)")
             }
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func preparePresentationData(from collectionDetails: CollectionDetails) {
+        title = collectionDetails.title
+        description = collectionDetails.description
+        image = collectionDetails.image
+        
+        loadImage()
     }
 }

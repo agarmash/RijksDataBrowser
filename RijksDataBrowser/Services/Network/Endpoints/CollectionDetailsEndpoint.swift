@@ -10,13 +10,25 @@ import Foundation
 final class CollectionDetailsEndpoint: EndpointProtocol {
     typealias Response = CollectionDetailsDTO
     
+    // MARK: - Types
+    
+    enum CollectionDetailsEndpointError: Error {
+        case invalidData(Error)
+    }
+    
+    // MARK: - Private Properties
+    
     private let apiKey = "0fiuZFh4"
     
     private let objectNumber: String
     
+    // MARK: - Init
+    
     init(objectNumber: String) {
         self.objectNumber = objectNumber
     }
+    
+    // MARK: - Public Methods
     
     func makeRequest() throws -> URLRequest {
         let culture = "en"
@@ -51,9 +63,5 @@ final class CollectionDetailsEndpoint: EndpointProtocol {
         }
         
         return dto
-    }
-    
-    enum CollectionDetailsEndpointError: Error {
-        case invalidData(Error)
     }
 }

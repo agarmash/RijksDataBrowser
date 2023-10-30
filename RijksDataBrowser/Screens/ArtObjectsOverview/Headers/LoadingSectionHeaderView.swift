@@ -7,13 +7,18 @@
 
 import UIKit
 
-class LoadingSectionHeaderView: UICollectionReusableView {
+final class LoadingSectionHeaderView: UICollectionReusableView {
+    
+    // MARK: - Private Properties
+    
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.startAnimating()
         return indicator
     }()
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,11 +31,15 @@ class LoadingSectionHeaderView: UICollectionReusableView {
         super.init(coder: coder)
     }
     
+    // MARK: - Public Methods
+    
     override func prepareForReuse() {
         loadingIndicator.startAnimating()
     }
     
-    func setupLayout() {
+    // MARK: - Private Methods
+    
+    private func setupLayout() {
         addSubview(loadingIndicator)
         
         NSLayoutConstraint.activate([

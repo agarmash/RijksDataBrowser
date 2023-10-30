@@ -8,7 +8,9 @@
 import Combine
 import UIKit
 
-class ArtObjectDetailsViewController: UIViewController {
+final class ArtObjectDetailsViewController: UIViewController {
+    
+    // MARK: - Private Properties
     
     private lazy var containerView: LoadableErrorableView = {
         let view = LoadableErrorableView(
@@ -63,6 +65,10 @@ class ArtObjectDetailsViewController: UIViewController {
     }()
     
     private let viewModel: ArtObjectDetailsViewModel!
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Init
 
     init(viewModel: ArtObjectDetailsViewModel) {
         self.viewModel = viewModel
@@ -76,6 +82,8 @@ class ArtObjectDetailsViewController: UIViewController {
         
         super.init(coder: coder)
     }
+    
+    // MARK: - UIViewController
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +92,8 @@ class ArtObjectDetailsViewController: UIViewController {
         bindViewModel()
         viewModel.loadDetails()
     }
+    
+    // MARK: - Private Methods
     
     private func setupLayout() {
         view.addSubview(containerView)
@@ -121,8 +131,6 @@ class ArtObjectDetailsViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
     }
-    
-    var cancellables = Set<AnyCancellable>()
 
     private func bindViewModel() {
         viewModel
@@ -176,5 +184,4 @@ class ArtObjectDetailsViewController: UIViewController {
             }
             .store(in: &cancellables)
     }
-
 }

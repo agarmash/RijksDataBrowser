@@ -7,14 +7,21 @@
 
 import Foundation
 
-class ArtObjectsSectionHeaderViewModel {
-    private let pageNumber: Int
+final class ArtObjectsSectionHeaderViewModel {
     
-    init(pageNumber: Int) {
-        self.pageNumber = pageNumber
-    }
+    // MARK: - Public Properties
     
     var title: String {
         "Page \(pageNumber)"
+    }
+    
+    // MARK: - Private Properties
+    
+    private let pageNumber: Int
+    
+    // MARK: - Init
+    
+    init(pageNumber: Int) {
+        self.pageNumber = pageNumber
     }
 }

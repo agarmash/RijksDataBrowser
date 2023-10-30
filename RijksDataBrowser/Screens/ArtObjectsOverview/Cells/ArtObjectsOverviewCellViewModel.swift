@@ -10,6 +10,8 @@ import UIKit
 
 final class ArtObjectsOverviewCellViewModel {
     
+    // MARK: - Types
+    
     enum ImageState {
         case empty
         case loading
@@ -17,8 +19,24 @@ final class ArtObjectsOverviewCellViewModel {
         case error(String)
     }
     
+    // MARK: - Public Properties
+    
+    var title: String {
+        artObject.title
+    }
+    
+    var photoAspectRatio: CGFloat {
+        CGFloat(artObject.image.width) / CGFloat(artObject.image.height)
+    }
+    
+    @Published var photo: ImageState = .empty
+    
+    // MARK: - Private Properties
+    
     private let artObject: Collection.ArtObject
     private let imageRepository: ArtObjectImagesRepositoryProtocol
+    
+    // MARK: - Init
     
     init(
         with artObject: Collection.ArtObject,
@@ -32,15 +50,7 @@ final class ArtObjectsOverviewCellViewModel {
         }
     }
     
-    var title: String {
-        artObject.title
-    }
-    
-    var photoAspectRatio: CGFloat {
-        CGFloat(artObject.image.width) / CGFloat(artObject.image.height)
-    }
-    
-    @Published var photo: ImageState = .empty
+    // MARK: - Public Methods
     
     func loadPhoto() {
         Task {

@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ArtObjectsSectionHeaderView: UICollectionReusableView {
+final class ArtObjectsSectionHeaderView: UICollectionReusableView {
+    
+    // MARK: - Private Properties
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -15,6 +17,10 @@ class ArtObjectsSectionHeaderView: UICollectionReusableView {
         label.font = .systemFont(ofSize: 11, weight: .semibold)
         return label
     }()
+    
+    private var viewModel: ArtObjectsSectionHeaderViewModel!
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,18 +33,19 @@ class ArtObjectsSectionHeaderView: UICollectionReusableView {
         super.init(coder: coder)
     }
     
-    private var viewModel: ArtObjectsSectionHeaderViewModel!
+    // MARK: - Public Methods
     
     func fill(with viewModel: ArtObjectsSectionHeaderViewModel) {
         titleLabel.text = viewModel.title
     }
     
-    func setupLayout() {
+    // MARK: - Private Methods
+    
+    private func setupLayout() {
         addSubview(titleLabel)
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8.0)
-//            heightAnchor.constraint(equalToConstant: 24.0)
         ])
         
         backgroundColor = .lightGray

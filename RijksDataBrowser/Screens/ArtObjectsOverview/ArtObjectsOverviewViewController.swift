@@ -8,9 +8,99 @@
 import Combine
 import UIKit
 
-class ArtObjectsOverviewViewController: UIViewController {
+final class ArtObjectsOverviewViewController: UIViewController {
     
-    func makeDataSource(for collectionView: UICollectionView) -> DiffableDataSource {
+    // MARK: - Private Properties
+    
+    private var dataSource: DiffableDataSource?
+    
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.registerReusableCell(ofType: ArtObjectsOverviewCell.self)
+        collectionView.registerSupplementaryView(ofType: ArtObjectsSectionHeaderView.self, kind: .header)
+        collectionView.registerSupplementaryView(ofType: LoadingSectionHeaderView.self, kind: .header)
+        collectionView.registerSupplementaryView(ofType: ErrorSectionHeaderView.self, kind: .header)
+        collectionView.delegate = self
+        return collectionView
+    }()
+    
+    private let viewModel: ArtObjectsOverviewViewModel!
+    
+    private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Init
+    
+    init(viewModel: ArtObjectsOverviewViewModel) {
+        self.viewModel = viewModel
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        self.viewModel = nil
+        
+        super.init(coder: coder)
+    }
+    
+    // MARK: - UIViewController
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        _ = collectionView
+        dataSource = makeDataSource(for: collectionView)
+        collectionView.dataSource = dataSource
+
+        setupLayout()
+        bindViewModel()
+        
+        viewModel.loadMore()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func bindViewModel() {
+        viewModel
+            .$snapshot
+            .receive(on: DispatchQueue.main)
+            .sink { [dataSource] snapshot in
+                dataSource?.apply(snapshot, animatingDifferences: true)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func setupLayout() {
+        view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            view.topAnchor.constraint(equalTo: collectionView.topAnchor),
+            view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+}
+
+extension ArtObjectsOverviewViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        viewModel.handleTap(on: indexPath)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willDisplay cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        viewModel.preloadArtObject(for: indexPath)
+    }
+}
+
+private extension ArtObjectsOverviewViewController {
+    private func makeDataSource(for collectionView: UICollectionView) -> DiffableDataSource {
         let dataSource = DiffableDataSource(
             collectionView: collectionView,
             cellProvider: { collectionView, indexPath, artObject in
@@ -56,91 +146,6 @@ class ArtObjectsOverviewViewController: UIViewController {
         return dataSource
     }
     
-    private var dataSource: DiffableDataSource?
-    
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.registerReusableCell(ofType: ArtObjectsOverviewCell.self)
-        collectionView.registerSupplementaryView(ofType: ArtObjectsSectionHeaderView.self, kind: .header)
-        collectionView.registerSupplementaryView(ofType: LoadingSectionHeaderView.self, kind: .header)
-        collectionView.registerSupplementaryView(ofType: ErrorSectionHeaderView.self, kind: .header)
-        collectionView.delegate = self
-        return collectionView
-    }()
-    
-    let viewModel: ArtObjectsOverviewViewModel!
-    
-    private var retainedBindings: [AnyCancellable] = []
-    
-    init(viewModel: ArtObjectsOverviewViewModel) {
-        self.viewModel = viewModel
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        self.viewModel = nil
-        
-        super.init(coder: coder)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        _ = collectionView
-        dataSource = makeDataSource(for: collectionView)
-        collectionView.dataSource = dataSource
-
-        setupLayout()
-        bindViewModel()
-        
-        viewModel.loadMore()
-    }
-    
-    private func bindViewModel() {
-        viewModel
-            .$snapshot
-            .receive(on: DispatchQueue.main)
-            .sink { [dataSource] snapshot in
-                dataSource?.apply(snapshot, animatingDifferences: true)
-            }
-            .store(in: &retainedBindings)
-    }
-    
-    private func setupLayout() {
-        view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            view.topAnchor.constraint(equalTo: collectionView.topAnchor),
-            view.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-
-
-}
-
-extension ArtObjectsOverviewViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deselectItem(at: indexPath, animated: true)
-        
-        viewModel.handleTap(on: indexPath)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        willDisplay cell: UICollectionViewCell,
-        forItemAt indexPath: IndexPath
-    ) {
-        viewModel.preloadArtObject(for: indexPath)
-    }
-}
-
-extension ArtObjectsOverviewViewController {
-    
     func makeCollectionViewLayout() -> UICollectionViewLayout {
 
         let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
@@ -159,7 +164,7 @@ extension ArtObjectsOverviewViewController {
         let section = NSCollectionLayoutSection(group: group)
         
         let headerSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
+            widthDimension: .fractionalWidth(1),
             heightDimension: .estimated(50)
         )
 

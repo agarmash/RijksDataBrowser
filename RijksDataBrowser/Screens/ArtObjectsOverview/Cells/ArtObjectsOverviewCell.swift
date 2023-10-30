@@ -8,12 +8,14 @@
 import Combine
 import UIKit
 
-class ArtObjectsOverviewCell: UICollectionViewCell {
+final class ArtObjectsOverviewCell: UICollectionViewCell {
     
     private enum Constants {
         static let insetSize: CGFloat = 8.0
         static let labelHeight: CGFloat = 20.0
     }
+    
+    // MARK: - Private Properties
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -46,7 +48,9 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
     
     private var viewModel: ArtObjectsOverviewCellViewModel!
     
-    private var retainedBindings: [AnyCancellable] = []
+    private var cancellables = Set<AnyCancellable>()
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,16 +63,26 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
+    // MARK: - Public Methods
+    
     func fill(with viewModel: ArtObjectsOverviewCellViewModel) {
         self.viewModel = viewModel
         
         bindViewModel()
     }
     
+    override func prepareForReuse() {
+        cancellables.removeAll()
+        
+        photoImageView.image = nil
+    }
+    
+    // MARK: - Private Methods
+    
     private func bindViewModel() {
         titleLabel.text = viewModel.title
         
-        let photoImageViewBinding = viewModel
+        viewModel
             .$photo
             .receive(on: DispatchQueue.main)
             .sink { [photoImageView, photoContainerView] imageState in
@@ -84,13 +98,12 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
                     break
                 }
             }
-        
-        retainedBindings.append(photoImageViewBinding)
-        
+            .store(in: &cancellables)
+
         setPhotoImageViewAspectRatio(viewModel.photoAspectRatio)
     }
     
-    func setPhotoImageViewAspectRatio(_ ratio: CGFloat) {
+    private func setPhotoImageViewAspectRatio(_ ratio: CGFloat) {
         NSLayoutConstraint.deactivate([photoImageViewAspectRatioConstraint])
 
         let constraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: ratio)
@@ -99,12 +112,6 @@ class ArtObjectsOverviewCell: UICollectionViewCell {
         photoImageViewAspectRatioConstraint = constraint
         
         contentView.layoutSubviews()
-    }
-    
-    override func prepareForReuse() {
-        retainedBindings.removeAll()
-        
-        photoImageView.image = nil
     }
     
     private func setupLayout() {

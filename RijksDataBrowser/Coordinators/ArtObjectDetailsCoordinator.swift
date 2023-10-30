@@ -7,10 +7,14 @@
 
 import UIKit
 
-class ArtObjectDetailsCoordinator: CoordinatorProtocol {
+final class ArtObjectDetailsCoordinator: CoordinatorProtocol {
     
-    let artObject: Collection.ArtObject
-    let presenter: UINavigationController
+    // MARK: - Private Properties
+    
+    private let artObject: Collection.ArtObject
+    private let presenter: UINavigationController
+    
+    // MARK: - Init
     
     init(
         artObject: Collection.ArtObject,
@@ -19,6 +23,8 @@ class ArtObjectDetailsCoordinator: CoordinatorProtocol {
         self.artObject = artObject
         self.presenter = presenter
     }
+    
+    // MARK: - Public Methods
     
     func start() {
         let viewModel = ArtObjectDetailsViewModel(

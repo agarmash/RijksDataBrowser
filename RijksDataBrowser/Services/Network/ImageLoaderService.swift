@@ -12,12 +12,21 @@ protocol ImageLoaderServiceProtocol {
 }
 
 final class ImageLoaderService: ImageLoaderServiceProtocol {
+    // MARK: - Types
+    
+    enum Error: Swift.Error {
+        case networkError(URLError)
+        case incorrectDataReceived
+    }
+    
+    // MARK: - Public Methods
+    
     func loadImage(with url: URL) async throws -> UIImage {
         do {
             let (imageData, _) = try await URLSession.shared.data(from: url)
             
             guard
-                let image = await UIImage(data: imageData)?.byPreparingThumbnail(ofSize: CGSize(width: 400, height: 400))
+                let image = UIImage(data: imageData)
             else {
                 throw Error.incorrectDataReceived
             }
@@ -26,10 +35,5 @@ final class ImageLoaderService: ImageLoaderServiceProtocol {
         } catch let error as URLError {
             throw Error.networkError(error)
         }
-    }
-    
-    enum Error: Swift.Error {
-        case networkError(URLError)
-        case incorrectDataReceived
     }
 }

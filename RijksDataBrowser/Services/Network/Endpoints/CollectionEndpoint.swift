@@ -10,15 +10,27 @@ import Foundation
 final class CollectionEndpoint: EndpointProtocol {
     typealias Response = CollectionDTO
     
+    // MARK: - Types
+    
+    enum CollectionEndpointError: Error {
+        case invalidData(Error)
+    }
+    
+    // MARK: - Private Properties
+    
     private let apiKey = "0fiuZFh4"
     
     private let page: Int
     private let pageSize: Int
     
+    // MARK: - Init
+    
     init(page: Int, pageSize: Int) {
         self.page = page
         self.pageSize = pageSize
     }
+    
+    // MARK: - Public Methods
     
     func makeRequest() throws -> URLRequest {
         let culture = "en"
@@ -54,9 +66,5 @@ final class CollectionEndpoint: EndpointProtocol {
         }
         
         return dto
-    }
-    
-    enum CollectionEndpointError: Error {
-        case invalidData(Error)
     }
 }

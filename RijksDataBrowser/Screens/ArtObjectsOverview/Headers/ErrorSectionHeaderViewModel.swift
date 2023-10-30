@@ -7,6 +7,15 @@
 
 import Foundation
 
-class ErrorSectionHeaderViewModel {
-    var didTapOnView: (() -> Void)?
+final class ErrorSectionHeaderViewModel {
+    
+    // MARK: - Public Properties
+    
+    let didTapOnView: (() -> Void)
+    
+    // MARK: - Init
+    
+    init(didTapOnView: @escaping () -> Void) {
+        self.didTapOnView = didTapOnView
+    }
 }

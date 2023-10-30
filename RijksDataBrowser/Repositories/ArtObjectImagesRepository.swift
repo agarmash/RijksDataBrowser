@@ -13,14 +13,19 @@ protocol ArtObjectImagesRepositoryProtocol {
 
 final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
     
+    // MARK: - Types
+    
     enum Error: Swift.Error {
         case missingImageURL
         case unableToPrepareThumbnail
     }
     
-    let imageLoader: ImageLoaderServiceProtocol
+    // MARK: - Private Properties
     
-    let targetImageWidth: Int
+    private let imageLoader: ImageLoaderServiceProtocol
+    private let targetImageWidth: Int
+    
+    // MARK: - Init
     
     init(
         targetImageWidth: Int,
@@ -29,6 +34,8 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
         self.targetImageWidth = targetImageWidth
         self.imageLoader = imageLoader
     }
+    
+    // MARK: - Public Methods
     
     func getImage(for imageObject: Image) async throws -> UIImage {
         guard
@@ -49,6 +56,8 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
 
         return resizedImage
     }
+    
+    // MARK: - Private Methods
     
     private func getSizeForResizing(_ imageObject: Image) -> CGSize {
         let imageWidth = Double(min(targetImageWidth, imageObject.width))

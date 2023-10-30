@@ -13,7 +13,7 @@ typealias DiffableSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewView
 
 final class ArtObjectsOverviewViewModel {
     
-    @Published var snapshot: DiffableSnapshot = .init()
+    // MARK: - Types
     
     enum SectionType: Hashable {
         case artObjectsPage(Int)
@@ -31,11 +31,24 @@ final class ArtObjectsOverviewViewModel {
         case showDetailsScreen(Collection.ArtObject)
     }
     
+    // MARK: - Public Properties
+    
+    @Published var snapshot: DiffableSnapshot = .init()
+    
+    let updateSubject = PassthroughSubject<Void, Never>()
+    
+    // MARK: - Private Properties
+    
     private let action: (Action) -> Void
+    
     private let artObjectsRepository: ArtObjectsRepositoryProtocol
     let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
-    let updateSubject = PassthroughSubject<Void, Never>()
+    private var pagedArtObjects: [[Collection.ArtObject]] = []
+    private var hasMoreDataToLoad = true
+    private var didEncounterError = false
+    
+    // MARK: - Init
     
     init(
         action: @escaping (Action) -> Void,
@@ -47,13 +60,7 @@ final class ArtObjectsOverviewViewModel {
         self.artObjectImagesRepository = artObjectImagesRepository
     }
     
-    private var pagedArtObjects: [[Collection.ArtObject]] = []
-    private var hasMoreDataToLoad = true
-    private var didEncounterError = false
-    
-    private func shouldDisplayExtraSectionWithCell() -> Bool {
-        hasMoreDataToLoad || didEncounterError
-    }
+    // MARK: - Public Methods
     
     func handleTap(on indexPath: IndexPath) {
         switch snapshot.sectionIdentifiers[indexPath.section] {
@@ -79,6 +86,7 @@ final class ArtObjectsOverviewViewModel {
                 self.pagedArtObjects = objects
                 self.showLoadedObjects(objects)
             case .nothingMoreToLoad:
+                self.removeStatusViews()
                 self.hasMoreDataToLoad = false
             case .error:
                 self.showError()
@@ -87,38 +95,6 @@ final class ArtObjectsOverviewViewModel {
 
             self.updateSubject.send()
         }
-    }
-    
-    func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
-        var snapshot = DiffableSnapshot()
-        
-        let sections = objects.indices.map { SectionType.artObjectsPage($0) }
-        
-        snapshot.appendSections(sections)
-        
-        for (index, section) in sections.enumerated() {
-            snapshot.appendItems(objects[index], toSection: section)
-        }
-        
-        self.snapshot = snapshot
-    }
-    
-    func showLoader() {
-        var snapshot = self.snapshot
-        
-        snapshot.deleteSections([.error, .loading])
-        snapshot.appendSections([.loading])
-        
-        self.snapshot = snapshot
-    }
-    
-    func showError() {
-        var snapshot = self.snapshot
-        
-        snapshot.deleteSections([.error, .loading])
-        snapshot.appendSections([.error])
-        
-        self.snapshot = snapshot
     }
     
     func preloadArtObject(for indexPath: IndexPath) {
@@ -145,13 +121,54 @@ final class ArtObjectsOverviewViewModel {
         case .loading:
             return .loading
         case .error:
-            let viewModel = ErrorSectionHeaderViewModel()
-            viewModel.didTapOnView = { [weak self] in
+            let viewModel = ErrorSectionHeaderViewModel(didTapOnView: { [weak self] in
                 self?.clearError()
                 self?.loadMore()
-            }
+            })
             return .error(viewModel)
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
+        var snapshot = DiffableSnapshot()
+        
+        let sections = objects.indices.map { SectionType.artObjectsPage($0) }
+        
+        snapshot.appendSections(sections)
+        
+        for (index, section) in sections.enumerated() {
+            snapshot.appendItems(objects[index], toSection: section)
+        }
+        
+        self.snapshot = snapshot
+    }
+    
+    private func showLoader() {
+        var snapshot = self.snapshot
+        
+        snapshot.deleteSections([.error, .loading])
+        snapshot.appendSections([.loading])
+        
+        self.snapshot = snapshot
+    }
+    
+    private func showError() {
+        var snapshot = self.snapshot
+        
+        snapshot.deleteSections([.error, .loading])
+        snapshot.appendSections([.error])
+        
+        self.snapshot = snapshot
+    }
+    
+    private func removeStatusViews() {
+        var snapshot = self.snapshot
+        
+        snapshot.deleteSections([.error, .loading])
+        
+        self.snapshot = snapshot
     }
     
     private func clearError() {

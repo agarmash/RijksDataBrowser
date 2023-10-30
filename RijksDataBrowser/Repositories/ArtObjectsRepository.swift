@@ -14,6 +14,8 @@ protocol ArtObjectsRepositoryProtocol {
 
 final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     
+    // MARK: - Types
+    
     public enum Result {
         case updatedObjects([[Collection.ArtObject]])
         case nothingMoreToLoad
@@ -24,6 +26,8 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
         case previousErrorHasntBeenCleared
         case networkError(URLError)
     }
+    
+    // MARK: - Private Properties
     
     // API Constants
     private let pageSize = 20
@@ -43,25 +47,13 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     // Private queues
     private let apiCallsQueue = DispatchQueue(label: "APICallsQueue")
     
+    // MARK: - Init
+    
     init(dataService: RijksCollectionDataServiceProtocol) {
         self.dataService = dataService
     }
     
-    private func canLoadMore() -> Bool {
-        guard
-            let artObjectsCount = artObjectsCount
-        else {
-            return true // state when nothing has been loaded so far
-        }
-        
-        return loadedArtObjectsCount < min(countThreshold, artObjectsCount)
-    }
-    
-    private func getNextPageNumber() -> Int {
-        // Turns out that the API expects page numbers to start from 1.
-        // Response for index 0 is equal to the one for index 1.
-        self.pagedArtObjects.count + 1
-    }
+    // MARK: - Public Methods
     
     func loadMore(completion: @escaping (ArtObjectsRepository.Result) -> Void) {
         apiCallsQueue.async { [weak self] in
@@ -117,6 +109,24 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
             // subsequent dispatch blocks are cancelled
             self?.didEncounterError = false
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func canLoadMore() -> Bool {
+        guard
+            let artObjectsCount = artObjectsCount
+        else {
+            return true // state when nothing has been loaded so far
+        }
+        
+        return loadedArtObjectsCount < min(countThreshold, artObjectsCount)
+    }
+    
+    private func getNextPageNumber() -> Int {
+        // Turns out that the API expects page numbers to start from 1.
+        // Response for index 0 is equal to the one for index 1.
+        self.pagedArtObjects.count + 1
     }
 }
 

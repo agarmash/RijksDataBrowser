@@ -7,7 +7,9 @@
 
 import UIKit
 
-class LoadableErrorableView: UIView {
+final class LoadableErrorableView: UIView {
+    
+    // MARK: - Types
     
     enum State {
         case empty
@@ -15,6 +17,8 @@ class LoadableErrorableView: UIView {
         case presentingContent
         case error(String)
     }
+    
+    // MARK: - Private Properties
     
     private let contentView: UIView
     
@@ -52,6 +56,8 @@ class LoadableErrorableView: UIView {
     
     private let retryAction: (LoadableErrorableView) -> Void
 
+    // MARK: - Init
+    
     init(
         contentView: UIView,
         retryAction: @escaping (LoadableErrorableView) -> Void,
@@ -75,9 +81,7 @@ class LoadableErrorableView: UIView {
         super.init(coder: coder)
     }
     
-    @objc func retry() {
-        retryAction(self)
-    }
+    // MARK: - Public Methods
     
     func setState(_ state: State) {
         switch state {
@@ -100,6 +104,12 @@ class LoadableErrorableView: UIView {
             errorView.isHidden = false
             errorMessageLabel.text = errorMessage
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    @objc private func retry() {
+        retryAction(self)
     }
     
     private func setupLayout() {

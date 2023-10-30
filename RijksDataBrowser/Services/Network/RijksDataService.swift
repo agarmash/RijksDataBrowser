@@ -17,11 +17,17 @@ protocol RijksCollectionDetailsDataServiceProtocol {
 
 final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectionDetailsDataServiceProtocol {
     
+    // MARK: - Private Properties
+    
     private let client: NetworkClientProtocol
+    
+    // MARK: - Init
     
     init(client: NetworkClientProtocol) {
         self.client = client
     }
+    
+    // MARK: - Public Methods
     
     func getCollection(page: Int, pageSize: Int) async throws -> CollectionDTO {
         let endpoint = CollectionEndpoint(page: page, pageSize: pageSize)
