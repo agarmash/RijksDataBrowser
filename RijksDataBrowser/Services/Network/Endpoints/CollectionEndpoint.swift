@@ -43,7 +43,8 @@ final class CollectionEndpoint: EndpointProtocol {
         components.queryItems = [
             URLQueryItem(name: "key", value: apiKey),
             URLQueryItem(name: "p", value: "\(page)"),
-            URLQueryItem(name: "ps", value: "\(pageSize)")
+            URLQueryItem(name: "ps", value: "\(pageSize)"),
+            URLQueryItem(name: "imgonly", value: "true")
         ]
         
         guard
