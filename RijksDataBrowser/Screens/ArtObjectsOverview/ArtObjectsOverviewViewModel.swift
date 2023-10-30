@@ -33,10 +33,9 @@ protocol ArtObjectsOverviewViewModelProtocol {
     var snapshot: CurrentValueSubject<DiffableSnapshot, Never> { get }
     
     func handleTap(on indexPath: IndexPath)
-    func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModelProtocol
     func loadMore()
     func preloadArtObject(for indexPath: IndexPath)
-    func header(for indexPath: IndexPath) -> HeaderType
+    func makeHeader(for indexPath: IndexPath) -> HeaderType
     func makeOverviewCellViewModel(with artObject: Collection.ArtObject) -> ArtObjectsOverviewCellViewModelProtocol
 }
 
@@ -86,11 +85,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
             return
         }
     }
-    
-    func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModelProtocol {
-        ArtObjectsSectionHeaderViewModel(pageNumber: indexPath.section + 1)
-    }
-    
+
     func loadMore() {
         showLoader()
         artObjectsRepository.loadMore { [weak self] result in
@@ -126,10 +121,10 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         }
     }
     
-    func header(for indexPath: IndexPath) -> HeaderType {
+    func makeHeader(for indexPath: IndexPath) -> HeaderType {
         switch snapshot.value.sectionIdentifiers[indexPath.section] {
         case .artObjectsPage(let pageNumber):
-            let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber)
+            let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber + 1)
             return .artObjectsPage(viewModel)
         case .loading:
             return .loading

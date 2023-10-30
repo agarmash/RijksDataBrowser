@@ -120,7 +120,7 @@ private extension ArtObjectsOverviewViewController {
         dataSource.supplementaryViewProvider = { [unowned self]
             (collectionView, kind, indexPath) -> UICollectionReusableView? in
 
-            switch viewModel.header(for: indexPath) {
+            switch viewModel.makeHeader(for: indexPath) {
             case .artObjectsPage(let viewModel):
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofType: ArtObjectsSectionHeaderView.self,
@@ -171,7 +171,7 @@ private extension ArtObjectsOverviewViewController {
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(50)
+            heightDimension: .absolute(50)
         )
 
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
