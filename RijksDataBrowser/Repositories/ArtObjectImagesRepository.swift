@@ -61,7 +61,7 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
     
     private func getSizeForResizing(_ imageObject: Image) -> CGSize {
         let imageWidth = Double(min(targetImageWidth, imageObject.width))
-        let imageHeight = (imageWidth * Double(imageObject.height)) / Double(imageObject.width)
+        let imageHeight = imageWidth / imageObject.aspectRatio
         
         return CGSize(width: imageWidth, height: imageHeight)
     }
