@@ -27,6 +27,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     enum Error: Swift.Error {
         case previousErrorHasntBeenCleared
         case networkError(URLError)
+        case unknownError
     }
     
     // MARK: - Private Properties
@@ -94,8 +95,10 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
                     completion(.updatedObjects(self.pagedArtObjects))
                 } catch let error as URLError {
                     self.didEncounterError = true
-                    
                     completion(.error(Error.networkError(error)))
+                } catch {
+                    self.didEncounterError = true
+                    completion(.error(Error.unknownError))
                 }
                 
                 semaphore.signal()

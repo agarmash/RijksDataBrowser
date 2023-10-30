@@ -17,6 +17,7 @@ final class ImageLoaderService: ImageLoaderServiceProtocol {
     enum Error: Swift.Error {
         case networkError(URLError)
         case incorrectDataReceived
+        case unknownError
     }
     
     // MARK: - Public Methods
@@ -34,6 +35,8 @@ final class ImageLoaderService: ImageLoaderServiceProtocol {
             return image
         } catch let error as URLError {
             throw Error.networkError(error)
+        } catch {
+            throw Error.unknownError
         }
     }
 }
