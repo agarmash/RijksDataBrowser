@@ -13,22 +13,18 @@ final class ArtObjectDetailsCoordinator: CoordinatorProtocol {
     
     private let artObject: Collection.ArtObject
     private let presenter: UINavigationController
-    
-    private let imagesRepository: ArtObjectImagesRepositoryProtocol
-    private let collectionDetailsService: RijksCollectionDetailsDataServiceProtocol
+    private let dependencyContainer: DependencyContainerProtocol
     
     // MARK: - Init
     
     init(
         artObject: Collection.ArtObject,
         presenter: UINavigationController,
-        imagesRepository: ArtObjectImagesRepositoryProtocol,
-        collectionDetailsService: RijksCollectionDetailsDataServiceProtocol
+        dependencyContainer: DependencyContainerProtocol
     ) {
         self.artObject = artObject
         self.presenter = presenter
-        self.imagesRepository = imagesRepository
-        self.collectionDetailsService = collectionDetailsService
+        self.dependencyContainer = dependencyContainer
     }
     
     // MARK: - Public Methods
@@ -36,8 +32,8 @@ final class ArtObjectDetailsCoordinator: CoordinatorProtocol {
     func start() {
         let viewModel = ArtObjectDetailsViewModel(
             artObject: artObject,
-            imagesRepository: imagesRepository,
-            collectionDetailsService: collectionDetailsService)
+            imagesRepository: dependencyContainer.artObjectImagesRepository,
+            collectionDetailsService: dependencyContainer.rijksCollectionDetailsService)
         
         let viewController = ArtObjectDetailsViewController(viewModel: viewModel)
         presenter.pushViewController(viewController, animated: true)

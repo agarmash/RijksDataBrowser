@@ -20,8 +20,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         let window = UIWindow(windowScene: windowScene)
         self.window = window
+        
+        let dependencyContainer = DependencyContainer(
+            targetImageWidth: Int(window.frame.width))
 
-        mainCoordinator = ArtObjectsOverviewCoordinator(window: window)
+        mainCoordinator = ArtObjectsOverviewCoordinator(
+            window: window,
+            dependencyContainer: dependencyContainer)
         mainCoordinator?.start()
     }
 }
