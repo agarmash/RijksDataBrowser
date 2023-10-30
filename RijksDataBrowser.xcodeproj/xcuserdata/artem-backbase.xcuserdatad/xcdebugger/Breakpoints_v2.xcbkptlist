@@ -140,8 +140,8 @@
             filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/Cells/ArtObjectsOverviewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "bindViewModel()"
             landmarkType = "7">
          </BreakpointContent>

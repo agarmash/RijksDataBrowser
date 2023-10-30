@@ -12,7 +12,6 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
     
     private enum Constants {
         static let insetSize: CGFloat = 8.0
-        static let labelHeight: CGFloat = 20.0
     }
     
     // MARK: - Private Properties
