@@ -10,6 +10,10 @@ import UIKit
 
 final class ArtObjectsOverviewViewController: UIViewController {
     
+    // MARK: - Types
+    
+    typealias DiffableDataSource = ArtObjectsOverviewDataSource
+    
     // MARK: - Private Properties
     
     private var dataSource: DiffableDataSource?
@@ -25,13 +29,13 @@ final class ArtObjectsOverviewViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: ArtObjectsOverviewViewModel!
+    private let viewModel: ArtObjectsOverviewViewModelProtocol!
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     
-    init(viewModel: ArtObjectsOverviewViewModel) {
+    init(viewModel: ArtObjectsOverviewViewModelProtocol) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -63,7 +67,7 @@ final class ArtObjectsOverviewViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel
-            .$snapshot
+            .snapshot
             .receive(on: DispatchQueue.main)
             .sink { [dataSource] snapshot in
                 dataSource?.apply(snapshot, animatingDifferences: true)

@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class ArtObjectsSectionHeaderViewModel {
+protocol ArtObjectsSectionHeaderViewModelProtocol {
+    var title: String { get }
+}
+
+final class ArtObjectsSectionHeaderViewModel: ArtObjectsSectionHeaderViewModelProtocol {
     
     // MARK: - Public Properties
     

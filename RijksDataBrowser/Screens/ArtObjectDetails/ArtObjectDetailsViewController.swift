@@ -64,13 +64,13 @@ final class ArtObjectDetailsViewController: UIViewController {
         return label
     }()
     
-    private let viewModel: ArtObjectDetailsViewModel!
+    private let viewModel: ArtObjectDetailsViewModelProtocol!
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
 
-    init(viewModel: ArtObjectDetailsViewModel) {
+    init(viewModel: ArtObjectDetailsViewModelProtocol) {
         self.viewModel = viewModel
         
         super.init(nibName: nil, bundle: nil)
@@ -134,7 +134,7 @@ final class ArtObjectDetailsViewController: UIViewController {
 
     private func bindViewModel() {
         viewModel
-            .$state
+            .state
             .receive(on: DispatchQueue.main)
             .sink { [containerView] state in
                 switch state {
@@ -151,7 +151,7 @@ final class ArtObjectDetailsViewController: UIViewController {
             .store(in: &cancellables)
         
         viewModel
-            .$title
+            .title
             .receive(on: DispatchQueue.main)
             .sink { [titleLabel] title in
                 titleLabel.text = title
@@ -159,7 +159,7 @@ final class ArtObjectDetailsViewController: UIViewController {
             .store(in: &cancellables)
         
         viewModel
-            .$description
+            .description
             .receive(on: DispatchQueue.main)
             .sink { [descriptionLabel] description in
                 descriptionLabel.text = description
@@ -167,7 +167,7 @@ final class ArtObjectDetailsViewController: UIViewController {
             .store(in: &cancellables)
         
         viewModel
-            .$imageState
+            .imageState
             .receive(on: DispatchQueue.main)
             .sink { [photoImageView, photoContainerView] imageState in
                 switch imageState {

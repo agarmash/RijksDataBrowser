@@ -5,33 +5,46 @@
 //  Created by Artem Garmash on 26/10/2023.
 //
 
+import Combine
 import UIKit
 
-final class ArtObjectDetailsViewModel {
+enum ArtObjectDetailsState {
+    case empty
+    case loading
+    case presentingContent
+    case error(String)
+}
+
+enum ArtObjectDetailsImageState {
+    case empty
+    case loading
+    case loaded(UIImage)
+    case error(String)
+}
+
+protocol ArtObjectDetailsViewModelProtocol {
+    typealias State = ArtObjectDetailsState
+    typealias ImageState = ArtObjectDetailsImageState
     
-    // MARK: - Types
+    var state: CurrentValueSubject<State, Never> { get }
+    var title: CurrentValueSubject<String, Never> { get }
+    var description: CurrentValueSubject<String, Never> { get }
+    var imageState: CurrentValueSubject<ImageState, Never> { get }
+    var artObject: Collection.ArtObject { get }
     
-    enum State {
-        case empty
-        case loading
-        case presentingContent
-        case error(String)
-    }
-    
-    enum ImageState {
-        case empty
-        case loading
-        case loaded(UIImage)
-        case error(String)
-    }
+    func loadDetails()
+    func loadImage()
+}
+
+final class ArtObjectDetailsViewModel: ArtObjectDetailsViewModelProtocol {
     
     // MARK: - Public Properties
     
-    @Published var state: State = .empty
+    var state = CurrentValueSubject<State, Never>(.empty)
     
-    @Published var title: String = ""
-    @Published var description: String = ""
-    @Published var imageState: ImageState = .empty
+    var title = CurrentValueSubject<String, Never>("")
+    var description = CurrentValueSubject<String, Never>("")
+    var imageState = CurrentValueSubject<ImageState, Never>(.empty)
     
     let artObject: Collection.ArtObject
     
@@ -57,16 +70,16 @@ final class ArtObjectDetailsViewModel {
     // MARK: - Public Methods
     
     func loadDetails() {
-        state = .loading
+        state.value = .loading
         Task {
             do {
                 let collectionDetails = try await collectionDetailsService
                     .getCollectionDetails(for: artObject.objectNumber)
                 
                 preparePresentationData(from: collectionDetails.toDomain())
-                state = .presentingContent
+                state.value = .presentingContent
             } catch let error as URLError {
-                state = .error("Network error: \(error.localizedDescription)")
+                state.value = .error("Network error: \(error.localizedDescription)")
             }
         }
     }
@@ -74,19 +87,19 @@ final class ArtObjectDetailsViewModel {
     func loadImage() {
         guard let image = image else { return }
         
-        imageState = .loading
+        imageState.value = .loading
         Task {
             do {
                 let image = try await imagesRepository.getImage(for: image)
-                imageState = .loaded(image)
+                imageState.value = .loaded(image)
             } catch ArtObjectImagesRepository.Error.missingImageURL {
-                imageState = .error("Image URL is missing")
+                imageState.value = .error("Image URL is missing")
             } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
-                imageState = .error("Unable to prepare a resized image")
+                imageState.value = .error("Unable to prepare a resized image")
             } catch ImageLoaderService.Error.incorrectDataReceived {
-                imageState = .error("Incorrect image data received")
+                imageState.value = .error("Incorrect image data received")
             } catch ImageLoaderService.Error.networkError(let error) {
-                imageState = .error("Network error: \(error.localizedDescription)")
+                imageState.value = .error("Network error: \(error.localizedDescription)")
             }
         }
     }
@@ -94,8 +107,8 @@ final class ArtObjectDetailsViewModel {
     // MARK: - Private Methods
     
     private func preparePresentationData(from collectionDetails: CollectionDetails) {
-        title = collectionDetails.title
-        description = collectionDetails.description
+        title.value = collectionDetails.title
+        description.value = collectionDetails.description
         image = collectionDetails.image
         
         loadImage()

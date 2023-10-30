@@ -46,7 +46,7 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
     
     private var photoImageViewAspectRatioConstraint: NSLayoutConstraint!
     
-    private var viewModel: ArtObjectsOverviewCellViewModel!
+    private var viewModel: ArtObjectsOverviewCellViewModelProtocol?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -65,7 +65,7 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
     
     // MARK: - Public Methods
     
-    func fill(with viewModel: ArtObjectsOverviewCellViewModel) {
+    func fill(with viewModel: ArtObjectsOverviewCellViewModelProtocol) {
         self.viewModel = viewModel
         
         bindViewModel()
@@ -80,10 +80,12 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
     // MARK: - Private Methods
     
     private func bindViewModel() {
+        guard let viewModel = viewModel else { return }
+        
         titleLabel.text = viewModel.title
         
         viewModel
-            .$photo
+            .photo
             .receive(on: DispatchQueue.main)
             .sink { [photoImageView, photoContainerView] imageState in
                 switch imageState {

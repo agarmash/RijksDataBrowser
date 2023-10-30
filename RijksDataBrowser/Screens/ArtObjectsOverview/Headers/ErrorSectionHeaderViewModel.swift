@@ -7,7 +7,11 @@
 
 import Foundation
 
-final class ErrorSectionHeaderViewModel {
+protocol ErrorSectionHeaderViewModelProtocol {
+    var didTapOnView: (() -> Void) { get }
+}
+
+final class ErrorSectionHeaderViewModel: ErrorSectionHeaderViewModelProtocol {
     
     // MARK: - Public Properties
     

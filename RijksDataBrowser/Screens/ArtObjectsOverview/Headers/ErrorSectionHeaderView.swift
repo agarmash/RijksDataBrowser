@@ -25,7 +25,7 @@ final class ErrorSectionHeaderView: UICollectionReusableView {
         return recognizer
     }()
     
-    private var viewModel: ErrorSectionHeaderViewModel!
+    private var viewModel: ErrorSectionHeaderViewModelProtocol?
     
     // MARK: - Init
     
@@ -42,7 +42,7 @@ final class ErrorSectionHeaderView: UICollectionReusableView {
     
     // MARK: - Public Methods
     
-    func fill(with viewModel: ErrorSectionHeaderViewModel) {
+    func fill(with viewModel: ErrorSectionHeaderViewModelProtocol) {
         self.viewModel = viewModel
     }
     
@@ -62,6 +62,6 @@ final class ErrorSectionHeaderView: UICollectionReusableView {
     }
     
     @objc private func handleTapEvent() {
-        viewModel.didTapOnView()
+        viewModel?.didTapOnView()
     }
 }

@@ -18,8 +18,6 @@ final class ArtObjectsSectionHeaderView: UICollectionReusableView {
         return label
     }()
     
-    private var viewModel: ArtObjectsSectionHeaderViewModel!
-    
     // MARK: - Init
     
     override init(frame: CGRect) {
@@ -35,7 +33,7 @@ final class ArtObjectsSectionHeaderView: UICollectionReusableView {
     
     // MARK: - Public Methods
     
-    func fill(with viewModel: ArtObjectsSectionHeaderViewModel) {
+    func fill(with viewModel: ArtObjectsSectionHeaderViewModelProtocol) {
         titleLabel.text = viewModel.title
     }
     

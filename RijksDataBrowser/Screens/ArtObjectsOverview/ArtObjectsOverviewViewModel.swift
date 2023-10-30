@@ -8,32 +8,49 @@
 import Combine
 import UIKit
 
-typealias DiffableDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewViewModel.SectionType, Collection.ArtObject>
-typealias DiffableSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewViewModel.SectionType, Collection.ArtObject>
+typealias ArtObjectsOverviewDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewSectionType, Collection.ArtObject>
+typealias ArtObjectsOverviewSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewSectionType, Collection.ArtObject>
 
-final class ArtObjectsOverviewViewModel {
-    
-    // MARK: - Types
-    
-    enum SectionType: Hashable {
-        case artObjectsPage(Int)
-        case loading
-        case error
-    }
-    
-    enum Header {
-        case artObjectsPage(ArtObjectsSectionHeaderViewModel)
-        case loading
-        case error(ErrorSectionHeaderViewModel)
-    }
+enum ArtObjectsOverviewSectionType: Hashable {
+    case artObjectsPage(Int)
+    case loading
+    case error
+}
 
-    enum Action {
-        case showDetailsScreen(Collection.ArtObject)
-    }
+enum ArtObjectsOverviewHeaderType {
+    case artObjectsPage(ArtObjectsSectionHeaderViewModelProtocol)
+    case loading
+    case error(ErrorSectionHeaderViewModelProtocol)
+}
+
+enum ArtObjectsOverviewAction {
+    case showDetailsScreen(Collection.ArtObject)
+}
+
+protocol ArtObjectsOverviewViewModelProtocol {
+    typealias SectionType = ArtObjectsOverviewSectionType
+    typealias HeaderType = ArtObjectsOverviewHeaderType
+    typealias Action = ArtObjectsOverviewAction
     
+    typealias DiffableDataSource = ArtObjectsOverviewDataSource
+    typealias DiffableSnapshot = ArtObjectsOverviewSnapshot
+    
+    var snapshot: CurrentValueSubject<DiffableSnapshot, Never> { get }
+    var updateSubject: PassthroughSubject<Void, Never> { get }
+    var artObjectImagesRepository: ArtObjectImagesRepositoryProtocol { get } //TODO remove
+    
+    func handleTap(on indexPath: IndexPath)
+    func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModelProtocol
+    func loadMore()
+    func preloadArtObject(for indexPath: IndexPath)
+    func header(for indexPath: IndexPath) -> HeaderType
+}
+
+final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
+
     // MARK: - Public Properties
     
-    @Published var snapshot: DiffableSnapshot = .init()
+    var snapshot = CurrentValueSubject<DiffableSnapshot, Never>(.init())
     
     let updateSubject = PassthroughSubject<Void, Never>()
     
@@ -63,7 +80,7 @@ final class ArtObjectsOverviewViewModel {
     // MARK: - Public Methods
     
     func handleTap(on indexPath: IndexPath) {
-        switch snapshot.sectionIdentifiers[indexPath.section] {
+        switch snapshot.value.sectionIdentifiers[indexPath.section] {
         case .artObjectsPage:
             let artObject = pagedArtObjects[indexPath.section][indexPath.row]
             action(.showDetailsScreen(artObject))
@@ -72,7 +89,7 @@ final class ArtObjectsOverviewViewModel {
         }
     }
     
-    func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModel {
+    func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModelProtocol {
         ArtObjectsSectionHeaderViewModel(pageNumber: indexPath.section + 1)
     }
     
@@ -113,8 +130,8 @@ final class ArtObjectsOverviewViewModel {
         }
     }
     
-    func header(for indexPath: IndexPath) -> Header {
-        switch snapshot.sectionIdentifiers[indexPath.section] {
+    func header(for indexPath: IndexPath) -> HeaderType {
+        switch snapshot.value.sectionIdentifiers[indexPath.section] {
         case .artObjectsPage(let pageNumber):
             let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber)
             return .artObjectsPage(viewModel)
@@ -142,33 +159,33 @@ final class ArtObjectsOverviewViewModel {
             snapshot.appendItems(objects[index], toSection: section)
         }
         
-        self.snapshot = snapshot
+        self.snapshot.value = snapshot
     }
     
     private func showLoader() {
-        var snapshot = self.snapshot
+        var snapshot = self.snapshot.value
         
         snapshot.deleteSections([.error, .loading])
         snapshot.appendSections([.loading])
         
-        self.snapshot = snapshot
+        self.snapshot.value = snapshot
     }
     
     private func showError() {
-        var snapshot = self.snapshot
+        var snapshot = self.snapshot.value
         
         snapshot.deleteSections([.error, .loading])
         snapshot.appendSections([.error])
         
-        self.snapshot = snapshot
+        self.snapshot.value = snapshot
     }
     
     private func removeStatusViews() {
-        var snapshot = self.snapshot
+        var snapshot = self.snapshot.value
         
         snapshot.deleteSections([.error, .loading])
         
-        self.snapshot = snapshot
+        self.snapshot.value = snapshot
     }
     
     private func clearError() {

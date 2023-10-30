@@ -8,16 +8,24 @@
 import Combine
 import UIKit
 
-final class ArtObjectsOverviewCellViewModel {
+protocol ArtObjectsOverviewCellViewModelProtocol {
+    typealias ImageState = ArtObjectsOverviewCellImageState
     
-    // MARK: - Types
+    var title: String { get }
+    var photoAspectRatio: CGFloat { get }
+    var photo: CurrentValueSubject<ImageState, Never> { get }
     
-    enum ImageState {
-        case empty
-        case loading
-        case loaded(UIImage)
-        case error(String)
-    }
+    func loadPhoto()
+}
+
+enum ArtObjectsOverviewCellImageState {
+    case empty
+    case loading
+    case loaded(UIImage)
+    case error(String)
+}
+
+final class ArtObjectsOverviewCellViewModel: ArtObjectsOverviewCellViewModelProtocol {
     
     // MARK: - Public Properties
     
@@ -29,7 +37,7 @@ final class ArtObjectsOverviewCellViewModel {
         CGFloat(artObject.image.width) / CGFloat(artObject.image.height)
     }
     
-    @Published var photo: ImageState = .empty
+    var photo = CurrentValueSubject<ImageState, Never>(.empty)
     
     // MARK: - Private Properties
     
@@ -55,17 +63,17 @@ final class ArtObjectsOverviewCellViewModel {
     func loadPhoto() {
         Task {
             do {
-                photo = .loading
+                photo.value = .loading
                 let image = try await imageRepository.getImage(for: artObject.image)
-                photo = .loaded(image)
+                photo.value = .loaded(image)
             } catch ArtObjectImagesRepository.Error.missingImageURL {
-                photo = .error("Image URL is missing")
+                photo.value = .error("Image URL is missing")
             } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
-                photo = .error("Unable to prepare a resized image")
+                photo.value = .error("Unable to prepare a resized image")
             } catch ImageLoaderService.Error.incorrectDataReceived {
-                photo = .error("Incorrect image data received")
+                photo.value = .error("Incorrect image data received")
             } catch ImageLoaderService.Error.networkError(let error) {
-                photo = .error("Network error: \(error.localizedDescription)")
+                photo.value = .error("Network error: \(error.localizedDescription)")
             }
         }
     }
