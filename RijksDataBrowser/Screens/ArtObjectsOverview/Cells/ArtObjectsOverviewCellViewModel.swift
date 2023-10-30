@@ -34,7 +34,7 @@ final class ArtObjectsOverviewCellViewModel: ArtObjectsOverviewCellViewModelProt
     }
     
     var photoAspectRatio: CGFloat {
-        CGFloat(artObject.image.width) / CGFloat(artObject.image.height)
+        artObject.image.aspectRatio
     }
     
     var photo = CurrentValueSubject<ImageState, Never>(.empty)
