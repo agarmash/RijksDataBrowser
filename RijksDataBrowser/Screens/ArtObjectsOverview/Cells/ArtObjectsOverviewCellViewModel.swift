@@ -74,6 +74,8 @@ final class ArtObjectsOverviewCellViewModel: ArtObjectsOverviewCellViewModelProt
                 photo.value = .error("Incorrect image data received")
             } catch ImageLoaderService.Error.networkError(let error) {
                 photo.value = .error("Network error: \(error.localizedDescription)")
+            } catch {
+                photo.value = .error("Unknown error")
             }
         }
     }

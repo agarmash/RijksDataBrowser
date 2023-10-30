@@ -31,7 +31,6 @@ protocol ArtObjectsOverviewViewModelProtocol {
     typealias DiffableSnapshot = ArtObjectsOverviewSnapshot
     
     var snapshot: CurrentValueSubject<DiffableSnapshot, Never> { get }
-    var updateSubject: PassthroughSubject<Void, Never> { get }
     
     func handleTap(on indexPath: IndexPath)
     func headerViewModel(for indexPath: IndexPath) -> ArtObjectsSectionHeaderViewModelProtocol
@@ -52,8 +51,6 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     // MARK: - Public Properties
     
     var snapshot = CurrentValueSubject<DiffableSnapshot, Never>(.init())
-    
-    let updateSubject = PassthroughSubject<Void, Never>()
     
     // MARK: - Private Properties
     
@@ -110,8 +107,6 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
                 self.showError()
                 self.didEncounterError = true
             }
-
-            self.updateSubject.send()
         }
     }
     

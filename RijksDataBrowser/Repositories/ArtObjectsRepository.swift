@@ -7,8 +7,16 @@
 
 import Foundation
 
+enum ArtObjectsRepositoryResult {
+    case updatedObjects([[Collection.ArtObject]])
+    case nothingMoreToLoad
+    case error(Error)
+}
+
 protocol ArtObjectsRepositoryProtocol {
-    func loadMore(completion: @escaping (ArtObjectsRepository.Result) -> Void)
+    typealias Result = ArtObjectsRepositoryResult
+    
+    func loadMore(completion: @escaping (Result) -> Void)
     func clearError()
 }
 
@@ -16,13 +24,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     
     // MARK: - Types
     
-    public enum Result {
-        case updatedObjects([[Collection.ArtObject]])
-        case nothingMoreToLoad
-        case error(Error)
-    }
-    
-    public enum Error: Swift.Error {
+    enum Error: Swift.Error {
         case previousErrorHasntBeenCleared
         case networkError(URLError)
     }
@@ -69,7 +71,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
             guard
                 !self.didEncounterError
             else {
-                completion(.error(.previousErrorHasntBeenCleared))
+                completion(.error(Error.previousErrorHasntBeenCleared))
                 return
             }
                 
@@ -93,7 +95,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
                 } catch let error as URLError {
                     self.didEncounterError = true
                     
-                    completion(.error(.networkError(error)))
+                    completion(.error(Error.networkError(error)))
                 }
                 
                 semaphore.signal()

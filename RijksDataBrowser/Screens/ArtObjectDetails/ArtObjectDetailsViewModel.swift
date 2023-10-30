@@ -8,14 +8,14 @@
 import Combine
 import UIKit
 
-enum ArtObjectDetailsState {
+enum ArtObjectDetailsState: Equatable {
     case empty
     case loading
     case presentingContent
     case error(String)
 }
 
-enum ArtObjectDetailsImageState {
+enum ArtObjectDetailsImageState: Equatable {
     case empty
     case loading
     case loaded(UIImage)
@@ -80,6 +80,8 @@ final class ArtObjectDetailsViewModel: ArtObjectDetailsViewModelProtocol {
                 state.value = .presentingContent
             } catch let error as URLError {
                 state.value = .error("Network error: \(error.localizedDescription)")
+            } catch {
+                state.value = .error("Unknown error")
             }
         }
     }
@@ -100,6 +102,8 @@ final class ArtObjectDetailsViewModel: ArtObjectDetailsViewModelProtocol {
                 imageState.value = .error("Incorrect image data received")
             } catch ImageLoaderService.Error.networkError(let error) {
                 imageState.value = .error("Network error: \(error.localizedDescription)")
+            } catch {
+                imageState.value = .error("Unknown error")
             }
         }
     }

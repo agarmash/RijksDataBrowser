@@ -19,6 +19,13 @@
 		BC7C69172AEF4D2B00C90677 /* NetworkClientStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69162AEF4D2A00C90677 /* NetworkClientStub.swift */; };
 		BC7C691A2AEF4D8E00C90677 /* RijksDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69192AEF4D8E00C90677 /* RijksDataServiceTests.swift */; };
 		BC7C691E2AEF521200C90677 /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C691D2AEF521200C90677 /* DependencyContainer.swift */; };
+		BC7C69202AEF55D300C90677 /* ArtObjectsSectionHeaderViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C691F2AEF55D300C90677 /* ArtObjectsSectionHeaderViewModelTests.swift */; };
+		BC7C69222AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69212AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift */; };
+		BC7C69242AEF577500C90677 /* RijksCollectionDetailsDataServiceStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69232AEF577500C90677 /* RijksCollectionDetailsDataServiceStub.swift */; };
+		BC7C69262AEF583600C90677 /* ArtObjectDetailsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69252AEF583600C90677 /* ArtObjectDetailsViewModelTests.swift */; };
+		BC7C69282AEF626D00C90677 /* TestExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69272AEF626D00C90677 /* TestExtensions.swift */; };
+		BC7C692A2AEF650600C90677 /* ArtObjectsRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69292AEF650600C90677 /* ArtObjectsRepositoryStub.swift */; };
+		BC7C692C2AEF65FD00C90677 /* ArtObjectsOverviewViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C692B2AEF65FD00C90677 /* ArtObjectsOverviewViewModelTests.swift */; };
 		BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118942AE6C83D00ACC30F /* AppDelegate.swift */; };
 		BCC118972AE6C83D00ACC30F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */; };
 		BCC1189E2AE6C83F00ACC30F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC1189D2AE6C83F00ACC30F /* Assets.xcassets */; };
@@ -72,6 +79,13 @@
 		BC7C69162AEF4D2A00C90677 /* NetworkClientStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientStub.swift; sourceTree = "<group>"; };
 		BC7C69192AEF4D8E00C90677 /* RijksDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksDataServiceTests.swift; sourceTree = "<group>"; };
 		BC7C691D2AEF521200C90677 /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
+		BC7C691F2AEF55D300C90677 /* ArtObjectsSectionHeaderViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsSectionHeaderViewModelTests.swift; sourceTree = "<group>"; };
+		BC7C69212AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectImagesRepositoryStub.swift; sourceTree = "<group>"; };
+		BC7C69232AEF577500C90677 /* RijksCollectionDetailsDataServiceStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksCollectionDetailsDataServiceStub.swift; sourceTree = "<group>"; };
+		BC7C69252AEF583600C90677 /* ArtObjectDetailsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewModelTests.swift; sourceTree = "<group>"; };
+		BC7C69272AEF626D00C90677 /* TestExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestExtensions.swift; sourceTree = "<group>"; };
+		BC7C69292AEF650600C90677 /* ArtObjectsRepositoryStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsRepositoryStub.swift; sourceTree = "<group>"; };
+		BC7C692B2AEF65FD00C90677 /* ArtObjectsOverviewViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsOverviewViewModelTests.swift; sourceTree = "<group>"; };
 		BCC118912AE6C83D00ACC30F /* RijksDataBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RijksDataBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCC118942AE6C83D00ACC30F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -214,6 +228,7 @@
 				BC7C69182AEF4D6F00C90677 /* IntegrationTests */,
 				BCFBA99C2AEF44A500949694 /* UnitTests */,
 				BCFBA99D2AEF44B700949694 /* Stubs */,
+				BC7C69272AEF626D00C90677 /* TestExtensions.swift */,
 			);
 			path = RijksDataBrowserTests;
 			sourceTree = "<group>";
@@ -311,6 +326,9 @@
 				BCC118E82AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift */,
 				BCFBA99E2AEF452900949694 /* CollectionEndpointTests.swift */,
 				BCFBA9A02AEF482000949694 /* CollectionDetailsEndpointTests.swift */,
+				BC7C691F2AEF55D300C90677 /* ArtObjectsSectionHeaderViewModelTests.swift */,
+				BC7C69252AEF583600C90677 /* ArtObjectDetailsViewModelTests.swift */,
+				BC7C692B2AEF65FD00C90677 /* ArtObjectsOverviewViewModelTests.swift */,
 			);
 			path = UnitTests;
 			sourceTree = "<group>";
@@ -320,6 +338,9 @@
 			children = (
 				BCC118EA2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift */,
 				BC7C69162AEF4D2A00C90677 /* NetworkClientStub.swift */,
+				BC7C69212AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift */,
+				BC7C69232AEF577500C90677 /* RijksCollectionDetailsDataServiceStub.swift */,
+				BC7C69292AEF650600C90677 /* ArtObjectsRepositoryStub.swift */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -470,10 +491,17 @@
 			files = (
 				BCC118E92AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift in Sources */,
 				BC7C69172AEF4D2B00C90677 /* NetworkClientStub.swift in Sources */,
+				BC7C69222AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift in Sources */,
 				BCFBA9A12AEF482000949694 /* CollectionDetailsEndpointTests.swift in Sources */,
+				BC7C692C2AEF65FD00C90677 /* ArtObjectsOverviewViewModelTests.swift in Sources */,
 				BC7C691A2AEF4D8E00C90677 /* RijksDataServiceTests.swift in Sources */,
+				BC7C69202AEF55D300C90677 /* ArtObjectsSectionHeaderViewModelTests.swift in Sources */,
+				BC7C69242AEF577500C90677 /* RijksCollectionDetailsDataServiceStub.swift in Sources */,
 				BCC118EB2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift in Sources */,
+				BC7C692A2AEF650600C90677 /* ArtObjectsRepositoryStub.swift in Sources */,
+				BC7C69262AEF583600C90677 /* ArtObjectDetailsViewModelTests.swift in Sources */,
 				BCFBA99F2AEF452900949694 /* CollectionEndpointTests.swift in Sources */,
+				BC7C69282AEF626D00C90677 /* TestExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
