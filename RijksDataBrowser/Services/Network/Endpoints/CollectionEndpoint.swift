@@ -18,16 +18,16 @@ final class CollectionEndpoint: EndpointProtocol {
     
     // MARK: - Private Properties
     
-    private let apiKey = "0fiuZFh4"
-    
     private let page: Int
     private let pageSize: Int
+    private let apiKey: String
     
     // MARK: - Init
     
-    init(page: Int, pageSize: Int) {
+    init(page: Int, pageSize: Int, apiKey: String) {
         self.page = page
         self.pageSize = pageSize
+        self.apiKey = apiKey
     }
     
     // MARK: - Public Methods

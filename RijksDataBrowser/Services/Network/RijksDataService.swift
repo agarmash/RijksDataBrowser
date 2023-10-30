@@ -20,6 +20,7 @@ final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectio
     // MARK: - Private Properties
     
     private let client: NetworkClientProtocol
+    private let apiKey = "0fiuZFh4"
     
     // MARK: - Init
     
@@ -30,13 +31,13 @@ final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectio
     // MARK: - Public Methods
     
     func getCollection(page: Int, pageSize: Int) async throws -> CollectionDTO {
-        let endpoint = CollectionEndpoint(page: page, pageSize: pageSize)
+        let endpoint = CollectionEndpoint(page: page, pageSize: pageSize, apiKey: apiKey)
         
         return try await client.makeRequest(with: endpoint)
     }
     
     func getCollectionDetails(for objectNumber: String) async throws -> CollectionDetailsDTO {
-        let endpoint = CollectionDetailsEndpoint(objectNumber: objectNumber)
+        let endpoint = CollectionDetailsEndpoint(objectNumber: objectNumber, apiKey: apiKey)
         
         return try await client.makeRequest(with: endpoint)
     }

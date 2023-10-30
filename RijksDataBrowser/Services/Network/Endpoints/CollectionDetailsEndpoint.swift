@@ -17,15 +17,15 @@ final class CollectionDetailsEndpoint: EndpointProtocol {
     }
     
     // MARK: - Private Properties
-    
-    private let apiKey = "0fiuZFh4"
-    
+        
     private let objectNumber: String
+    private let apiKey: String
     
     // MARK: - Init
     
-    init(objectNumber: String) {
+    init(objectNumber: String, apiKey: String) {
         self.objectNumber = objectNumber
+        self.apiKey = apiKey
     }
     
     // MARK: - Public Methods
