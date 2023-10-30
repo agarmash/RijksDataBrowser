@@ -39,9 +39,11 @@ extension CollectionDTO {
     static func makeDummy(count: Int, itemsPerPage: Int) -> CollectionDTO {
         let artObject = CollectionDTO.ArtObjectDTO(
             objectNumber: "number1",
-            longTitle: "title1",
+            title: "title1",
             webImage: CollectionDTO.ArtObjectDTO.WebImageDTO(
-                url: "https://test.com/1.jpg"))
+                url: "https://test.com/1.jpg",
+                width: 400,
+                height: 300))
         
         return CollectionDTO(
             count: count,

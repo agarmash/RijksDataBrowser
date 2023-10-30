@@ -16,6 +16,8 @@
 		BC03FA552AEEEFCD00DFCADC /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC03FA542AEEEFCD00DFCADC /* Image.swift */; };
 		BC28C48A2AEAEAE70008842E /* ArtObjectDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC28C4892AEAEAE70008842E /* ArtObjectDetailsViewController.swift */; };
 		BC28C48C2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC28C48B2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift */; };
+		BC7C69172AEF4D2B00C90677 /* NetworkClientStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69162AEF4D2A00C90677 /* NetworkClientStub.swift */; };
+		BC7C691A2AEF4D8E00C90677 /* RijksDataServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7C69192AEF4D8E00C90677 /* RijksDataServiceTests.swift */; };
 		BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118942AE6C83D00ACC30F /* AppDelegate.swift */; };
 		BCC118972AE6C83D00ACC30F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */; };
 		BCC1189E2AE6C83F00ACC30F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC1189D2AE6C83F00ACC30F /* Assets.xcassets */; };
@@ -42,6 +44,8 @@
 		BCC221942AEAA95D003C0989 /* ArtObjectImagesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */; };
 		BCC221D62AEABAD0003C0989 /* ArtObjectsSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221D52AEABAD0003C0989 /* ArtObjectsSectionHeaderView.swift */; };
 		BCC221D82AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC221D72AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift */; };
+		BCFBA99F2AEF452900949694 /* CollectionEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBA99E2AEF452900949694 /* CollectionEndpointTests.swift */; };
+		BCFBA9A12AEF482000949694 /* CollectionDetailsEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFBA9A02AEF482000949694 /* CollectionDetailsEndpointTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,8 @@
 		BC03FA542AEEEFCD00DFCADC /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		BC28C4892AEAEAE70008842E /* ArtObjectDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewController.swift; sourceTree = "<group>"; };
 		BC28C48B2AEAEBF70008842E /* ArtObjectDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectDetailsViewModel.swift; sourceTree = "<group>"; };
+		BC7C69162AEF4D2A00C90677 /* NetworkClientStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientStub.swift; sourceTree = "<group>"; };
+		BC7C69192AEF4D8E00C90677 /* RijksDataServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RijksDataServiceTests.swift; sourceTree = "<group>"; };
 		BCC118912AE6C83D00ACC30F /* RijksDataBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RijksDataBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCC118942AE6C83D00ACC30F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +99,8 @@
 		BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectImagesRepository.swift; sourceTree = "<group>"; };
 		BCC221D52AEABAD0003C0989 /* ArtObjectsSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsSectionHeaderView.swift; sourceTree = "<group>"; };
 		BCC221D72AEABB67003C0989 /* ArtObjectsSectionHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtObjectsSectionHeaderViewModel.swift; sourceTree = "<group>"; };
+		BCFBA99E2AEF452900949694 /* CollectionEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionEndpointTests.swift; sourceTree = "<group>"; };
+		BCFBA9A02AEF482000949694 /* CollectionDetailsEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDetailsEndpointTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +160,14 @@
 			path = ArtObjectDetails;
 			sourceTree = "<group>";
 		};
+		BC7C69182AEF4D6F00C90677 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				BC7C69192AEF4D8E00C90677 /* RijksDataServiceTests.swift */,
+			);
+			path = IntegrationTests;
+			sourceTree = "<group>";
+		};
 		BCC118882AE6C83D00ACC30F = {
 			isa = PBXGroup;
 			children = (
@@ -192,8 +208,9 @@
 		BCC118AA2AE6C83F00ACC30F /* RijksDataBrowserTests */ = {
 			isa = PBXGroup;
 			children = (
-				BCC118E82AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift */,
-				BCC118EA2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift */,
+				BC7C69182AEF4D6F00C90677 /* IntegrationTests */,
+				BCFBA99C2AEF44A500949694 /* UnitTests */,
+				BCFBA99D2AEF44B700949694 /* Stubs */,
 			);
 			path = RijksDataBrowserTests;
 			sourceTree = "<group>";
@@ -283,6 +300,25 @@
 				BCC221932AEAA95D003C0989 /* ArtObjectImagesRepository.swift */,
 			);
 			path = Repositories;
+			sourceTree = "<group>";
+		};
+		BCFBA99C2AEF44A500949694 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118E82AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift */,
+				BCFBA99E2AEF452900949694 /* CollectionEndpointTests.swift */,
+				BCFBA9A02AEF482000949694 /* CollectionDetailsEndpointTests.swift */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		BCFBA99D2AEF44B700949694 /* Stubs */ = {
+			isa = PBXGroup;
+			children = (
+				BCC118EA2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift */,
+				BC7C69162AEF4D2A00C90677 /* NetworkClientStub.swift */,
+			);
+			path = Stubs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,7 +465,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCC118E92AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift in Sources */,
+				BC7C69172AEF4D2B00C90677 /* NetworkClientStub.swift in Sources */,
+				BCFBA9A12AEF482000949694 /* CollectionDetailsEndpointTests.swift in Sources */,
+				BC7C691A2AEF4D8E00C90677 /* RijksDataServiceTests.swift in Sources */,
 				BCC118EB2AE8698300ACC30F /* RijksCollectionDataServiceStub.swift in Sources */,
+				BCFBA99F2AEF452900949694 /* CollectionEndpointTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
