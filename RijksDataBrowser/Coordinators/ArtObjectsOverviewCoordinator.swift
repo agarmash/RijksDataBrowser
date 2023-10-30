@@ -13,6 +13,11 @@ final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
 
     private let window: UIWindow
     private let presenter = UINavigationController()
+    
+    private lazy var dataService = RijksDataService(client: NetworkClient())
+    private lazy var imagesRepository = ArtObjectImagesRepository(
+        targetImageWidth: Int(window.frame.width),
+        imageLoader: ImageLoaderService())
 
     // MARK: - Init
 
@@ -25,13 +30,7 @@ final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
     func start() {
         window.rootViewController = presenter
         
-        let artObjectsRepository = ArtObjectsRepository(
-            dataService: RijksDataService(
-                client: NetworkClient()))
-        
-        let artObjectImagesRepository = ArtObjectImagesRepository(
-            targetImageWidth: Int(window.frame.width),
-            imageLoader: ImageLoaderService())
+        let artObjectsRepository = ArtObjectsRepository(dataService: dataService)
         
         let viewModel = ArtObjectsOverviewViewModel(
             action: { [weak self] action in
@@ -41,7 +40,7 @@ final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
                 }
             },
             artObjectsRepository: artObjectsRepository,
-            artObjectImagesRepository: artObjectImagesRepository)
+            artObjectImagesRepository: imagesRepository)
         
         let viewController = ArtObjectsOverviewViewController(viewModel: viewModel)
         presenter.pushViewController(viewController, animated: false)
@@ -53,7 +52,9 @@ final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
     private func showDetailsScreen(artObject: Collection.ArtObject) {
         let detailsCoordinator = ArtObjectDetailsCoordinator(
             artObject: artObject,
-            presenter: presenter)
+            presenter: presenter,
+            imagesRepository: imagesRepository,
+            collectionDetailsService: dataService)
         
         detailsCoordinator.start()
     }

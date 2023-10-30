@@ -23,14 +23,9 @@ enum ArtObjectsOverviewHeaderType {
     case error(ErrorSectionHeaderViewModelProtocol)
 }
 
-enum ArtObjectsOverviewAction {
-    case showDetailsScreen(Collection.ArtObject)
-}
-
 protocol ArtObjectsOverviewViewModelProtocol {
     typealias SectionType = ArtObjectsOverviewSectionType
     typealias HeaderType = ArtObjectsOverviewHeaderType
-    typealias Action = ArtObjectsOverviewAction
     
     typealias DiffableDataSource = ArtObjectsOverviewDataSource
     typealias DiffableSnapshot = ArtObjectsOverviewSnapshot
@@ -47,6 +42,12 @@ protocol ArtObjectsOverviewViewModelProtocol {
 }
 
 final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
+    
+    // MARK: - Types
+    
+    enum Action {
+        case showDetailsScreen(Collection.ArtObject)
+    }
 
     // MARK: - Public Properties
     
