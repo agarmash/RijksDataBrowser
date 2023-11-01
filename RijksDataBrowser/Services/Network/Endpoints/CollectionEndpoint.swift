@@ -10,12 +10,6 @@ import Foundation
 final class CollectionEndpoint: EndpointProtocol {
     typealias Response = CollectionDTO
     
-    // MARK: - Types
-    
-    enum CollectionEndpointError: Error {
-        case invalidData(Error)
-    }
-    
     // MARK: - Private Properties
     
     private let page: Int
@@ -54,18 +48,5 @@ final class CollectionEndpoint: EndpointProtocol {
         }
         
         return URLRequest(url: url)
-    }
-    
-    func parseResponse(from data: Data) throws -> CollectionDTO {
-        let decoder = JSONDecoder()
-        
-        let dto: CollectionDTO
-        do {
-            dto = try decoder.decode(CollectionDTO.self, from: data)
-        } catch {
-            throw CollectionEndpointError.invalidData(error)
-        }
-        
-        return dto
     }
 }
