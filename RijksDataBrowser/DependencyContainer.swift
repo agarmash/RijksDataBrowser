@@ -17,7 +17,15 @@ protocol DependencyContainerProtocol {
 
 final class DependencyContainer: DependencyContainerProtocol {
     
-    private lazy var networkClient = NetworkClient()
+    private lazy var requestComposer = RequestComposer()
+    private lazy var urlSession = URLSession.shared
+    private lazy var responseParser = ResponseParser()
+    
+    private lazy var networkClient = NetworkClient(
+        requestComposer: requestComposer,
+        urlSession: urlSession,
+        responseParser: responseParser)
+    
     private lazy var rijksDataService = RijksDataService(client: networkClient)
     
     private let targetImageWidth: Int

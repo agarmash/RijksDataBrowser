@@ -33,12 +33,12 @@ final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectio
     func getCollection(page: Int, pageSize: Int) async throws -> CollectionDTO {
         let endpoint = CollectionEndpoint(page: page, pageSize: pageSize, apiKey: apiKey)
         
-        return try await client.makeRequest(with: endpoint)
+        return try await client.performRequest(with: endpoint)
     }
     
     func getCollectionDetails(for objectNumber: String) async throws -> CollectionDetailsDTO {
         let endpoint = CollectionDetailsEndpoint(objectNumber: objectNumber, apiKey: apiKey)
         
-        return try await client.makeRequest(with: endpoint)
+        return try await client.performRequest(with: endpoint)
     }
 }

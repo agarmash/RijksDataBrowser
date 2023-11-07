@@ -10,5 +10,9 @@ import Foundation
 protocol EndpointProtocol {
     associatedtype Response: Decodable
 
-    func makeRequest() throws -> URLRequest
+    var scheme: String { get }
+    var host: String { get }
+    var path: String { get }
+    
+    var queryItems: [URLQueryItem]? { get }
 }
