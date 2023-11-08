@@ -8,21 +8,30 @@
 import UIKit
 
 protocol ImageProcessorServiceProtocol {
-    func prepareForDisplay(_ image: UIImage) async throws -> UIImage
+    func prepareThumbnail(of image: UIImage) async throws -> UIImage
 }
 
 final class ImageProcessorService: ImageProcessorServiceProtocol {
+    
+    // MARK: - Types
+    
     enum Error: Swift.Error {
         case imageDecodingFailed
     }
     
+    // MARK: - Private Properties
+    
     private let screenSize: CGSize
+    
+    // MARK: - Init
     
     init(screenSize: CGSize) {
         self.screenSize = screenSize
     }
     
-    func prepareForDisplay(_ image: UIImage) async throws -> UIImage {
+    // MARK: - Public Methods
+    
+    func prepareThumbnail(of image: UIImage) async throws -> UIImage {
         guard
             let preparedImage = await image.byPreparingThumbnail(ofSize: screenSize)
         else {

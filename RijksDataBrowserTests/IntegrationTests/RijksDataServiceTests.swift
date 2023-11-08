@@ -11,28 +11,28 @@ import XCTest
 final class RijksDataServiceTests: XCTestCase {
 
     var urlSessionStub: URLSessionStub!
-    var networkClient: NetworkClient!
     var service: RijksDataService!
 
     override func setUpWithError() throws {
         urlSessionStub = URLSessionStub()
         
-        networkClient = NetworkClient(
+        let networkClient = NetworkClient(
             requestComposer: RequestComposer(),
             urlSession: urlSessionStub,
             responseParser: ResponseParser())
         
-        service = RijksDataService(client: networkClient)
+        let secretsContainerStub = RijksSecretsContainerStub()
+        
+        service = RijksDataService(client: networkClient, secretsContainer: secretsContainerStub)
     }
 
     override func tearDownWithError() throws {
         service = nil
-        networkClient = nil
         urlSessionStub = nil
     }
 
     func testSuccessfullyGettingCollection() async {
-        let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection?key=0fiuZFh4&p=3&ps=10&imgonly=true")!
+        let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection?key=secret&p=3&ps=10&imgonly=true")!
         let responseData = """
         {
           "count": 100,
@@ -119,7 +119,7 @@ final class RijksDataServiceTests: XCTestCase {
     }
 
     func testSuccessfullyGettingCollectionDetails() async {
-        let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection/SK-A-4118?key=0fiuZFh4&object-number=SK-A-4118")!
+        let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection/SK-A-4118?key=secret&object-number=SK-A-4118")!
         let responseData = """
         {
           "artObject": {

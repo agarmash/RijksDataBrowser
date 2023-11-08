@@ -29,7 +29,10 @@ final class DependencyContainer: DependencyContainerProtocol {
         urlSession: urlSession,
         responseParser: responseParser)
     
-    private lazy var rijksDataService = RijksDataService(client: networkClient)
+    private lazy var rijksSecretsContainer = RijksSecretsContainer()
+    private lazy var rijksDataService = RijksDataService(
+        client: networkClient,
+        secretsContainer: rijksSecretsContainer)
     
     private lazy var imageLoaderService = ImageLoaderService()
     private lazy var imageProcessorService = ImageProcessorService(screenSize: screenSize)

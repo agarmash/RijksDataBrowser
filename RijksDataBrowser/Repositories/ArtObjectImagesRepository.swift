@@ -46,7 +46,7 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
         
         let image = try await imageLoader.loadImage(with: imageURL)
         
-        let preparedImage = try await imageProcessor.prepareForDisplay(image)
+        let preparedImage = try await imageProcessor.prepareThumbnail(of: image)
         
         return preparedImage
     }
