@@ -35,10 +35,15 @@ final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
                 }
             },
             artObjectsRepository: dependencyContainer.artObjectsRepository,
-            artObjectImagesRepository: dependencyContainer.artObjectImagesRepository,
-            mapper: ArtObjectsOverviewViewModelMapper())
+            artObjectImagesRepository: dependencyContainer.artObjectImagesRepository)
         
-        let viewController = ArtObjectsOverviewViewController(viewModel: viewModel)
+        let mapper = ArtObjectsOverviewViewModelMapper(
+            imageRepository: dependencyContainer.artObjectImagesRepository)
+        
+        let viewController = ArtObjectsOverviewViewController(
+            viewModel: viewModel,
+            mapper: mapper)
+        
         presenter.pushViewController(viewController, animated: false)
     }
     

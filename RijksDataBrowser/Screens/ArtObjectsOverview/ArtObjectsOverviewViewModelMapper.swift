@@ -17,12 +17,18 @@ protocol ArtObjectsOverviewViewModelMapperProtocol {
     ) -> ErrorSectionHeaderViewModelProtocol
     
     func makeArtObjectCellViewModel(
-        with artObject: Collection.ArtObject,
-        imageRepository: ArtObjectImagesRepositoryProtocol
+        with artObject: Collection.ArtObject
     ) -> ArtObjectsOverviewCellViewModelProtocol
 }
 
 final class ArtObjectsOverviewViewModelMapper: ArtObjectsOverviewViewModelMapperProtocol {
+    
+    private let imageRepository: ArtObjectImagesRepositoryProtocol
+    
+    init(imageRepository: ArtObjectImagesRepositoryProtocol) {
+        self.imageRepository = imageRepository
+    }
+    
     func makePageHeaderViewModel(
         pageNumber: Int
     ) -> ArtObjectsSectionHeaderViewModelProtocol {
@@ -36,8 +42,7 @@ final class ArtObjectsOverviewViewModelMapper: ArtObjectsOverviewViewModelMapper
     }
     
     func makeArtObjectCellViewModel(
-        with artObject: Collection.ArtObject,
-        imageRepository: ArtObjectImagesRepositoryProtocol
+        with artObject: Collection.ArtObject
     ) -> ArtObjectsOverviewCellViewModelProtocol {
         ArtObjectsOverviewCellViewModel(with: artObject, imageRepository: imageRepository)
     }

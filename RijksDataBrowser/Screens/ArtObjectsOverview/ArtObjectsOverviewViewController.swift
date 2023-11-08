@@ -30,23 +30,26 @@ final class ArtObjectsOverviewViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: ArtObjectsOverviewViewModelProtocol!
+    private let viewModel: ArtObjectsOverviewViewModelProtocol
+    private let mapper: ArtObjectsOverviewViewModelMapperProtocol
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     
-    init(viewModel: ArtObjectsOverviewViewModelProtocol) {
+    init(
+        viewModel: ArtObjectsOverviewViewModelProtocol,
+        mapper: ArtObjectsOverviewViewModelMapperProtocol
+    ) {
         self.viewModel = viewModel
+        self.mapper = mapper
         
         super.init(nibName: nil, bundle: nil)
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        self.viewModel = nil
-        
-        super.init(coder: coder)
+        fatalError("Not implemented")
     }
     
     // MARK: - UIViewController
@@ -121,30 +124,30 @@ private extension ArtObjectsOverviewViewController {
     private func makeDataSource(for collectionView: UICollectionView) -> DiffableDataSource {
         let dataSource = DiffableDataSource(
             collectionView: collectionView,
-            cellProvider: { [viewModel] collectionView, indexPath, artObject in
-                guard let viewModel = viewModel else { return nil}
-                
-                switch viewModel.makeCell(for: indexPath) {
-                case .object(let cellViewModel):
-                    let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
-                    cell.fill(with: cellViewModel)
-                    return cell
-                case .none:
-                    return nil
-                }
-            }
-        )
+            cellProvider: { [mapper] collectionView, indexPath, artObject in
+                let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
+                let viewModel = mapper.makeArtObjectCellViewModel(with: artObject)
+                cell.fill(with: viewModel)
+                return cell
+            })
         
-        dataSource.supplementaryViewProvider = { [unowned self]
-            (collectionView, kind, indexPath) -> UICollectionReusableView? in
-
-            switch viewModel.makeHeader(for: indexPath) {
-            case .artObjectsPage(let viewModel):
+        dataSource.supplementaryViewProvider = { [mapper, viewModel] collectionView, kind, indexPath in
+            guard
+                let dataSource = collectionView.dataSource as? DiffableDataSource
+            else {
+                return nil
+            }
+            
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.row]
+            
+            switch section {
+            case let .artObjectsPage(pageNumber: pageNumber, objects: _):
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofType: ArtObjectsSectionHeaderView.self,
                     kind: .header,
                     for: indexPath)
-    
+                
+                let viewModel = mapper.makePageHeaderViewModel(pageNumber: pageNumber)
                 headerView.fill(with: viewModel)
     
                 return headerView
@@ -155,12 +158,16 @@ private extension ArtObjectsOverviewViewController {
                     for: indexPath)
     
                 return headerView
-            case .error(let viewModel):
+            case .error:
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofType: ErrorSectionHeaderView.self,
                     kind: .header,
                     for: indexPath)
     
+                let viewModel = mapper.makeErrorHeaderViewModel(didTapOnView: { [viewModel] in
+                    viewModel.clearError()
+                    viewModel.loadMore()
+                })
                 headerView.fill(with: viewModel)
                 
                 return headerView

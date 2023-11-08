@@ -14,29 +14,15 @@ enum ArtObjectsOverviewSectionType: Hashable {
     case error
 }
 
-enum ArtObjectsOverviewHeaderType {
-    case artObjectsPage(ArtObjectsSectionHeaderViewModelProtocol)
-    case loading
-    case error(ErrorSectionHeaderViewModelProtocol)
-}
-
-enum ArtObjectsOverviewCellType {
-    case object(ArtObjectsOverviewCellViewModelProtocol)
-    case none
-}
-
 protocol ArtObjectsOverviewViewModelProtocol {
     typealias SectionType = ArtObjectsOverviewSectionType
-    typealias HeaderType = ArtObjectsOverviewHeaderType
-    typealias CellType = ArtObjectsOverviewCellType
     
     var presentationModel: CurrentValueSubject<[SectionType], Never> { get }
     
     func loadMore()
     func preloadArtObject(for indexPath: IndexPath)
-    func makeHeader(for indexPath: IndexPath) -> HeaderType
-    func makeCell(for indexPath: IndexPath) -> CellType
     func handleTap(on indexPath: IndexPath)
+    func clearError()
 }
 
 final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
@@ -58,8 +44,6 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     private let artObjectsRepository: ArtObjectsRepositoryProtocol
     private let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
-    private let mapper: ArtObjectsOverviewViewModelMapperProtocol
-    
     private var pagedArtObjects: [[Collection.ArtObject]] = []
     private var hasMoreDataToLoad = true
     private var didEncounterError = false
@@ -69,13 +53,11 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     init(
         action: @escaping (Action) -> Void,
         artObjectsRepository: ArtObjectsRepositoryProtocol,
-        artObjectImagesRepository: ArtObjectImagesRepositoryProtocol,
-        mapper: ArtObjectsOverviewViewModelMapperProtocol
+        artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     ) {
         self.action = action
         self.artObjectsRepository = artObjectsRepository
         self.artObjectImagesRepository = artObjectImagesRepository
-        self.mapper = mapper
     }
     
     // MARK: - Public Methods
@@ -125,35 +107,6 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         }
     }
     
-    func makeHeader(for indexPath: IndexPath) -> HeaderType {
-        switch presentationModel.value[indexPath.section] {
-        case .artObjectsPage(let pageNumber, _):
-            let viewModel = mapper.makePageHeaderViewModel(pageNumber: pageNumber + 1)
-            return .artObjectsPage(viewModel)
-        case .loading:
-            return .loading
-        case .error:
-            let viewModel = mapper.makeErrorHeaderViewModel(didTapOnView: { [weak self] in
-                self?.clearError()
-                self?.loadMore()
-            })
-            return .error(viewModel)
-        }
-    }
-    
-    func makeCell(for indexPath: IndexPath) -> CellType {
-        switch presentationModel.value[indexPath.section] {
-        case .artObjectsPage:
-            let artObject = pagedArtObjects[indexPath.section][indexPath.row]
-            let viewModel =  mapper.makeArtObjectCellViewModel(
-                with: artObject,
-                imageRepository: artObjectImagesRepository)
-            return .object(viewModel)
-        default:
-            return .none
-        }
-    }
-    
     // MARK: - Private Methods
     
     private func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
@@ -189,7 +142,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         self.presentationModel.value = snapshot
     }
     
-    private func clearError() {
+    func clearError() {
         artObjectsRepository.clearError()
         didEncounterError = false
     }
