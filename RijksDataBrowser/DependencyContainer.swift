@@ -10,12 +10,15 @@ import Foundation
 protocol DependencyContainerProtocol {
     var rijksCollectionDataService: RijksCollectionDataServiceProtocol { get }
     var rijksCollectionDetailsService: RijksCollectionDetailsDataServiceProtocol { get }
-    var imageLoaderService: ImageLoaderServiceProtocol { get }
     var artObjectsRepository: ArtObjectsRepositoryProtocol { get }
     var artObjectImagesRepository: ArtObjectImagesRepositoryProtocol { get }
 }
 
 final class DependencyContainer: DependencyContainerProtocol {
+    
+    // MARK: - Private Properties
+    
+    private let screenSize: CGSize
     
     private lazy var requestComposer = RequestComposer()
     private lazy var urlSession = URLSession.shared
@@ -28,11 +31,10 @@ final class DependencyContainer: DependencyContainerProtocol {
     
     private lazy var rijksDataService = RijksDataService(client: networkClient)
     
-    private let targetImageWidth: Int
+    private lazy var imageLoaderService = ImageLoaderService()
+    private lazy var imageProcessorService = ImageProcessorService(screenSize: screenSize)
     
-    init(targetImageWidth: Int) {
-        self.targetImageWidth = targetImageWidth
-    }
+    // MARK: - Public Properties
     
     var rijksCollectionDataService: RijksCollectionDataServiceProtocol {
         rijksDataService
@@ -42,15 +44,19 @@ final class DependencyContainer: DependencyContainerProtocol {
         rijksDataService
     }
     
-    lazy var imageLoaderService: ImageLoaderServiceProtocol = {
-        ImageLoaderService()
-    }()
-    
     lazy var artObjectsRepository: ArtObjectsRepositoryProtocol = {
         ArtObjectsRepository(dataService: rijksCollectionDataService)
     }()
     
     lazy var artObjectImagesRepository: ArtObjectImagesRepositoryProtocol = {
-        ArtObjectImagesRepository(targetImageWidth: targetImageWidth, imageLoader: imageLoaderService)
+        ArtObjectImagesRepository(
+            imageLoader: imageLoaderService,
+            imageProcessor: imageProcessorService)
     }()
+    
+    // MARK: - Init
+    
+    init(screenSize: CGSize) {
+        self.screenSize = screenSize
+    }
 }

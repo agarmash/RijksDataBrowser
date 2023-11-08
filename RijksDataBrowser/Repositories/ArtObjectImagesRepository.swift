@@ -23,16 +23,16 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
     // MARK: - Private Properties
     
     private let imageLoader: ImageLoaderServiceProtocol
-    private let targetImageWidth: Int
+    private let imageProcessor: ImageProcessorServiceProtocol
     
     // MARK: - Init
     
     init(
-        targetImageWidth: Int,
-        imageLoader: ImageLoaderServiceProtocol
+        imageLoader: ImageLoaderServiceProtocol,
+        imageProcessor: ImageProcessorServiceProtocol
     ) {
-        self.targetImageWidth = targetImageWidth
         self.imageLoader = imageLoader
+        self.imageProcessor = imageProcessor
     }
     
     // MARK: - Public Methods
@@ -46,23 +46,8 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
         
         let image = try await imageLoader.loadImage(with: imageURL)
         
-        let newImageSize = getSizeForResizing(imageObject)
+        let preparedImage = try await imageProcessor.prepareForDisplay(image)
         
-        guard
-            let resizedImage = await image.byPreparingThumbnail(ofSize: newImageSize)
-        else {
-            throw Error.unableToPrepareThumbnail
-        }
-
-        return resizedImage
-    }
-    
-    // MARK: - Private Methods
-    
-    private func getSizeForResizing(_ imageObject: Image) -> CGSize {
-        let imageWidth = Double(min(targetImageWidth, imageObject.width))
-        let imageHeight = imageWidth / imageObject.aspectRatio
-        
-        return CGSize(width: imageWidth, height: imageHeight)
+        return preparedImage
     }
 }
