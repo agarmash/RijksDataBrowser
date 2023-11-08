@@ -58,6 +58,8 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     private let artObjectsRepository: ArtObjectsRepositoryProtocol
     private let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
+    private let mapper: ArtObjectsOverviewViewModelMapperProtocol
+    
     private var pagedArtObjects: [[Collection.ArtObject]] = []
     private var hasMoreDataToLoad = true
     private var didEncounterError = false
@@ -67,11 +69,13 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     init(
         action: @escaping (Action) -> Void,
         artObjectsRepository: ArtObjectsRepositoryProtocol,
-        artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
+        artObjectImagesRepository: ArtObjectImagesRepositoryProtocol,
+        mapper: ArtObjectsOverviewViewModelMapperProtocol
     ) {
         self.action = action
         self.artObjectsRepository = artObjectsRepository
         self.artObjectImagesRepository = artObjectImagesRepository
+        self.mapper = mapper
     }
     
     // MARK: - Public Methods
@@ -124,12 +128,12 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     func makeHeader(for indexPath: IndexPath) -> HeaderType {
         switch presentationModel.value[indexPath.section] {
         case .artObjectsPage(let pageNumber, _):
-            let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber + 1)
+            let viewModel = mapper.makePageHeaderViewModel(pageNumber: pageNumber + 1)
             return .artObjectsPage(viewModel)
         case .loading:
             return .loading
         case .error:
-            let viewModel = ErrorSectionHeaderViewModel(didTapOnView: { [weak self] in
+            let viewModel = mapper.makeErrorHeaderViewModel(didTapOnView: { [weak self] in
                 self?.clearError()
                 self?.loadMore()
             })
@@ -141,7 +145,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         switch presentationModel.value[indexPath.section] {
         case .artObjectsPage:
             let artObject = pagedArtObjects[indexPath.section][indexPath.row]
-            let viewModel =  ArtObjectsOverviewCellViewModel(
+            let viewModel =  mapper.makeArtObjectCellViewModel(
                 with: artObject,
                 imageRepository: artObjectImagesRepository)
             return .object(viewModel)
