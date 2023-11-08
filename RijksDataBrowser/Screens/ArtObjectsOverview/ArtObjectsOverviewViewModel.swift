@@ -32,6 +32,12 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     enum Action {
         case showDetailsScreen(Collection.ArtObject)
     }
+    
+    private enum ActiveSupplementaryView {
+        case loading
+        case error
+        case none
+    }
 
     // MARK: - Public Properties
     
@@ -73,7 +79,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     }
 
     func loadMore() {
-        showLoader()
+        showSupplementaryView(.loading)
         artObjectsRepository.loadMore { [weak self] result in
             guard let self = self else { return }
             
@@ -82,10 +88,10 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
                 self.pagedArtObjects = objects
                 self.showLoadedObjects(objects)
             case .nothingMoreToLoad:
-                self.removeStatusViews()
+                self.showSupplementaryView(.none)
                 self.hasMoreDataToLoad = false
             case .error:
-                self.showError()
+                self.showSupplementaryView(.error)
                 self.didEncounterError = true
             }
         }
@@ -107,43 +113,35 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         }
     }
     
+    func clearError() {
+        artObjectsRepository.clearError()
+        didEncounterError = false
+    }
+    
     // MARK: - Private Methods
     
     private func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
         let sectionsWithObjects = objects
             .enumerated()
-            .map { SectionType.artObjectsPage(pageNumber: $0, objects: $1) }
+            .map { SectionType.artObjectsPage(pageNumber: $0 + 1, objects: $1) }
+        
         presentationModel.value = sectionsWithObjects
     }
     
-    private func showLoader() {
-        var snapshot = self.presentationModel.value
+    private func showSupplementaryView(_ supplementaryView: ActiveSupplementaryView) {
+        var modelCopy = presentationModel.value
         
-        snapshot.removeAll(where: { $0 == .loading || $0 == .error })
-        snapshot.append(.loading)
+        modelCopy.removeAll(where: { $0 == .loading || $0 == .error })
         
-        self.presentationModel.value = snapshot
-    }
-    
-    private func showError() {
-        var snapshot = self.presentationModel.value
+        switch supplementaryView {
+        case .loading:
+            modelCopy.append(.loading)
+        case .error:
+            modelCopy.append(.error)
+        case .none:
+            break
+        }
         
-        snapshot.removeAll(where: { $0 == .loading || $0 == .error })
-        snapshot.append(.error)
-        
-        self.presentationModel.value = snapshot
-    }
-    
-    private func removeStatusViews() {
-        var snapshot = self.presentationModel.value
-        
-        snapshot.removeAll(where: { $0 == .loading || $0 == .error })
-        
-        self.presentationModel.value = snapshot
-    }
-    
-    func clearError() {
-        artObjectsRepository.clearError()
-        didEncounterError = false
+        presentationModel.value = modelCopy
     }
 }
