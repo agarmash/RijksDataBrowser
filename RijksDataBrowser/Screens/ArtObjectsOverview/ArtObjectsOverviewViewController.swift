@@ -137,8 +137,8 @@ private extension ArtObjectsOverviewViewController {
             else {
                 return nil
             }
-            
-            let section = dataSource.snapshot().sectionIdentifiers[indexPath.row]
+
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
             
             switch section {
             case let .artObjectsPage(pageNumber: pageNumber, objects: _):
@@ -165,7 +165,6 @@ private extension ArtObjectsOverviewViewController {
                     for: indexPath)
     
                 let viewModel = mapper.makeErrorHeaderViewModel(didTapOnView: { [viewModel] in
-                    viewModel.clearError()
                     viewModel.loadMore()
                 })
                 headerView.fill(with: viewModel)

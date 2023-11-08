@@ -161,54 +161,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "loadMore()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - 55577a5283fcc28f"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "RijksDataBrowser.ArtObjectsOverviewViewModel.loadMore() -&gt; ()"
-                  moduleName = "RijksDataBrowser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/artem-backbase/dev/RijksDataBrowser/RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77"
-                  offsetFromSymbolStart = "53">
-               </Location>
-               <Location
-                  uuid = "D271EE33-73DC-49FE-AC5A-B6D03DCC8F77 - b22b8e69c50184a9"
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (RijksDataBrowser.ArtObjectsRepository.Result) -&gt; () in RijksDataBrowser.ArtObjectsOverviewViewModel.loadMore() -&gt; ()"
-                  moduleName = "RijksDataBrowser"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/artem-backbase/dev/RijksDataBrowser/RijksDataBrowser/Screens/ArtObjectsOverview/ArtObjectsOverviewViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "77"
-                  endingLineNumber = "77"
-                  offsetFromSymbolStart = "110">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "CB4483BA-B799-4403-A0D7-C7D170A8C6B3"
             shouldBeEnabled = "No"
             ignoreCount = "0"

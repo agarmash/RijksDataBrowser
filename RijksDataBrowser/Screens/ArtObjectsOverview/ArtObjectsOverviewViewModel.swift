@@ -22,7 +22,6 @@ protocol ArtObjectsOverviewViewModelProtocol {
     func loadMore()
     func preloadArtObject(for indexPath: IndexPath)
     func handleTap(on indexPath: IndexPath)
-    func clearError()
 }
 
 final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
@@ -50,9 +49,11 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     private let artObjectsRepository: ArtObjectsRepositoryProtocol
     private let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
-    private var pagedArtObjects: [[Collection.ArtObject]] = []
     private var hasMoreDataToLoad = true
     private var didEncounterError = false
+    
+    private var numberOfLoadedPages = 0
+    private var numberOfItemsInLastPage = 0
     
     // MARK: - Init
     
@@ -70,23 +71,27 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     
     func handleTap(on indexPath: IndexPath) {
         switch presentationModel.value[indexPath.section] {
-        case .artObjectsPage:
-            let artObject = pagedArtObjects[indexPath.section][indexPath.row]
+        case let .artObjectsPage(pageNumber: _, objects: artObjects):
+            let artObject = artObjects[indexPath.row]
             action(.showDetailsScreen(artObject))
         default:
             return
         }
     }
-
+    
     func loadMore() {
+        clearError()
+        loadNextPage()
+    }
+
+    func loadNextPage() {
         showSupplementaryView(.loading)
         artObjectsRepository.loadMore { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .updatedObjects(let objects):
-                self.pagedArtObjects = objects
-                self.showLoadedObjects(objects)
+                self.processLoadedObjects(objects)
             case .nothingMoreToLoad:
                 self.showSupplementaryView(.none)
                 self.hasMoreDataToLoad = false
@@ -98,29 +103,22 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     }
     
     func preloadArtObject(for indexPath: IndexPath) {
-        guard
-            indexPath.section < pagedArtObjects.count,
+        if
             hasMoreDataToLoad,
-            !didEncounterError
-        else {
-            return
+            !didEncounterError,
+            indexPath.section == numberOfLoadedPages - 1,
+            indexPath.row == numberOfItemsInLastPage - 1
+        {
+            loadNextPage()
         }
-
-        let page = pagedArtObjects[indexPath.section]
-
-        if indexPath.row == page.count - 1 {
-            loadMore()
-        }
-    }
-    
-    func clearError() {
-        artObjectsRepository.clearError()
-        didEncounterError = false
     }
     
     // MARK: - Private Methods
     
-    private func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
+    private func processLoadedObjects(_ objects: [[Collection.ArtObject]]) {
+        numberOfLoadedPages = objects.count
+        numberOfItemsInLastPage = objects.last?.count ?? 0
+        
         let sectionsWithObjects = objects
             .enumerated()
             .map { SectionType.artObjectsPage(pageNumber: $0 + 1, objects: $1) }
@@ -143,5 +141,10 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         }
         
         presentationModel.value = modelCopy
+    }
+    
+    private func clearError() {
+        artObjectsRepository.clearError()
+        didEncounterError = false
     }
 }
