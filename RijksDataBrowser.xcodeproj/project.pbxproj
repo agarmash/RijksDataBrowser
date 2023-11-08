@@ -31,6 +31,7 @@
 		BCB7A03A2AFAFDE60006351A /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7A0392AFAFDE60006351A /* URLSession.swift */; };
 		BCB7A03F2AFB07B80006351A /* RequestComposerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7A03E2AFB07B80006351A /* RequestComposerTests.swift */; };
 		BCB7A0412AFB07CC0006351A /* ResponseParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7A0402AFB07CC0006351A /* ResponseParserTests.swift */; };
+		BCB7A0452AFBDBCF0006351A /* URLSessionStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB7A0442AFBDBCF0006351A /* URLSessionStub.swift */; };
 		BCC118952AE6C83D00ACC30F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118942AE6C83D00ACC30F /* AppDelegate.swift */; };
 		BCC118972AE6C83D00ACC30F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */; };
 		BCC1189E2AE6C83F00ACC30F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCC1189D2AE6C83F00ACC30F /* Assets.xcassets */; };
@@ -94,6 +95,7 @@
 		BCB7A0392AFAFDE60006351A /* URLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		BCB7A03E2AFB07B80006351A /* RequestComposerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestComposerTests.swift; sourceTree = "<group>"; };
 		BCB7A0402AFB07CC0006351A /* ResponseParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseParserTests.swift; sourceTree = "<group>"; };
+		BCB7A0442AFBDBCF0006351A /* URLSessionStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionStub.swift; sourceTree = "<group>"; };
 		BCC118912AE6C83D00ACC30F /* RijksDataBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RijksDataBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCC118942AE6C83D00ACC30F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BCC118962AE6C83D00ACC30F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 				BC7C69212AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift */,
 				BC7C69232AEF577500C90677 /* RijksCollectionDetailsDataServiceStub.swift */,
 				BC7C69292AEF650600C90677 /* ArtObjectsRepositoryStub.swift */,
+				BCB7A0442AFBDBCF0006351A /* URLSessionStub.swift */,
 			);
 			path = Stubs;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 			files = (
 				BCC118E92AE8695F00ACC30F /* ArtObjectsRepositoryTests.swift in Sources */,
 				BC7C69172AEF4D2B00C90677 /* NetworkClientStub.swift in Sources */,
+				BCB7A0452AFBDBCF0006351A /* URLSessionStub.swift in Sources */,
 				BC7C69222AEF568F00C90677 /* ArtObjectImagesRepositoryStub.swift in Sources */,
 				BC7C692C2AEF65FD00C90677 /* ArtObjectsOverviewViewModelTests.swift in Sources */,
 				BC7C691A2AEF4D8E00C90677 /* RijksDataServiceTests.swift in Sources */,

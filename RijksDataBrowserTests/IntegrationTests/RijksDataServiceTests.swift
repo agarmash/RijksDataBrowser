@@ -9,18 +9,26 @@
 import XCTest
 
 final class RijksDataServiceTests: XCTestCase {
-    
-    var networkClientStub: NetworkClientStub!
+
+    var urlSessionStub: URLSessionStub!
+    var networkClient: NetworkClient!
     var service: RijksDataService!
 
     override func setUpWithError() throws {
-        networkClientStub = NetworkClientStub()
-        service = RijksDataService(client: networkClientStub)
+        urlSessionStub = URLSessionStub()
+        
+        networkClient = NetworkClient(
+            requestComposer: RequestComposer(),
+            urlSession: urlSessionStub,
+            responseParser: ResponseParser())
+        
+        service = RijksDataService(client: networkClient)
     }
 
     override func tearDownWithError() throws {
         service = nil
-        networkClientStub = nil
+        networkClient = nil
+        urlSessionStub = nil
     }
 
     func testSuccessfullyGettingCollection() async {
@@ -50,9 +58,9 @@ final class RijksDataServiceTests: XCTestCase {
           ]
         }
         """.data(using: .utf8)!
-        
-        networkClientStub.mode = .passResponseDataForURL(responseData, requestURL)
-        
+
+        urlSessionStub.mode = .returnResponseForURL((responseData, URLResponse()), requestURL)
+
         do {
             let collection = try await service.getCollection(page: 3, pageSize: 10)
             XCTAssertEqual(collection.artObjects.count, 2)
@@ -60,7 +68,7 @@ final class RijksDataServiceTests: XCTestCase {
             XCTFail("Error shoudn't be caught in this test")
         }
     }
-    
+
     func testInvalidRequestURLForGettingCollection() async {
         let requestURL = URL(string: "https://invalid.url")!
         let responseData = """
@@ -88,28 +96,28 @@ final class RijksDataServiceTests: XCTestCase {
           ]
         }
         """.data(using: .utf8)!
-        
-        networkClientStub.mode = .passResponseDataForURL(responseData, requestURL)
-        
+
+        urlSessionStub.mode = .returnResponseForURL((responseData, URLResponse()), requestURL)
+
         do {
             _ = try await service.getCollection(page: 3, pageSize: 10)
             XCTFail("Code flow shouldn't reach here")
         } catch {
-            XCTAssertEqual(error as? NetworkClientStub.MockError, NetworkClientStub.MockError.incorrectURL)
+            XCTAssertEqual(error as? URLSessionStub.MockError, URLSessionStub.MockError.incorrectURL)
         }
     }
-    
+
     func testNetworkErrorForGettingCollection() async {
-        networkClientStub.mode = .throwError
-        
+        urlSessionStub.mode = .throwError
+
         do {
             _ = try await service.getCollection(page: 3, pageSize: 10)
             XCTFail("Code flow shouldn't reach here")
         } catch {
-            XCTAssertEqual(error as? NetworkClientStub.MockError, NetworkClientStub.MockError.simulatedError)
+            XCTAssertEqual(error as? URLSessionStub.MockError, URLSessionStub.MockError.simulatedError)
         }
     }
-    
+
     func testSuccessfullyGettingCollectionDetails() async {
         let requestURL = URL(string: "https://www.rijksmuseum.nl/api/en/collection/SK-A-4118?key=0fiuZFh4&object-number=SK-A-4118")!
         let responseData = """
@@ -125,9 +133,9 @@ final class RijksDataServiceTests: XCTestCase {
           }
         }
         """.data(using: .utf8)!
-        
-        networkClientStub.mode = .passResponseDataForURL(responseData, requestURL)
-        
+
+        urlSessionStub.mode = .returnResponseForURL((responseData, URLResponse()), requestURL)
+
         do {
             let details = try await service.getCollectionDetails(for: "SK-A-4118")
             XCTAssertEqual(details.artObject.title, "River Landscape with Riders")
@@ -135,7 +143,7 @@ final class RijksDataServiceTests: XCTestCase {
             XCTFail("Error shoudn't be caught in this test")
         }
     }
-    
+
     func testInvalidRequestURLForGettingCollectionDetails() async {
         let requestURL = URL(string: "https://invalid.url")!
         let responseData = """
@@ -151,25 +159,25 @@ final class RijksDataServiceTests: XCTestCase {
           }
         }
         """.data(using: .utf8)!
-        
-        networkClientStub.mode = .passResponseDataForURL(responseData, requestURL)
-        
+
+        urlSessionStub.mode = .returnResponseForURL((responseData, URLResponse()), requestURL)
+
         do {
             _ = try await service.getCollectionDetails(for: "SK-A-4118")
             XCTFail("Code flow shouldn't reach here")
         } catch {
-            XCTAssertEqual(error as? NetworkClientStub.MockError, NetworkClientStub.MockError.incorrectURL)
+            XCTAssertEqual(error as? URLSessionStub.MockError, URLSessionStub.MockError.incorrectURL)
         }
     }
-    
+
     func testNetworkErrorForGettingCollectionDetails() async {
-        networkClientStub.mode = .throwError
-        
+        urlSessionStub.mode = .throwError
+
         do {
             _ = try await service.getCollectionDetails(for: "SK-A-4118")
             XCTFail("Code flow shouldn't reach here")
         } catch {
-            XCTAssertEqual(error as? NetworkClientStub.MockError, NetworkClientStub.MockError.simulatedError)
+            XCTAssertEqual(error as? URLSessionStub.MockError, URLSessionStub.MockError.simulatedError)
         }
     }
 }
