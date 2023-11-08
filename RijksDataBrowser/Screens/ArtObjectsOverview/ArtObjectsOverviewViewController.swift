@@ -12,7 +12,8 @@ final class ArtObjectsOverviewViewController: UIViewController {
     
     // MARK: - Types
     
-    typealias DiffableDataSource = ArtObjectsOverviewDataSource
+    typealias DiffableDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewSectionType, Collection.ArtObject>
+    typealias DiffableSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewSectionType, Collection.ArtObject>
     
     // MARK: - Private Properties
     
@@ -67,9 +68,22 @@ final class ArtObjectsOverviewViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel
-            .snapshot
+            .presentationModel
             .receive(on: DispatchQueue.main)
-            .sink { [dataSource] snapshot in
+            .sink { [dataSource] model in
+                var snapshot = DiffableSnapshot()
+        
+                snapshot.appendSections(model)
+        
+                for section in model {
+                    switch section {
+                    case let .artObjectsPage(pageNumber: _, objects: objects):
+                        snapshot.appendItems(objects, toSection: section)
+                    default:
+                        break
+                    }
+                }
+                
                 dataSource?.apply(snapshot, animatingDifferences: true)
             }
             .store(in: &cancellables)
@@ -108,12 +122,16 @@ private extension ArtObjectsOverviewViewController {
         let dataSource = DiffableDataSource(
             collectionView: collectionView,
             cellProvider: { [viewModel] collectionView, indexPath, artObject in
-                guard let viewModel = viewModel else { return UICollectionViewCell()}
+                guard let viewModel = viewModel else { return nil}
                 
-                let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
-                let cellViewModel = viewModel.makeOverviewCellViewModel(with: artObject)
-                cell.fill(with: cellViewModel)
-                return cell
+                switch viewModel.makeCell(for: indexPath) {
+                case .object(let cellViewModel):
+                    let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
+                    cell.fill(with: cellViewModel)
+                    return cell
+                case .none:
+                    return nil
+                }
             }
         )
         

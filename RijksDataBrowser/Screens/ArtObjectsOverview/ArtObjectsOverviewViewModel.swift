@@ -6,13 +6,10 @@
 //
 
 import Combine
-import UIKit
-
-typealias ArtObjectsOverviewDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewSectionType, Collection.ArtObject>
-typealias ArtObjectsOverviewSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewSectionType, Collection.ArtObject>
+import Foundation
 
 enum ArtObjectsOverviewSectionType: Hashable {
-    case artObjectsPage(Int)
+    case artObjectsPage(pageNumber: Int, objects: [Collection.ArtObject])
     case loading
     case error
 }
@@ -23,20 +20,23 @@ enum ArtObjectsOverviewHeaderType {
     case error(ErrorSectionHeaderViewModelProtocol)
 }
 
+enum ArtObjectsOverviewCellType {
+    case object(ArtObjectsOverviewCellViewModelProtocol)
+    case none
+}
+
 protocol ArtObjectsOverviewViewModelProtocol {
     typealias SectionType = ArtObjectsOverviewSectionType
     typealias HeaderType = ArtObjectsOverviewHeaderType
+    typealias CellType = ArtObjectsOverviewCellType
     
-    typealias DiffableDataSource = ArtObjectsOverviewDataSource
-    typealias DiffableSnapshot = ArtObjectsOverviewSnapshot
+    var presentationModel: CurrentValueSubject<[SectionType], Never> { get }
     
-    var snapshot: CurrentValueSubject<DiffableSnapshot, Never> { get }
-    
-    func handleTap(on indexPath: IndexPath)
     func loadMore()
     func preloadArtObject(for indexPath: IndexPath)
     func makeHeader(for indexPath: IndexPath) -> HeaderType
-    func makeOverviewCellViewModel(with artObject: Collection.ArtObject) -> ArtObjectsOverviewCellViewModelProtocol
+    func makeCell(for indexPath: IndexPath) -> CellType
+    func handleTap(on indexPath: IndexPath)
 }
 
 final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
@@ -49,7 +49,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
 
     // MARK: - Public Properties
     
-    var snapshot = CurrentValueSubject<DiffableSnapshot, Never>(.init())
+    var presentationModel = CurrentValueSubject<[SectionType], Never>(.init())
     
     // MARK: - Private Properties
     
@@ -77,7 +77,7 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     // MARK: - Public Methods
     
     func handleTap(on indexPath: IndexPath) {
-        switch snapshot.value.sectionIdentifiers[indexPath.section] {
+        switch presentationModel.value[indexPath.section] {
         case .artObjectsPage:
             let artObject = pagedArtObjects[indexPath.section][indexPath.row]
             action(.showDetailsScreen(artObject))
@@ -122,8 +122,8 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     }
     
     func makeHeader(for indexPath: IndexPath) -> HeaderType {
-        switch snapshot.value.sectionIdentifiers[indexPath.section] {
-        case .artObjectsPage(let pageNumber):
+        switch presentationModel.value[indexPath.section] {
+        case .artObjectsPage(let pageNumber, _):
             let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber + 1)
             return .artObjectsPage(viewModel)
         case .loading:
@@ -137,54 +137,52 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
         }
     }
     
-    func makeOverviewCellViewModel(
-        with artObject: Collection.ArtObject
-    ) -> ArtObjectsOverviewCellViewModelProtocol {
-        ArtObjectsOverviewCellViewModel(
-            with: artObject,
-            imageRepository: artObjectImagesRepository)
+    func makeCell(for indexPath: IndexPath) -> CellType {
+        switch presentationModel.value[indexPath.section] {
+        case .artObjectsPage:
+            let artObject = pagedArtObjects[indexPath.section][indexPath.row]
+            let viewModel =  ArtObjectsOverviewCellViewModel(
+                with: artObject,
+                imageRepository: artObjectImagesRepository)
+            return .object(viewModel)
+        default:
+            return .none
+        }
     }
     
     // MARK: - Private Methods
     
     private func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
-        var snapshot = DiffableSnapshot()
-        
-        let sections = objects.indices.map { SectionType.artObjectsPage($0) }
-        
-        snapshot.appendSections(sections)
-        
-        for (index, section) in sections.enumerated() {
-            snapshot.appendItems(objects[index], toSection: section)
-        }
-        
-        self.snapshot.value = snapshot
+        let sectionsWithObjects = objects
+            .enumerated()
+            .map { SectionType.artObjectsPage(pageNumber: $0, objects: $1) }
+        presentationModel.value = sectionsWithObjects
     }
     
     private func showLoader() {
-        var snapshot = self.snapshot.value
+        var snapshot = self.presentationModel.value
         
-        snapshot.deleteSections([.error, .loading])
-        snapshot.appendSections([.loading])
+        snapshot.removeAll(where: { $0 == .loading || $0 == .error })
+        snapshot.append(.loading)
         
-        self.snapshot.value = snapshot
+        self.presentationModel.value = snapshot
     }
     
     private func showError() {
-        var snapshot = self.snapshot.value
+        var snapshot = self.presentationModel.value
         
-        snapshot.deleteSections([.error, .loading])
-        snapshot.appendSections([.error])
+        snapshot.removeAll(where: { $0 == .loading || $0 == .error })
+        snapshot.append(.error)
         
-        self.snapshot.value = snapshot
+        self.presentationModel.value = snapshot
     }
     
     private func removeStatusViews() {
-        var snapshot = self.snapshot.value
+        var snapshot = self.presentationModel.value
         
-        snapshot.deleteSections([.error, .loading])
+        snapshot.removeAll(where: { $0 == .loading || $0 == .error })
         
-        self.snapshot.value = snapshot
+        self.presentationModel.value = snapshot
     }
     
     private func clearError() {
