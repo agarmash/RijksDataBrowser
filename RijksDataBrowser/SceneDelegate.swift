@@ -21,12 +21,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
         
+        let presenter = UINavigationController()
+        window.rootViewController = presenter
+        
         let dependencyContainer = DependencyContainer(
             screenSize: window.frame.size)
 
         mainCoordinator = ArtObjectsOverviewCoordinator(
-            window: window,
+            presenter: presenter,
             dependencyContainer: dependencyContainer)
         mainCoordinator?.start()
+        
+        window.makeKeyAndVisible()
     }
 }
