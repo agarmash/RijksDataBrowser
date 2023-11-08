@@ -10,8 +10,8 @@ import Foundation
 protocol EndpointProtocol {
     associatedtype Response: Decodable
 
-    var scheme: String { get }
-    var host: String { get }
+    var scheme: String? { get }
+    var host: String? { get }
     var path: String { get }
     
     var queryItems: [URLQueryItem]? { get }

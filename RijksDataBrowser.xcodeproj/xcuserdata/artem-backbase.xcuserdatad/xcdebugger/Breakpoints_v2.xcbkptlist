@@ -37,7 +37,7 @@
             <Locations>
                <Location
                   uuid = "2FE192C5-B622-46FF-9B34-B97F53750368 - 994e3261811a1b90"
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "(3) suspend resume partial function for RijksDataBrowser.ImageLoaderService.loadImage(with: Foundation.URL) async throws -&gt; __C.UIImage"
@@ -273,16 +273,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5DAB6253-9A29-4AB9-B863-3963BFCECD65"
-            shouldBeEnabled = "Yes"
+            uuid = "CC723577-D435-4AC7-A631-55139E00ACFD"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RijksDataBrowser/Repositories/ArtObjectImagesRepository.swift"
+            filePath = "RijksDataBrowser/Services/Network/Networking/NetworkClientComponents/RequestComposer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "getSizeForResizing(_:)"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
+            landmarkName = "composeRequest(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

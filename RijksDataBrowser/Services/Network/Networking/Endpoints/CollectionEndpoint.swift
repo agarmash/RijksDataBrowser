@@ -12,8 +12,8 @@ final class CollectionEndpoint: EndpointProtocol {
     
     // MARK: - Public Properties
     
-    var scheme: String { "https" }
-    var host: String { "www.rijksmuseum.nl" }
+    var scheme: String? { "https" }
+    var host: String? { "www.rijksmuseum.nl" }
     var path: String { "/api/en/collection" }
     var queryItems: [URLQueryItem]? {
         [
