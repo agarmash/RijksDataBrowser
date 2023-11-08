@@ -37,7 +37,7 @@ extension UICollectionView {
     public func registerReusableCell<C: UICollectionViewCell>(
         ofType cellClass: C.Type
     ) where C: UICollectionViewReusable {
-        self.register(
+        register(
             cellClass,
             forCellWithReuseIdentifier: cellClass.reuseIdentifier)
     }
@@ -46,16 +46,26 @@ extension UICollectionView {
         ofType cellClass: C.Type,
         for indexPath: IndexPath
     ) -> C where C: UICollectionViewCell {
-        return dequeueReusableCell(
-            withReuseIdentifier: cellClass.reuseIdentifier,
-            for: indexPath) as! C
+        guard
+            let cell = dequeueReusableCell(
+                withReuseIdentifier: cellClass.reuseIdentifier,
+                for: indexPath) as? C
+        else {
+            preconditionFailure("""
+                Unable to dequeue the collection view cell of type \(cellClass) \
+                with reuse identifier \(cellClass.reuseIdentifier). \
+                Didn't you forget to register it?
+                """)
+        }
+        
+        return cell
     }
     
     public func registerSupplementaryView<V: UICollectionReusableView>(
         ofType viewClass: V.Type,
         kind: SupplementaryViewKind
     ) where V: UICollectionViewReusable {
-        self.register(
+        register(
             viewClass,
             forSupplementaryViewOfKind: kind.stringValue(),
             withReuseIdentifier: viewClass.reuseIdentifier)
@@ -66,9 +76,19 @@ extension UICollectionView {
         kind: SupplementaryViewKind,
         for indexPath: IndexPath
     ) -> V where V: UICollectionReusableView {
-        return dequeueReusableSupplementaryView(
-            ofKind: kind.stringValue(),
-            withReuseIdentifier: viewClass.reuseIdentifier,
-            for: indexPath) as! V
+        guard
+            let view = dequeueReusableSupplementaryView(
+                ofKind: kind.stringValue(),
+                withReuseIdentifier: viewClass.reuseIdentifier,
+                for: indexPath) as? V
+        else {
+            preconditionFailure("""
+                Unable to dequeue the collection view supplementary view of type \(viewClass) \
+                with reuse identifier \(viewClass.reuseIdentifier). \
+                Didn't you forget to register it?
+                """)
+        }
+        
+        return view
     }
 }

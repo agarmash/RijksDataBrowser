@@ -14,7 +14,6 @@ final class ErrorSectionHeaderView: UICollectionReusableView {
     private lazy var errorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Unable to load data\nTap to retry"
         label.numberOfLines = 2
         label.textAlignment = .center
         return label
@@ -44,6 +43,7 @@ final class ErrorSectionHeaderView: UICollectionReusableView {
     
     func fill(with viewModel: ErrorSectionHeaderViewModelProtocol) {
         self.viewModel = viewModel
+        errorLabel.text = viewModel.message
     }
     
     // MARK: - Private Methods

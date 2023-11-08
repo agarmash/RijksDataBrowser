@@ -6,37 +6,22 @@
 //
 
 import Combine
-import UIKit
-
-typealias ArtObjectsOverviewDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewSectionType, Collection.ArtObject>
-typealias ArtObjectsOverviewSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewSectionType, Collection.ArtObject>
+import Foundation
 
 enum ArtObjectsOverviewSectionType: Hashable {
-    case artObjectsPage(Int)
+    case artObjectsPage(pageNumber: Int, objects: [Collection.ArtObject])
     case loading
     case error
 }
 
-enum ArtObjectsOverviewHeaderType {
-    case artObjectsPage(ArtObjectsSectionHeaderViewModelProtocol)
-    case loading
-    case error(ErrorSectionHeaderViewModelProtocol)
-}
-
 protocol ArtObjectsOverviewViewModelProtocol {
     typealias SectionType = ArtObjectsOverviewSectionType
-    typealias HeaderType = ArtObjectsOverviewHeaderType
     
-    typealias DiffableDataSource = ArtObjectsOverviewDataSource
-    typealias DiffableSnapshot = ArtObjectsOverviewSnapshot
+    var presentationModel: CurrentValueSubject<[SectionType], Never> { get }
     
-    var snapshot: CurrentValueSubject<DiffableSnapshot, Never> { get }
-    
-    func handleTap(on indexPath: IndexPath)
     func loadMore()
     func preloadArtObject(for indexPath: IndexPath)
-    func makeHeader(for indexPath: IndexPath) -> HeaderType
-    func makeOverviewCellViewModel(with artObject: Collection.ArtObject) -> ArtObjectsOverviewCellViewModelProtocol
+    func handleTap(on indexPath: IndexPath)
 }
 
 final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
@@ -46,10 +31,16 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     enum Action {
         case showDetailsScreen(Collection.ArtObject)
     }
+    
+    private enum ActiveSupplementaryView {
+        case loading
+        case error
+        case none
+    }
 
     // MARK: - Public Properties
     
-    var snapshot = CurrentValueSubject<DiffableSnapshot, Never>(.init())
+    var presentationModel = CurrentValueSubject<[SectionType], Never>(.init())
     
     // MARK: - Private Properties
     
@@ -58,9 +49,11 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     private let artObjectsRepository: ArtObjectsRepositoryProtocol
     private let artObjectImagesRepository: ArtObjectImagesRepositoryProtocol
     
-    private var pagedArtObjects: [[Collection.ArtObject]] = []
     private var hasMoreDataToLoad = true
     private var didEncounterError = false
+    
+    private var numberOfLoadedPages = 0
+    private var numberOfItemsInLastPage = 0
     
     // MARK: - Init
     
@@ -77,114 +70,77 @@ final class ArtObjectsOverviewViewModel: ArtObjectsOverviewViewModelProtocol {
     // MARK: - Public Methods
     
     func handleTap(on indexPath: IndexPath) {
-        switch snapshot.value.sectionIdentifiers[indexPath.section] {
-        case .artObjectsPage:
-            let artObject = pagedArtObjects[indexPath.section][indexPath.row]
+        switch presentationModel.value[indexPath.section] {
+        case let .artObjectsPage(pageNumber: _, objects: artObjects):
+            let artObject = artObjects[indexPath.row]
             action(.showDetailsScreen(artObject))
         default:
             return
         }
     }
-
+    
     func loadMore() {
-        showLoader()
+        clearError()
+        loadNextPage()
+    }
+
+    func loadNextPage() {
+        showSupplementaryView(.loading)
         artObjectsRepository.loadMore { [weak self] result in
             guard let self = self else { return }
             
             switch result {
             case .updatedObjects(let objects):
-                self.pagedArtObjects = objects
-                self.showLoadedObjects(objects)
+                self.processLoadedObjects(objects)
             case .nothingMoreToLoad:
-                self.removeStatusViews()
+                self.showSupplementaryView(.none)
                 self.hasMoreDataToLoad = false
             case .error:
-                self.showError()
+                self.showSupplementaryView(.error)
                 self.didEncounterError = true
             }
         }
     }
     
     func preloadArtObject(for indexPath: IndexPath) {
-        guard
-            indexPath.section < pagedArtObjects.count,
+        if
             hasMoreDataToLoad,
-            !didEncounterError
-        else {
-            return
+            !didEncounterError,
+            indexPath.section == numberOfLoadedPages - 1,
+            indexPath.row == numberOfItemsInLastPage - 1
+        {
+            loadNextPage()
         }
-
-        let page = pagedArtObjects[indexPath.section]
-
-        if indexPath.row == page.count - 1 {
-            loadMore()
-        }
-    }
-    
-    func makeHeader(for indexPath: IndexPath) -> HeaderType {
-        switch snapshot.value.sectionIdentifiers[indexPath.section] {
-        case .artObjectsPage(let pageNumber):
-            let viewModel = ArtObjectsSectionHeaderViewModel(pageNumber: pageNumber + 1)
-            return .artObjectsPage(viewModel)
-        case .loading:
-            return .loading
-        case .error:
-            let viewModel = ErrorSectionHeaderViewModel(didTapOnView: { [weak self] in
-                self?.clearError()
-                self?.loadMore()
-            })
-            return .error(viewModel)
-        }
-    }
-    
-    func makeOverviewCellViewModel(
-        with artObject: Collection.ArtObject
-    ) -> ArtObjectsOverviewCellViewModelProtocol {
-        ArtObjectsOverviewCellViewModel(
-            with: artObject,
-            imageRepository: artObjectImagesRepository)
     }
     
     // MARK: - Private Methods
     
-    private func showLoadedObjects(_ objects: [[Collection.ArtObject]]) {
-        var snapshot = DiffableSnapshot()
+    private func processLoadedObjects(_ objects: [[Collection.ArtObject]]) {
+        numberOfLoadedPages = objects.count
+        numberOfItemsInLastPage = objects.last?.count ?? 0
         
-        let sections = objects.indices.map { SectionType.artObjectsPage($0) }
+        let sectionsWithObjects = objects
+            .enumerated()
+            .map { SectionType.artObjectsPage(pageNumber: $0 + 1, objects: $1) }
         
-        snapshot.appendSections(sections)
+        presentationModel.value = sectionsWithObjects
+    }
+    
+    private func showSupplementaryView(_ supplementaryView: ActiveSupplementaryView) {
+        var modelCopy = presentationModel.value
         
-        for (index, section) in sections.enumerated() {
-            snapshot.appendItems(objects[index], toSection: section)
+        modelCopy.removeAll(where: { $0 == .loading || $0 == .error })
+        
+        switch supplementaryView {
+        case .loading:
+            modelCopy.append(.loading)
+        case .error:
+            modelCopy.append(.error)
+        case .none:
+            break
         }
         
-        self.snapshot.value = snapshot
-    }
-    
-    private func showLoader() {
-        var snapshot = self.snapshot.value
-        
-        snapshot.deleteSections([.error, .loading])
-        snapshot.appendSections([.loading])
-        
-        self.snapshot.value = snapshot
-    }
-    
-    private func showError() {
-        var snapshot = self.snapshot.value
-        
-        snapshot.deleteSections([.error, .loading])
-        snapshot.appendSections([.error])
-        
-        self.snapshot.value = snapshot
-    }
-    
-    private func removeStatusViews() {
-        var snapshot = self.snapshot.value
-        
-        snapshot.deleteSections([.error, .loading])
-        
-        self.snapshot.value = snapshot
+        presentationModel.value = modelCopy
     }
     
     private func clearError() {

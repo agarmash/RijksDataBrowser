@@ -10,29 +10,20 @@ import Foundation
 
 final class NetworkClientStub: NetworkClientProtocol {
     enum Mode {
-        case passResponseDataForURL(Data, URL)
+        case returnResponse(any Decodable)
         case throwError
     }
     
     enum MockError: Error {
-        case incorrectURL
         case simulatedError
     }
     
     var mode: Mode = .throwError
     
-    func makeRequest<Request>(
-        with endpoint: Request
-    ) async throws -> Request.Response where Request: EndpointProtocol {
+    func performRequest<E: EndpointProtocol>(with endpoint: E) async throws -> E.Response {
         switch mode {
-        case let .passResponseDataForURL(data, url):
-            let request = try endpoint.makeRequest()
-            
-            if request.url == url {
-                return try endpoint.parseResponse(from: data)
-            } else {
-                throw MockError.incorrectURL
-            }
+        case .returnResponse(let response):
+            return response as! E.Response
         case .throwError:
             throw MockError.simulatedError
         }

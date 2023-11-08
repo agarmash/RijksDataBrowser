@@ -12,7 +12,8 @@ final class ArtObjectsOverviewViewController: UIViewController {
     
     // MARK: - Types
     
-    typealias DiffableDataSource = ArtObjectsOverviewDataSource
+    typealias DiffableDataSource = UICollectionViewDiffableDataSource<ArtObjectsOverviewSectionType, Collection.ArtObject>
+    typealias DiffableSnapshot = NSDiffableDataSourceSnapshot<ArtObjectsOverviewSectionType, Collection.ArtObject>
     
     // MARK: - Private Properties
     
@@ -29,23 +30,26 @@ final class ArtObjectsOverviewViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel: ArtObjectsOverviewViewModelProtocol!
+    private let viewModel: ArtObjectsOverviewViewModelProtocol
+    private let mapper: ArtObjectsOverviewViewModelMapperProtocol
     
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     
-    init(viewModel: ArtObjectsOverviewViewModelProtocol) {
+    init(
+        viewModel: ArtObjectsOverviewViewModelProtocol,
+        mapper: ArtObjectsOverviewViewModelMapperProtocol
+    ) {
         self.viewModel = viewModel
+        self.mapper = mapper
         
         super.init(nibName: nil, bundle: nil)
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        self.viewModel = nil
-        
-        super.init(coder: coder)
+        fatalError("Not implemented")
     }
     
     // MARK: - UIViewController
@@ -67,9 +71,22 @@ final class ArtObjectsOverviewViewController: UIViewController {
     
     private func bindViewModel() {
         viewModel
-            .snapshot
+            .presentationModel
             .receive(on: DispatchQueue.main)
-            .sink { [dataSource] snapshot in
+            .sink { [dataSource] model in
+                var snapshot = DiffableSnapshot()
+        
+                snapshot.appendSections(model)
+        
+                for section in model {
+                    switch section {
+                    case let .artObjectsPage(pageNumber: _, objects: objects):
+                        snapshot.appendItems(objects, toSection: section)
+                    default:
+                        break
+                    }
+                }
+                
                 dataSource?.apply(snapshot, animatingDifferences: true)
             }
             .store(in: &cancellables)
@@ -107,26 +124,30 @@ private extension ArtObjectsOverviewViewController {
     private func makeDataSource(for collectionView: UICollectionView) -> DiffableDataSource {
         let dataSource = DiffableDataSource(
             collectionView: collectionView,
-            cellProvider: { [viewModel] collectionView, indexPath, artObject in
-                guard let viewModel = viewModel else { return UICollectionViewCell()}
-                
+            cellProvider: { [mapper] collectionView, indexPath, artObject in
                 let cell = collectionView.dequeueReusableCell(ofType: ArtObjectsOverviewCell.self, for: indexPath)
-                let cellViewModel = viewModel.makeOverviewCellViewModel(with: artObject)
-                cell.fill(with: cellViewModel)
+                let viewModel = mapper.makeArtObjectCellViewModel(with: artObject)
+                cell.fill(with: viewModel)
                 return cell
-            }
-        )
+            })
         
-        dataSource.supplementaryViewProvider = { [unowned self]
-            (collectionView, kind, indexPath) -> UICollectionReusableView? in
+        dataSource.supplementaryViewProvider = { [mapper, viewModel] collectionView, kind, indexPath in
+            guard
+                let dataSource = collectionView.dataSource as? DiffableDataSource
+            else {
+                return nil
+            }
 
-            switch viewModel.makeHeader(for: indexPath) {
-            case .artObjectsPage(let viewModel):
+            let section = dataSource.snapshot().sectionIdentifiers[indexPath.section]
+            
+            switch section {
+            case let .artObjectsPage(pageNumber: pageNumber, objects: _):
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofType: ArtObjectsSectionHeaderView.self,
                     kind: .header,
                     for: indexPath)
-    
+                
+                let viewModel = mapper.makePageHeaderViewModel(pageNumber: pageNumber)
                 headerView.fill(with: viewModel)
     
                 return headerView
@@ -137,12 +158,15 @@ private extension ArtObjectsOverviewViewController {
                     for: indexPath)
     
                 return headerView
-            case .error(let viewModel):
+            case .error:
                 let headerView = collectionView.dequeueSupplementaryView(
                     ofType: ErrorSectionHeaderView.self,
                     kind: .header,
                     for: indexPath)
     
+                let viewModel = mapper.makeErrorHeaderViewModel(didTapOnView: { [viewModel] in
+                    viewModel.loadMore()
+                })
                 headerView.fill(with: viewModel)
                 
                 return headerView

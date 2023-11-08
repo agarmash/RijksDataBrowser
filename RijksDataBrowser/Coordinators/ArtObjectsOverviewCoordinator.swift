@@ -10,27 +10,23 @@ import UIKit
 final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
 
     // MARK: - Private Properties
-
-    private let window: UIWindow
-    private let dependencyContainer: DependencyContainerProtocol
     
-    private let presenter = UINavigationController()
+    private let presenter: UINavigationController
+    private let dependencyContainer: DependencyContainerProtocol
 
     // MARK: - Init
 
     init(
-        window: UIWindow,
+        presenter: UINavigationController,
         dependencyContainer: DependencyContainerProtocol
     ) {
-        self.window = window
+        self.presenter = presenter
         self.dependencyContainer = dependencyContainer
     }
 
     // MARK: - Public Methods
 
-    func start() {
-        window.rootViewController = presenter
-                
+    func start() {     
         let viewModel = ArtObjectsOverviewViewModel(
             action: { [weak self] action in
                 switch action {
@@ -41,9 +37,14 @@ final class ArtObjectsOverviewCoordinator: CoordinatorProtocol {
             artObjectsRepository: dependencyContainer.artObjectsRepository,
             artObjectImagesRepository: dependencyContainer.artObjectImagesRepository)
         
-        let viewController = ArtObjectsOverviewViewController(viewModel: viewModel)
+        let mapper = ArtObjectsOverviewViewModelMapper(
+            imageRepository: dependencyContainer.artObjectImagesRepository)
+        
+        let viewController = ArtObjectsOverviewViewController(
+            viewModel: viewModel,
+            mapper: mapper)
+        
         presenter.pushViewController(viewController, animated: false)
-        window.makeKeyAndVisible()
     }
     
     // MARK: - Private Methods

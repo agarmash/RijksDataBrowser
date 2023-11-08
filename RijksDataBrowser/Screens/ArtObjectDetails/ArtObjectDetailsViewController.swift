@@ -15,7 +15,7 @@ final class ArtObjectDetailsViewController: UIViewController {
     private lazy var containerView: LoadableErrorableView = {
         let view = LoadableErrorableView(
             contentView: scrollView,
-            retryAction: { [viewModel] _ in viewModel?.loadDetails() })
+            retryAction: { [viewModel] _ in viewModel.loadDetails() })
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -45,7 +45,7 @@ final class ArtObjectDetailsViewController: UIViewController {
     private lazy var photoContainerView: LoadableErrorableView = {
         let view = LoadableErrorableView(
             contentView: photoImageView,
-            retryAction: { [viewModel] _ in viewModel?.loadImage() })
+            retryAction: { [viewModel] _ in viewModel.loadImage() })
         
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -64,7 +64,7 @@ final class ArtObjectDetailsViewController: UIViewController {
         return label
     }()
     
-    private let viewModel: ArtObjectDetailsViewModelProtocol!
+    private let viewModel: ArtObjectDetailsViewModelProtocol
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -78,9 +78,7 @@ final class ArtObjectDetailsViewController: UIViewController {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        self.viewModel = nil
-        
-        super.init(coder: coder)
+        fatalError("Not implemented")
     }
     
     // MARK: - UIViewController
