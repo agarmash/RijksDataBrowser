@@ -10,6 +10,16 @@ import XCTest
 
 final class ResponseParserTests: XCTestCase {
     
+    struct TestDTO: Decodable {
+        struct NestedObjectDTO: Decodable {
+            var id: Int
+            var value: String
+        }
+        
+        var name: String
+        var nestedObject: NestedObjectDTO
+    }
+    
     var parser: ResponseParserProtocol!
 
     override func setUpWithError() throws {
@@ -55,14 +65,4 @@ final class ResponseParserTests: XCTestCase {
             XCTFail("Unknown error")
         }
     }
-}
-
-struct TestDTO: Decodable {
-    struct NestedObjectDTO: Decodable {
-        var id: Int
-        var value: String
-    }
-    
-    var name: String
-    var nestedObject: NestedObjectDTO
 }

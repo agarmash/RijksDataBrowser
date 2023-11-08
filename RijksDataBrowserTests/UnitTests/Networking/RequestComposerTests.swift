@@ -10,6 +10,26 @@ import XCTest
 
 final class RequestComposerTests: XCTestCase {
     
+    struct ValidTestEndpoint: EndpointProtocol {
+        typealias Response = String
+        
+        let scheme: String? = "https"
+        let host: String? = "hostname.com"
+        let path: String = "/path/to/resource"
+        let queryItems: [URLQueryItem]? = [
+            URLQueryItem(name: "id", value: "123")
+        ]
+    }
+
+    struct InvalidTestEndpoint: EndpointProtocol {
+        typealias Response = String
+        
+        let scheme: String? = "https"
+        let host: String? = nil
+        let path: String = "//path/to/resource"
+        let queryItems: [URLQueryItem]? = nil
+    }
+    
     var composer: RequestComposerProtocol!
 
     override func setUpWithError() throws {
@@ -32,24 +52,4 @@ final class RequestComposerTests: XCTestCase {
     func testFailingRequestComposing() {
         XCTAssertThrowsError(try composer.composeRequest(for: InvalidTestEndpoint()))
     }
-}
-
-struct ValidTestEndpoint: EndpointProtocol {
-    typealias Response = String
-    
-    let scheme: String? = "https"
-    let host: String? = "hostname.com"
-    let path: String = "/path/to/resource"
-    let queryItems: [URLQueryItem]? = [
-        URLQueryItem(name: "id", value: "123")
-    ]
-}
-
-struct InvalidTestEndpoint: EndpointProtocol {
-    typealias Response = String
-    
-    let scheme: String? = "https"
-    let host: String? = nil
-    let path: String = "//path/to/resource"
-    let queryItems: [URLQueryItem]? = nil
 }
