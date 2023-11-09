@@ -35,7 +35,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
                 XCTAssertEqual(artObjects.count, 1)
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
         
@@ -45,7 +45,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
                 XCTAssertEqual(artObjects.count, 2)
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
         
@@ -54,7 +54,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
             case .nothingMoreToLoad:
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
         
@@ -77,7 +77,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
                 XCTAssertEqual(artObjects.count, 1)
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
         
@@ -86,7 +86,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
             case .error:
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
             
@@ -95,7 +95,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
             case .error:
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
             
@@ -107,7 +107,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
                 XCTAssertEqual(artObjects.count, 2)
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
         
@@ -116,7 +116,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
             case .nothingMoreToLoad:
                 expectation.fulfill()
             default:
-                XCTFail("")
+                XCTFail("Received unexpected value")
             }
         }
         

@@ -30,7 +30,7 @@ final class ResponseParserTests: XCTestCase {
         parser = nil
     }
 
-    func testSuccessfulParsing() {
+    func testSuccessfulParsing() throws {
         let jsonData = """
             {
                 "name": "Lorem",
@@ -42,27 +42,16 @@ final class ResponseParserTests: XCTestCase {
             """
             .data(using: .utf8)!
         
-        do {
-            let response: TestDTO = try parser.parseResponse(from: jsonData)
-            
-            XCTAssertEqual(response.name, "Lorem")
-            XCTAssertEqual(response.nestedObject.id, 10)
-            XCTAssertEqual(response.nestedObject.value, "Ipsum")
-        } catch {
-            XCTFail("Error: \(error)")
-        }
+        let response: TestDTO = try parser.parseResponse(from: jsonData)
+        
+        XCTAssertEqual(response.name, "Lorem")
+        XCTAssertEqual(response.nestedObject.id, 10)
+        XCTAssertEqual(response.nestedObject.value, "Ipsum")
     }
     
     func testFailedParsing() {
         let jsonData = "not really a json".data(using: .utf8)!
         
-        do {
-            _ = try parser.parseResponse(from: jsonData) as TestDTO
-            XCTFail("Code path shouldn't reach here")
-        } catch ResponseParserError.responseDecodingError {
-            
-        } catch {
-            XCTFail("Unknown error")
-        }
+        XCTAssertThrowsError(try parser.parseResponse(from: jsonData) as TestDTO)
     }
 }

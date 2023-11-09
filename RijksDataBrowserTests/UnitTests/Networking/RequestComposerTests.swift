@@ -40,13 +40,9 @@ final class RequestComposerTests: XCTestCase {
         composer = nil
     }
     
-    func testSuccessfulRequestComposing() {
-        do {
-            let request = try composer.composeRequest(for: ValidTestEndpoint())
-            XCTAssertEqual(request.url?.absoluteString, "https://hostname.com/path/to/resource?id=123")
-        } catch {
-            XCTFail("Error: \(error)")
-        }
+    func testSuccessfulRequestComposing() throws {
+        let request = try composer.composeRequest(for: ValidTestEndpoint())
+        XCTAssertEqual(request.url?.absoluteString, "https://hostname.com/path/to/resource?id=123")
     }
     
     func testFailingRequestComposing() {
