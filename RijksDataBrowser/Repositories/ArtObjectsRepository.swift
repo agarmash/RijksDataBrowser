@@ -132,16 +132,3 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
         self.pagedArtObjects.count + 1
     }
 }
-
-//extension ArtObjectsRepositoryError: Equatable {
-//    static func == (lhs: Self, rhs: Self) -> Bool {
-//        switch (lhs, rhs) {
-//        case (.previousErrorHasntBeenCleared, .previousErrorHasntBeenCleared):
-//            return true
-//        case (.networkError(let lError), .networkError(let rError)):
-//            return lError == rError
-//        default:
-//            return false
-//        }
-//    }
-//}
