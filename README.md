@@ -15,4 +15,5 @@ The app is built with Swift, UIKit, Combine, and MVVM. Underlying logic is repre
  - Cover the rest of the app logic with tests;
  - Wrap `UIImage` with a custom type, so the logic layer interfaces doesn't know anything about `UIKit`;
  - Tidy up the UI;
- - Rebuild the `ArtObjectsRepository` logic using Swift Concurrency. 
+ - Rebuild the `ArtObjectsRepository` logic using Swift Concurrency;
+ - Localize the hardcoded UI strings.
