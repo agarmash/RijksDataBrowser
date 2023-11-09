@@ -200,8 +200,8 @@
             filePath = "RijksDataBrowser/Services/Network/Networking/NetworkClientComponents/RequestComposer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "25"
-            endingLineNumber = "25"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "composeRequest(for:)"
             landmarkType = "7">
          </BreakpointContent>

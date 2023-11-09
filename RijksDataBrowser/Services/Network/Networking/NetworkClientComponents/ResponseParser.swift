@@ -18,6 +18,8 @@ enum ResponseParserError: Error {
 
 class ResponseParser: ResponseParserProtocol {
     
+    // MARK: - Public Methods
+    
     func parseResponse<R: Decodable>(from data: Data) throws -> R {
         let decoder = JSONDecoder()
         

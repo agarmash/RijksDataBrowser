@@ -17,6 +17,8 @@ enum RequestComposerError: Error {
 
 class RequestComposer: RequestComposerProtocol {
     
+    // MARK: - Public Methods
+    
     func composeRequest(for endpoint: some EndpointProtocol) throws -> URLRequest {
         var components = URLComponents()
         components.scheme = endpoint.scheme

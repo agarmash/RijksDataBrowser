@@ -45,13 +45,7 @@ final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectio
             pageSize: pageSize,
             apiKey: secretsContainer.apiKey)
         
-        do {
-            return try await client.performRequest(with: endpoint)
-        } catch let error as NetworkClientError {
-            throw RijksDataServiceError.networkClientError(error)
-        } catch {
-            throw RijksDataServiceError.unknownError
-        }
+        return try await performRequestConvertingErrors(with: endpoint)
     }
     
     func getCollectionDetails(for objectNumber: String) async throws -> CollectionDetailsDTO {
@@ -59,6 +53,12 @@ final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectio
             objectNumber: objectNumber,
             apiKey: secretsContainer.apiKey)
         
+        return try await performRequestConvertingErrors(with: endpoint)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func performRequestConvertingErrors<E: EndpointProtocol>(with endpoint: E) async throws -> E.Response {
         do {
             return try await client.performRequest(with: endpoint)
         } catch let error as NetworkClientError {
@@ -67,5 +67,4 @@ final class RijksDataService: RijksCollectionDataServiceProtocol, RijksCollectio
             throw RijksDataServiceError.unknownError
         }
     }
-    // TODO: Remove code duplication in error handling
 }
