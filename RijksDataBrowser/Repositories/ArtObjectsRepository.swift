@@ -10,7 +10,7 @@ import Foundation
 enum ArtObjectsRepositoryResult {
     case updatedObjects([[Collection.ArtObject]])
     case nothingMoreToLoad
-    case error(Error)
+    case error(ArtObjectsRepositoryError)
 }
 
 protocol ArtObjectsRepositoryProtocol {
@@ -20,16 +20,14 @@ protocol ArtObjectsRepositoryProtocol {
     func clearError()
 }
 
+enum ArtObjectsRepositoryError: Error {
+    case previousErrorHasntBeenCleared
+    case rijksDataServiceError(RijksDataServiceError)
+    case unknownError
+}
+
 final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
-    
-    // MARK: - Types
-    
-    enum Error: Swift.Error {
-        case previousErrorHasntBeenCleared
-        case networkError(URLError)
-        case unknownError
-    }
-    
+
     // MARK: - Private Properties
     
     // API Constants
@@ -72,7 +70,7 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
             guard
                 !self.didEncounterError
             else {
-                completion(.error(Error.previousErrorHasntBeenCleared))
+                completion(.error(.previousErrorHasntBeenCleared))
                 return
             }
                 
@@ -93,12 +91,12 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
                     self.loadedArtObjectsCount += newPage.artObjects.count
                     
                     completion(.updatedObjects(self.pagedArtObjects))
-                } catch let error as URLError {
+                } catch let error as RijksDataServiceError {
                     self.didEncounterError = true
-                    completion(.error(Error.networkError(error)))
+                    completion(.error(.rijksDataServiceError(error)))
                 } catch {
                     self.didEncounterError = true
-                    completion(.error(Error.unknownError))
+                    completion(.error(.unknownError))
                 }
                 
                 semaphore.signal()
@@ -135,15 +133,15 @@ final class ArtObjectsRepository: ArtObjectsRepositoryProtocol {
     }
 }
 
-extension ArtObjectsRepository.Error: Equatable {
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        switch (lhs, rhs) {
-        case (.previousErrorHasntBeenCleared, .previousErrorHasntBeenCleared):
-            return true
-        case (.networkError(let lError), .networkError(let rError)):
-            return lError == rError
-        default:
-            return false
-        }
-    }
-}
+//extension ArtObjectsRepositoryError: Equatable {
+//    static func == (lhs: Self, rhs: Self) -> Bool {
+//        switch (lhs, rhs) {
+//        case (.previousErrorHasntBeenCleared, .previousErrorHasntBeenCleared):
+//            return true
+//        case (.networkError(let lError), .networkError(let rError)):
+//            return lError == rError
+//        default:
+//            return false
+//        }
+//    }
+//}

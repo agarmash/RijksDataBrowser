@@ -11,14 +11,13 @@ protocol ImageLoaderServiceProtocol {
     func loadImage(with url: URL) async throws -> UIImage
 }
 
+enum ImageLoaderServiceError: Error {
+    case networkError(URLError)
+    case incorrectDataReceived
+    case unknownError
+}
+
 final class ImageLoaderService: ImageLoaderServiceProtocol {
-    // MARK: - Types
-    
-    enum Error: Swift.Error {
-        case networkError(URLError)
-        case incorrectDataReceived
-        case unknownError
-    }
     
     // MARK: - Public Methods
     
@@ -29,14 +28,14 @@ final class ImageLoaderService: ImageLoaderServiceProtocol {
             guard
                 let image = UIImage(data: imageData)
             else {
-                throw Error.incorrectDataReceived
+                throw ImageLoaderServiceError.incorrectDataReceived
             }
             
             return image
         } catch let error as URLError {
-            throw Error.networkError(error)
+            throw ImageLoaderServiceError.networkError(error)
         } catch {
-            throw Error.unknownError
+            throw ImageLoaderServiceError.unknownError
         }
     }
 }

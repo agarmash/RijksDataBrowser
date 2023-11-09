@@ -30,7 +30,7 @@ final class RijksCollectionDataServiceStub: RijksCollectionDataServiceProtocol {
         case .returnItems(let count, let itemsPerPage):
             return CollectionDTO.makeDummy(count: count, itemsPerPage: itemsPerPage)
         case .throwAnError:
-            throw URLError(.cannotConnectToHost)
+            throw RijksDataServiceError.unknownError
         }
     }
 }

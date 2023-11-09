@@ -59,7 +59,7 @@ final class ResponseParserTests: XCTestCase {
         do {
             _ = try parser.parseResponse(from: jsonData) as TestDTO
             XCTFail("Code path shouldn't reach here")
-        } catch ResponseParser.Error.responseDecodingError {
+        } catch ResponseParserError.responseDecodingError {
             
         } catch {
             XCTFail("Unknown error")

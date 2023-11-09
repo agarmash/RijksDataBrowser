@@ -11,10 +11,11 @@ protocol RequestComposerProtocol {
     func composeRequest(for endpoint: some EndpointProtocol) throws -> URLRequest
 }
 
+enum RequestComposerError: Error {
+    case requestConstructionError
+}
+
 class RequestComposer: RequestComposerProtocol {
-    enum Error: Swift.Error {
-        case requestConstructionError
-    }
     
     func composeRequest(for endpoint: some EndpointProtocol) throws -> URLRequest {
         var components = URLComponents()
@@ -26,7 +27,7 @@ class RequestComposer: RequestComposerProtocol {
         guard
             let url = components.url
         else {
-            throw Error.requestConstructionError
+            throw RequestComposerError.requestConstructionError
         }
 
         return URLRequest(url: url)

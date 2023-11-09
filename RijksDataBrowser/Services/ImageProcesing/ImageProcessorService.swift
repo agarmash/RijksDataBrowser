@@ -11,13 +11,11 @@ protocol ImageProcessorServiceProtocol {
     func prepareThumbnail(of image: UIImage) async throws -> UIImage
 }
 
+enum ImageProcessorServiceError: Error {
+    case imageDecodingFailed
+}
+
 final class ImageProcessorService: ImageProcessorServiceProtocol {
-    
-    // MARK: - Types
-    
-    enum Error: Swift.Error {
-        case imageDecodingFailed
-    }
     
     // MARK: - Private Properties
     
@@ -35,7 +33,7 @@ final class ImageProcessorService: ImageProcessorServiceProtocol {
         guard
             let preparedImage = await image.byPreparingThumbnail(ofSize: screenSize)
         else {
-            throw Error.imageDecodingFailed
+            throw ImageProcessorServiceError.imageDecodingFailed
         }
         
         return preparedImage

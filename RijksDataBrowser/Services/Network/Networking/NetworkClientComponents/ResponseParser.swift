@@ -11,11 +11,12 @@ protocol ResponseParserProtocol {
     func parseResponse<R: Decodable>(from data: Data) throws -> R
 }
 
+enum ResponseParserError: Error {
+    case responseDecodingError(DecodingError)
+    case unknownError
+}
+
 class ResponseParser: ResponseParserProtocol {
-    enum Error: Swift.Error {
-        case responseDecodingError(DecodingError)
-        case unknownError
-    }
     
     func parseResponse<R: Decodable>(from data: Data) throws -> R {
         let decoder = JSONDecoder()
@@ -24,9 +25,9 @@ class ResponseParser: ResponseParserProtocol {
             let dto = try decoder.decode(R.self, from: data)
             return dto
         } catch let error as DecodingError {
-            throw Error.responseDecodingError(error)
+            throw ResponseParserError.responseDecodingError(error)
         } catch {
-            throw Error.unknownError
+            throw ResponseParserError.unknownError
         }
     }
 }

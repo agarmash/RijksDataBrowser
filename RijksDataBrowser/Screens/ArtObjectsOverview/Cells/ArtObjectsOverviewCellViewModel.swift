@@ -66,16 +66,10 @@ final class ArtObjectsOverviewCellViewModel: ArtObjectsOverviewCellViewModelProt
                 photo.value = .loading
                 let image = try await imageRepository.getImage(for: artObject.image)
                 photo.value = .loaded(image)
-            } catch ArtObjectImagesRepository.Error.missingImageURL {
-                photo.value = .error("Image URL is missing")
-            } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
-                photo.value = .error("Unable to prepare a resized image")
-            } catch ImageLoaderService.Error.incorrectDataReceived {
-                photo.value = .error("Incorrect image data received")
-            } catch ImageLoaderService.Error.networkError(let error) {
-                photo.value = .error("Network error: \(error.localizedDescription)")
+            } catch ArtObjectImagesRepositoryError.imageLoaderServiceError {
+                photo.value = .error("Unable to load the image")
             } catch {
-                photo.value = .error("Unknown error")
+                photo.value = .error("Internal error")
             }
         }
     }

@@ -97,7 +97,7 @@ final class ArtObjectDetailsViewModelTests: XCTestCase {
         }.store(in: &cancellables)
         
         viewModel.imageState.dropFirst(2).sink { imageState in
-            XCTAssertEqual(imageState, .error("Unknown error"))
+            XCTAssertEqual(imageState, .error("Internal error"))
             expectation.fulfill()
         }.store(in: &cancellables)
         
@@ -117,7 +117,7 @@ final class ArtObjectDetailsViewModelTests: XCTestCase {
         var cancellables = Set<AnyCancellable>()
         
         viewModel.state.dropFirst(2).sink { state in
-            XCTAssertEqual(state, .error("Unknown error"))
+            XCTAssertEqual(state, .error("Internal error"))
             expectation.fulfill()
         }.store(in: &cancellables)
         

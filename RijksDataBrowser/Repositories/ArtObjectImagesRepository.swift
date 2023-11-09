@@ -11,14 +11,15 @@ protocol ArtObjectImagesRepositoryProtocol {
     func getImage(for imageObject: Image) async throws -> UIImage
 }
 
+enum ArtObjectImagesRepositoryError: Error {
+    case missingImageURL
+    case unableToPrepareThumbnail
+    case imageLoaderServiceError(ImageLoaderServiceError)
+    case imageProcessorServiceError(ImageProcessorServiceError)
+    case unknownError
+}
+
 final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
-    
-    // MARK: - Types
-    
-    enum Error: Swift.Error {
-        case missingImageURL
-        case unableToPrepareThumbnail
-    }
     
     // MARK: - Private Properties
     
@@ -41,13 +42,18 @@ final class ArtObjectImagesRepository: ArtObjectImagesRepositoryProtocol {
         guard
             let imageURL = imageObject.url
         else {
-            throw Error.missingImageURL
+            throw ArtObjectImagesRepositoryError.missingImageURL
         }
         
-        let image = try await imageLoader.loadImage(with: imageURL)
-        
-        let preparedImage = try await imageProcessor.prepareThumbnail(of: image)
-        
-        return preparedImage
+        do {
+            let image = try await imageLoader.loadImage(with: imageURL)
+            return try await imageProcessor.prepareThumbnail(of: image)
+        } catch let error as ImageLoaderServiceError {
+            throw ArtObjectImagesRepositoryError.imageLoaderServiceError(error)
+        } catch let error as ImageProcessorServiceError {
+            throw ArtObjectImagesRepositoryError.imageProcessorServiceError(error)
+        } catch {
+            throw ArtObjectImagesRepositoryError.unknownError
+        }
     }
 }

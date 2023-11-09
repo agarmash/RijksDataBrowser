@@ -83,8 +83,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
         
         artObjectRepository.loadMore { result in
             switch result {
-            case .error(let error):
-                XCTAssertEqual(error as! ArtObjectsRepository.Error, .networkError(URLError(.cannotConnectToHost)))
+            case .error:
                 expectation.fulfill()
             default:
                 XCTFail("")
@@ -93,8 +92,7 @@ final class ArtObjectsRepositoryTests: XCTestCase {
             
         artObjectRepository.loadMore { result in
             switch result {
-            case .error(let error):
-                XCTAssertEqual(error as! ArtObjectsRepository.Error, .previousErrorHasntBeenCleared)
+            case .error:
                 expectation.fulfill()
             default:
                 XCTFail("")

@@ -78,10 +78,10 @@ final class ArtObjectDetailsViewModel: ArtObjectDetailsViewModelProtocol {
                 
                 preparePresentationData(from: collectionDetails.toDomain())
                 state.value = .presentingContent
-            } catch let error as URLError {
-                state.value = .error("Network error: \(error.localizedDescription)")
+            } catch RijksDataServiceError.networkClientError {
+                state.value = .error("Unable to load the data")
             } catch {
-                state.value = .error("Unknown error")
+                state.value = .error("Internal error")
             }
         }
     }
@@ -94,16 +94,10 @@ final class ArtObjectDetailsViewModel: ArtObjectDetailsViewModelProtocol {
             do {
                 let image = try await imagesRepository.getImage(for: image)
                 imageState.value = .loaded(image)
-            } catch ArtObjectImagesRepository.Error.missingImageURL {
-                imageState.value = .error("Image URL is missing")
-            } catch ArtObjectImagesRepository.Error.unableToPrepareThumbnail {
-                imageState.value = .error("Unable to prepare a resized image")
-            } catch ImageLoaderService.Error.incorrectDataReceived {
-                imageState.value = .error("Incorrect image data received")
-            } catch ImageLoaderService.Error.networkError(let error) {
-                imageState.value = .error("Network error: \(error.localizedDescription)")
+            } catch ArtObjectImagesRepositoryError.imageLoaderServiceError {
+                imageState.value = .error("Unable to load the image")
             } catch {
-                imageState.value = .error("Unknown error")
+                imageState.value = .error("Internal error")
             }
         }
     }
