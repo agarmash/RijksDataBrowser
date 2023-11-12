@@ -43,7 +43,7 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private var photoImageViewAspectRatioConstraint: NSLayoutConstraint!
+    private var photoImageViewAspectRatioConstraint: NSLayoutConstraint?
     
     private var viewModel: ArtObjectsOverviewCellViewModelProtocol?
     
@@ -105,21 +105,20 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
     }
     
     private func setPhotoImageViewAspectRatio(_ ratio: CGFloat) {
-        NSLayoutConstraint.deactivate([photoImageViewAspectRatioConstraint])
+        if let oldConstraint = photoImageViewAspectRatioConstraint {
+            NSLayoutConstraint.deactivate([oldConstraint])
+        }
 
         let constraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: ratio)
         constraint.priority = .defaultHigh
-
         NSLayoutConstraint.activate([constraint])
+        
         photoImageViewAspectRatioConstraint = constraint
     }
     
     private func setupLayout() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(photoContainerView)
-        
-        photoImageViewAspectRatioConstraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
-        photoImageViewAspectRatioConstraint.priority = .defaultHigh
         
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Constants.insetSize),
@@ -128,8 +127,7 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: photoContainerView.topAnchor, constant: -Constants.insetSize),
             contentView.leadingAnchor.constraint(equalTo: photoContainerView.leadingAnchor),
             photoContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            photoContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize),
-            photoImageViewAspectRatioConstraint
+            photoContainerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.insetSize)
         ])
     }
 }
