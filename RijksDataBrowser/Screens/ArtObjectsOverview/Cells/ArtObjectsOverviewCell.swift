@@ -108,11 +108,10 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
         NSLayoutConstraint.deactivate([photoImageViewAspectRatioConstraint])
 
         let constraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor, multiplier: ratio)
+        constraint.priority = .defaultHigh
 
         NSLayoutConstraint.activate([constraint])
         photoImageViewAspectRatioConstraint = constraint
-        
-        contentView.layoutSubviews()
     }
     
     private func setupLayout() {
@@ -120,6 +119,7 @@ final class ArtObjectsOverviewCell: UICollectionViewCell {
         contentView.addSubview(photoContainerView)
         
         photoImageViewAspectRatioConstraint = photoImageView.widthAnchor.constraint(equalTo: photoImageView.heightAnchor)
+        photoImageViewAspectRatioConstraint.priority = .defaultHigh
         
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: -Constants.insetSize),

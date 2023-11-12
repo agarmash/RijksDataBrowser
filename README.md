@@ -9,7 +9,6 @@ The app is built with Swift, UIKit, Combine, and MVVM. Underlying logic is repre
 ## TODO
  - Add image caching;
  - Add prefetching on the `ArtObjectsOverview` screen;
- - Fix the dynamic layout of self-sizing cells on `ArtObjectsOverview` screen. `UICollectionView` doesn't really like cells that are sized by auto layout and tend to break the layout occasionally;
  - Remove code duplication in image loader error handling code;
  - Extract all the UI constants into an injectable design system;
  - Cover the rest of the app logic with tests;

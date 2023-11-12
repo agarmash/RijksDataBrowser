@@ -177,17 +177,16 @@ private extension ArtObjectsOverviewViewController {
     }
     
     func makeCollectionViewLayout() -> UICollectionViewLayout {
-
-        let item = NSCollectionLayoutItem(layoutSize: NSCollectionLayoutSize(
+        
+        let size = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1),
-            heightDimension: .estimated(300)
-        ))
+            heightDimension: .estimated(30)
+        )
+
+        let item = NSCollectionLayoutItem(layoutSize: size)
 
         let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1),
-                heightDimension: .estimated(300)
-            ),
+            layoutSize: size,
             subitems: [item]
         )
 
